@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import './styles.scss';
+import {Link} from 'react-router-dom';
 import Button from './../forms/Button';
 import { signInWithGoogle, auth } from './../../firebase/utils';
 
+import AuthWrapper from './../../components/AuthWrapper';
 import FormInput from './../forms/FormInput';
 import Buttons from './../forms/Button';
 
@@ -47,16 +49,17 @@ class SignIn extends Component{
 
     render(){
         const {email,password} = this.state;
+        const configAuthWrapper={
+            headline:'Login'
+        };
 
         return (
-            <div className="signin">
-                <div className="wrap">
-                    <h2>
-                        Log In
-                    </h2>
+            
+          
                     
-    
+                    <AuthWrapper {...configAuthWrapper}>
                     <div className="formWrap">
+                        
                         <form onSubmit={this.handleSubmit}>
 
                             <FormInput
@@ -75,6 +78,12 @@ class SignIn extends Component{
                                 handleChange={this.handleChange}
                             />
 
+                            <div className="links">
+                                <Link to="/forgetPassword">
+                                    Forgot password?
+                                </Link>
+                            </div>
+
                             <Buttons type="submit">
                                 Log In
                             </Buttons>
@@ -88,10 +97,11 @@ class SignIn extends Component{
                                     </Button>
                                 </div>
                             </div>
+                            
                         </form>
                     </div>
-                </div>
-            </div>
+                    </AuthWrapper>
+           
         );
     }
    

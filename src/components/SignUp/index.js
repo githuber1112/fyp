@@ -3,6 +3,7 @@ import './styles.scss';
 
 import{auth, handleUserProfile} from './../../firebase/utils';
 
+import AuthWrapper from './../AuthWrapper';
 import FormInput from '../forms/FormInput';
 import Button from './../forms/Button';
 
@@ -48,7 +49,7 @@ handleFormSubmit = async event =>{
 
        await handleUserProfile(user,{displayName});
         user.sendEmailVerification();
-        alert("Email Sent");
+        alert("Email has been sent. Please check your email to verify your account.");
 
        this.setState({
            ...initialState
@@ -62,13 +63,14 @@ handleFormSubmit = async event =>{
 
     render(){
         const {displayName, email, password, confirmPassword, errors} = this.state;
+        const configAuthWrapper = {
+            headline:'Sign up'
+        };
 
         return(
-            <div className="signup">
-                <div className="wrap">
-                    <h2>Sign up</h2>
-
-                   {errors.length > 0 && (
+           <AuthWrapper {...configAuthWrapper}>
+                    <div className="formWrap">
+                    {errors.length > 0 && (
                        <ul>
                            {errors.map((err,index) => {
                                return(
@@ -79,8 +81,6 @@ handleFormSubmit = async event =>{
                            })}
                        </ul>
                    )}
-
-                    <div className="formWrap">
                     <form onSubmit={this.handleFormSubmit}>
                         
                     <FormInput
@@ -121,8 +121,8 @@ handleFormSubmit = async event =>{
 
                     </form>
                     </div>
-                </div>
-            </div>
+                    </AuthWrapper>
+             
         );
     }
 }

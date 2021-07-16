@@ -9,6 +9,7 @@ import './default.scss';
 import Homepage from './pages/Homepage';
 import Registration from'./pages/Registration';
 import Login from './pages/Login';
+import ForgetPassword from './pages/ForgetPassword';
 
 const initialState ={
   currentUser: null
@@ -69,6 +70,11 @@ class App extends Component{
               
                 <Login currentUser={currentUser} />
               
+          )}/>
+          <Route path="/forgetPassword" render={() => (
+            
+              <ForgetPassword />
+           
           )}/>
         </Switch>
         
