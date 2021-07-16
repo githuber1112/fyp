@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/fyp/static/css/main.74d590f0.chunk.css",
+    "main.js": "/fyp/static/js/main.01776e94.chunk.js",
+    "main.js.map": "/fyp/static/js/main.01776e94.chunk.js.map",
+    "runtime-main.js": "/fyp/static/js/runtime-main.45f5909f.js",
+    "runtime-main.js.map": "/fyp/static/js/runtime-main.45f5909f.js.map",
+    "static/js/2.f46bb8c4.chunk.js": "/fyp/static/js/2.f46bb8c4.chunk.js",
+    "static/js/2.f46bb8c4.chunk.js.map": "/fyp/static/js/2.f46bb8c4.chunk.js.map",
+    "index.html": "/fyp/index.html",
+    "static/css/main.74d590f0.chunk.css.map": "/fyp/static/css/main.74d590f0.chunk.css.map",
+    "static/js/2.f46bb8c4.chunk.js.LICENSE.txt": "/fyp/static/js/2.f46bb8c4.chunk.js.LICENSE.txt",
+    "static/media/ShopMask.e61fe8c1.jpg": "/fyp/static/media/ShopMask.e61fe8c1.jpg",
+    "static/media/ShopSanitizer.0f5e1249.jpg": "/fyp/static/media/ShopSanitizer.0f5e1249.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.45f5909f.js",
+    "static/js/2.f46bb8c4.chunk.js",
+    "static/css/main.74d590f0.chunk.css",
+    "static/js/main.01776e94.chunk.js"
+  ]
+}
