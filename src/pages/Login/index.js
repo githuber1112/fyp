@@ -2,7 +2,7 @@ import React from 'react';
 import './styles.scss';
 import SignIn from './../../components/SignIn';
 import Cross from './../../assets/cross.png';
-import {Link} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 
 
 
@@ -11,9 +11,9 @@ const Login = props => {
     return (
     <div className="login">
     <div className="cross">
-    <Link to="/">
+    <span onClick={() => props.history.goBack()}>
       <img src={Cross} alts="close"/>
-     </Link>
+    </span>
     </div>
     <SignIn />
     </div>
@@ -21,4 +21,4 @@ const Login = props => {
     );
 };
 
-export default Login;
+export default withRouter(Login);
