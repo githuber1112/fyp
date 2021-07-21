@@ -2,16 +2,16 @@ import React from 'react';
 import './styles.scss';
 import SignUp from './../../components/SignUp';
 import Cross from './../../assets/cross.png';
-import {withRouter} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 
 
 
 const Registration = props => {
-
+    const history = useHistory();
     return (
     <div className="registration">
     <div className="cross">
-    <span onClick={() => props.history.goBack()}>
+    <span onClick={() => history.goBack()}>
       <img src={Cross} alts="close"/>
      </span>
     </div>
@@ -21,4 +21,4 @@ const Registration = props => {
     );
 };
 
-export default withRouter(Registration);
+export default Registration;
