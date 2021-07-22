@@ -5,23 +5,17 @@
   .wrap {
     position: relative;
     height: 100%;
-    max-width: 1450px;
+    width: 100%;
     margin: 0 auto;
 
     .logo {
       width: 130px;
       position: absolute;
       left: 50%;
-      top: 50%;
+      top: 20%;
       transform: translateY(-50%);
       -moz-transform: translateY(-50%);
       transform: translateY(-50%);
-
-      img {
-        display: block;
-        width: 100%;
-        margin: 0 auto;
-      }
     }
 
     .callToActions {
@@ -56,6 +50,11 @@
           cursor: pointer;
         }
         span {
+          font-size: 15px;
+          line-height: 1;
+          color: black;
+          text-decoration: none;
+          text-transform: uppercase;
           cursor: pointer;
         }
       }
