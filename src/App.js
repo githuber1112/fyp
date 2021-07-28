@@ -26,6 +26,7 @@ import Login from './pages/Login';
 import ForgetPassword from './pages/ForgetPassword';
 import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
+import ProductDetails from './pages/ProductDetails';
 
 const App = props =>{
   const dispatch = useDispatch();
@@ -48,9 +49,19 @@ const App = props =>{
               <Homepage />
               </HomepageLayout>
           )}/>
-          <Route path="/search" render={() => (
+          <Route exact path="/search" render={() => (
             <MainLayout>
               <Search />
+            </MainLayout>
+          )}/>
+          <Route path="/search/:filterType" render={() => (
+            <MainLayout>
+              <Search />
+            </MainLayout>
+          )}/>
+          <Route path="/product/:productID" render={() => (
+            <MainLayout>
+              <ProductDetails />
             </MainLayout>
           )}/>
           <Route path="/registration" render={() => (
