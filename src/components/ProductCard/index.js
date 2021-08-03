@@ -1,7 +1,8 @@
 import React, {useEffect} from 'react';
-import {useParams} from 'react-router-dom';
+import {useParams,useHistory} from 'react-router-dom';
 import {useDispatch,useSelector} from 'react-redux';
 import { fetchProductStart, setProduct } from '../../redux/Products/products.actions';
+import { addProduct } from '../../redux/Cart/cart.actions';
 import Button from '../forms/Button';
 import './styles.scss'
 import productsTypes from '../../redux/Products/products.types';
@@ -12,6 +13,7 @@ const mapState = state => ({
 
 
 const ProductCard = ({ }) => {
+    const history = useHistory();
     const dispatch = useDispatch();
     const {productID} = useParams();
     const {product} = useSelector(mapState);
@@ -20,7 +22,8 @@ const ProductCard = ({ }) => {
         productThumbnail,
         productName,
         productPrice,
-        productDesc
+        productDesc,
+        documentID
     } = product;
 
     useEffect (() => {
@@ -35,6 +38,14 @@ const ProductCard = ({ }) => {
         }
 
     },[]);
+
+    const handleAddToCart= (product) =>{
+        if (!product) return;
+        dispatch(
+            addProduct(product)
+        );
+        history.push('/cart');
+    }
 
     const configAddToCartBtn = {
         type: 'button'
@@ -59,13 +70,13 @@ const ProductCard = ({ }) => {
                     </li>
                     <li>
                         <div className="addToCart">
-                            <Button {...configAddToCartBtn}>
+                            <Button {...configAddToCartBtn} onClick={() => handleAddToCart(product)}>
                                 Add to Cart
                             </Button>
                         </div>
                     </li>
                     <li>
-                        <span
+                        <span className="productDesc"
                         dangerouslySetInnerHTML={{__html:productDesc}}/>
                     </li>
                 </ul>

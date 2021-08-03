@@ -27,6 +27,10 @@ import ForgetPassword from './pages/ForgetPassword';
 import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
 import ProductDetails from './pages/ProductDetails';
+import Cart from './pages/Cart';
+import Payment from './pages/Payment';
+import Order from './pages/Order';
+import ChatBot from './components/Chatbot';
 
 const App = props =>{
   const dispatch = useDispatch();
@@ -64,6 +68,18 @@ const App = props =>{
               <ProductDetails />
             </MainLayout>
           )}/>
+          <Route path="/cart" render={() => (
+            <MainLayout>
+              <Cart />
+            </MainLayout>
+          )}/>
+          <Route path="/payment" render={() => (
+            <WithAuth>
+            <MainLayout>
+              <Payment />
+            </MainLayout>
+            </WithAuth>
+          )}/>
           <Route path="/registration" render={() => (
            
               <Registration  />
@@ -88,6 +104,13 @@ const App = props =>{
             </WithAuth>
          
         )}/>
+        <Route path="/order/:orderID" render ={() => (
+          <WithAuth>
+            <DashBoardLayout>
+              <Order />
+            </DashBoardLayout>
+          </WithAuth>
+        )}/>
          <Route path="/admin" render={() => (
             <WithAdminAuth>
              <AdminLayout>
@@ -96,6 +119,11 @@ const App = props =>{
             </WithAdminAuth>
          
         )}/>
+         <Route path="/chatbot" render={() => (
+           
+           <ChatBot  />
+       
+       )}/>
         </Switch>
         
       </div>

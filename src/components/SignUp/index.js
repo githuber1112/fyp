@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {useHistory} from 'react-router-dom';
+import {useHistory,Link} from 'react-router-dom';
 import './styles.scss';
 import {signUpUserStart} from './../../redux/User/user.actions';
 
@@ -46,9 +46,16 @@ const Signup = props =>{
         setConfirmPassword('');
         setErrors([]);
     }
+    
 
  const handleFormSubmit =  event =>{
     event.preventDefault();
+    if(!displayName || !email || !password || !confirmPassword){
+        alert("Please enter required field.");
+        return;
+    }
+
+   
    dispatch(signUpUserStart({
        displayName,
        email,
@@ -112,11 +119,17 @@ const Signup = props =>{
                         handleChange={e => setConfirmPassword(e.target.value)}
                     />      
 
+                    <div className="links">
+                    <span className="loginLink">Already a member?  <Link to ="/login">Login</Link></span>
+
+                               
+                    </div>                     
                     <Button type="submit">
                         Register
                     </Button>
 
                     </form>
+
                     </div>
                     </AuthWrapper>
              

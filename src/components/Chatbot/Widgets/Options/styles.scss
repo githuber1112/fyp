@@ -1,0 +1,19 @@
+.options-container {
+  display: block;
+  width: 225px;
+}
+.option-button {
+  margin: 0 10px 10px 0;
+  border-radius: 10px;
+  font-size: 12px;
+  border: 1px solid rgb(172, 172, 172);
+  background-color: white;
+  width: 150px;
+  height: 20px;
+  color: black;
+  cursor: pointer;
+}
+
+.option-button:hover {
+  border: 1px solid rgb(0, 0, 0);
+}

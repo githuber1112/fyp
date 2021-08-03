@@ -1,6 +1,7 @@
 hr.solid {
   border-top: 2px solid rgb(0, 0, 0);
   width: 100%;
+  margin: 30px 0;
 }
 
 .links {
@@ -8,10 +9,40 @@ hr.solid {
   width: 100%;
   margin: 15px 15px 15px 0px;
 
+  .registerLink {
+    float: right;
+  }
+
   a {
     color: black;
     font-weight: 400;
     font-size: 12px;
     text-decoration: underline;
   }
+}
+
+.socialSignin {
+  width: 100%;
+  position: relative;
+  display: inline-block;
+  align-items: center;
+}
+
+.googleIcon {
+  height: 50px;
+  margin-left: 80px;
+}
+
+.socialSignin .googleIconTop {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  height: 50px;
+  margin-left: 80px;
+}
+
+.socialSignin:hover .googleIconTop {
+  display: inline;
 }
