@@ -7,6 +7,7 @@ import FormSelect from '../forms/FormSelect';
 import FormInput from '../forms/FormInput';
 import Button from '../forms/Button';
 import LoadMore from '../LoadMore';
+import { Input, Space } from 'antd';
 import './styles.scss';
 
 const mapState = ({ productsData}) => ({
@@ -14,6 +15,7 @@ const mapState = ({ productsData}) => ({
 })
 
 const ProductResult = ({}) => {
+    const { Search } = Input;
     const dispatch = useDispatch();
     const history = useHistory();
     const {filterType} = useParams();
@@ -102,8 +104,18 @@ const ProductResult = ({}) => {
     return (
         <div className="products">
             <h1>Product page</h1>
-            <FormSelect {...configFilters}/>    
-            <form onSubmit={handleSearch}>
+            <FormSelect {...configFilters}/>
+            <Space style={{float:'right',marginRight:'10px'}} direction="vertical">
+            <Search
+            placeholder="Search"
+            allowClear
+            enterButton="Search"
+            size="large"
+             onSearch={handleSearch}
+             />
+            </Space>
+
+            {/* <form onSubmit={handleSearch}>
             <FormInput
                         type="text"
                         name="search"
@@ -114,11 +126,12 @@ const ProductResult = ({}) => {
             <Button type="submit">
                         Search
                     </Button>
-            </form>
+            </form> */}
+          
             <div className="productResults">
             {data.map((product,pos) => {
-                const{productThumbnail,productName,productPrice} = product;
-                if(!productThumbnail || !productName || typeof productPrice === 'undefined') return null;
+                const{productThumbnail,productName,productPrice,productDesc} = product;
+                if(!productThumbnail || !productName || typeof productPrice === 'undefined' || !productDesc) return null;
                 
                 const configProduct = {
                     ...product

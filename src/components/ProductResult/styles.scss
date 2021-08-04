@@ -11,8 +11,12 @@
   }
 }
 
+.searchDiv {
+  float: right;
+}
+
 .product {
-  width: 33.33%;
+  width: 25%;
   margin: 0 auto 20px;
 
   padding: 0 10px;
@@ -70,4 +74,29 @@
       }
     }
   }
+}
+
+.ant-input-search
+  > .ant-input-group
+  > .ant-input-group-addon:last-child
+  .ant-input-search-button {
+  background-color: black;
+}
+
+button.btnATC {
+  background-color: black;
+  color: white;
+}
+
+.ant-card-meta-title {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ant-card-bordered {
+  border: 1px solid #0808082e;
+}
+
+.ant-card-actions {
+  border-top: 1px solid #0808082e;
 }

@@ -4,6 +4,7 @@ import './styles.scss';
 import {Link,useHistory} from 'react-router-dom';
 import Button from './../forms/Button';
 import {emailSignInStart, googleSignInStart} from './../../redux/User/user.actions';
+import {Divider} from 'antd';
 import googleIcon from './../../assets/googleButton.png'
 import googleHoverIcon from './../../assets/googleButtonHover.png'
 
@@ -111,13 +112,13 @@ const SignIn = props =>{
                                 Log In
                             </Buttons>
 
-                        <hr class="solid"></hr>
+                            <Divider style={{borderTopColor:'black'}}>or</Divider>
 
                             <div className="socialSignin">
                                
-                                    <span onClick={handleGoogleSignIn} className="googleIconWrap">
+                                    <span  className="googleIconWrap">
                                     <img src={googleIcon} alt="Sign In With Google" className="googleIcon"/>
-                                    <img src={googleHoverIcon} alt="Sign In With Google" className="googleIconTop"/>
+                                    <img src={googleHoverIcon} onClick={handleGoogleSignIn} alt="Sign In With Google" className="googleIconTop"/>
 
                                     </span>
 

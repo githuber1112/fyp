@@ -3,7 +3,6 @@ import Chatbot from "react-chatbot-kit";
 import config from "./config";
 import ActionProvider from "./ActionProvider.js";
 import MessageParser from "./MessageParser.js";
-import './styles.scss';
 import ToggleIcon from './../../assets/chat.svg';
 
 

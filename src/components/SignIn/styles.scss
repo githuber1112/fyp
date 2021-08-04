@@ -26,11 +26,16 @@ hr.solid {
   position: relative;
   display: inline-block;
   align-items: center;
+  cursor: default;
+}
+
+.googleIconWrap {
+  height: 50px;
+  margin-left: 80px;
 }
 
 .googleIcon {
   height: 50px;
-  margin-left: 80px;
 }
 
 .socialSignin .googleIconTop {
@@ -43,6 +48,6 @@ hr.solid {
   margin-left: 80px;
 }
 
-.socialSignin:hover .googleIconTop {
+.googleIconWrap:hover .googleIconTop {
   display: inline;
 }

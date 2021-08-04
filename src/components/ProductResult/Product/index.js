@@ -3,17 +3,26 @@ import {Link, useHistory} from 'react-router-dom';
 import Button from '../../forms/Button';
 import {useDispatch} from 'react-redux';
 import {addProduct} from './../../../redux/Cart/cart.actions';
+import { Card, Popover } from 'antd';
+import { ShoppingCartOutlined } from '@ant-design/icons';
+
 
 const Product = (product) => {
+    const { Meta } = Card;
     const history = useHistory();
     const dispatch = useDispatch();
     const{
             documentID,
             productThumbnail,
             productName,
-            productPrice
+            productPrice,
+            productDesc
         
     } = product;
+
+   const productDesc1 = () =>  {
+       return   <span dangerouslySetInnerHTML={{__html:productDesc}}/>
+   };
 
     if(!documentID || !productThumbnail || !productName || typeof productPrice === 'undefined') return null;
 
@@ -27,38 +36,19 @@ const Product = (product) => {
             addProduct(product)
         );
         history.push('/cart');
-    }
+    }   
 
     return (
+        
+  
         <div className="product">
-            <div className="thumb">
-                <Link to={`/product/${documentID}`} >
-                <img src={productThumbnail} alt={productName}/>
-                </Link>
-            </div>
-            <div className="details">
-                <ul>
-                    <li>
-                        <span className="name">
-                            <Link to={`/product/${documentID}`} >
-                             {productName}
-                            </Link>
-                        </span>
-                    </li><li>
-                        <span className="price">
-                            RM{productPrice}
-                        </span>
-                    </li>
-                    <li>
-                        <div className="addToCart">
-                        <Button {...configAddToCartBtn} onClick={()=> handleAddToCart(product)}>
-                            Add to cart
-                        </Button>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-           
+            <Popover content={productDesc1} title={productName}>
+            <Card hoverable={true} cover={<img src={productThumbnail} />} style={{width:200}} actions={[<ShoppingCartOutlined onClick={()=> handleAddToCart(product)}/>]}>
+            <Link to={`/product/${documentID}`} >
+              <Meta title={productName} description={productPrice}/>
+            </Link>
+            </Card>
+            </Popover>
         </div>
     );
 };
