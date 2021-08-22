@@ -17,7 +17,7 @@ export const handleAddProduct = product => {
 
 export const handleFetchProducts = ({filterType, startAfterDoc, persistProducts=[],searchProductName}) => {
     return new Promise ((resolve,reject) => {
-        const pageSize = 6;
+        const pageSize = 8;
         let ref= firestore.collection('products').orderBy('createdDate').limit(pageSize);
 
         if(filterType) ref = ref.where('productCategory', '==', filterType);
@@ -64,6 +64,23 @@ export const handleDeleteProducts = documentID => {
     });
 }
 
+export const handleUpdateProducts = product => {
+
+    return new Promise ((resolve,reject) => {
+        firestore
+        .collection('products')
+        .doc(product.documentID)
+        .update(product)
+        .then(() => {
+            resolve();
+        })
+        .catch( err => {
+            
+            reject(err);
+        })
+    });
+}
+
 export const handleFetchProduct = productID => {
     return new Promise((resolve,reject) => {
         firestore
@@ -81,4 +98,25 @@ export const handleFetchProduct = productID => {
             reject(err);
         })
     })  
+}
+
+export const handleFetchAllProducts = () => {
+    return new Promise ((resolve,reject) => {
+        firestore
+        .collection('products')
+        .orderBy('createdDate')
+        .get()
+        .then(snapshot => {
+            const productsArray = snapshot.docs.map(doc => {
+                return {
+                    ...doc.data(),
+                    documentID: doc.id
+                }
+            });
+            resolve(productsArray);
+        })
+        .catch(err => {
+            reject(err);
+        })
+    })
 }

@@ -5,7 +5,7 @@ const FormSelect = ({ options, defaultValue, handleChange,label, ...otherProps})
     if (!Array.isArray(options) || options.length<1) return null;
 
     return (
-        <div className="formRow">
+        <div className="formRowSelect">
             {label && (
                 <label>
                     {label}

@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch,useSelector} from 'react-redux';
-import {useHistory} from 'react-router-dom';
-import {resetPasswordStart, resetUserState} from './../../redux/User/user.actions';
-import './styles.scss';
+import {useHistory,Link} from 'react-router-dom';
+import {resetPasswordStart, resetUserState,resetError} from './../../redux/User/user.actions';
 import AuthWrapper from './../AuthWrapper';
 import FormInput from './../forms/FormInput';
 import Button from './../forms/Button';
+import './styles.scss'
 
 const mapState = ({user}) => ({
     resetPasswordSuccess:user.resetPasswordSuccess,
@@ -44,7 +44,7 @@ const EmailPassword = props =>{
 
     
         const configAuthWrapper = {
-            headline:'Email Password'
+            headline:'Forget Password'
         };
         return(
             <AuthWrapper {...configAuthWrapper}>
@@ -71,10 +71,14 @@ const EmailPassword = props =>{
                     />
 
                     <Button type="submit">
-                        Forget Password
+                        Recover
                     </Button>
                     </form>
+                    <div className="backLoginDiv">
+                    <span>Remember your password?&nbsp;&nbsp;</span><Link to='/login' onClick={() => dispatch(resetError())}>Back to login</Link>
+                    </div>
                 </div>
+                
             </AuthWrapper>
         );
     }

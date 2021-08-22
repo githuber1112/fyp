@@ -32,9 +32,9 @@ export function* emailSignIn({ payload: {email, password} }){
             
         
         }catch(err){
-            const err1=['The password is incorrect'];
-
-            yield put(userError(err1))
+            yield put(
+                userError([err.message])
+                );
         }
 }
 
@@ -95,7 +95,9 @@ export function* signUpUser({payload: {
       
      
     }catch(err){
-
+        yield put(
+            userError([err.message])
+        );
     }
 }
 
@@ -111,7 +113,7 @@ export function* resetPassword({payload:{email}}){
         );
 
         }catch(err){
-            yield put(
+              yield put(
                 userError(err)
             );
         }

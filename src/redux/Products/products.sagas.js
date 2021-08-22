@@ -1,8 +1,8 @@
 import {auth} from './../../firebase/utils'
 import {takeLatest,all,put,call} from 'redux-saga/effects';
-import { setProducts, setProduct, fetchProductsStart } from './products.actions';
+import { setProducts, setProduct, fetchProductsStart, fetchAllProductsStart, setAllProducts } from './products.actions';
 import productsTypes from './products.types';
-import { handleAddProduct, handleFetchProducts, handleDeleteProducts, handleFetchProduct } from './products.helper';
+import { handleAddProduct, handleFetchProducts, handleDeleteProducts, handleFetchProduct, handleUpdateProducts, handleFetchAllProducts } from './products.helper';
 
 
 export function* addProduct({payload}) {
@@ -15,7 +15,7 @@ export function* addProduct({payload}) {
             createdDate:timestamp
         });
         yield put(
-            fetchProductsStart()
+            fetchAllProductsStart()
         );
     }catch(err){
 
@@ -47,7 +47,7 @@ export function* deleteProduct ({payload}) {
     try{
         yield handleDeleteProducts(payload);
         yield put (
-            fetchProductsStart()
+            fetchAllProductsStart()
         );
     }catch(err){
 
@@ -73,12 +73,45 @@ export function* onFetchProductStart(){
     yield takeLatest(productsTypes.FETCH_PRODUCT_START, fetchProduct)
 }
 
+export function* updateProduct({payload}){
+    
+    try{
+        yield handleUpdateProducts(payload);
+        yield put (
+            fetchAllProductsStart()
+        );
+    }catch(err){
+        console.log(err)
+    }
+}
+
+export function* onUpdateProductStart(){
+    yield takeLatest(productsTypes.UPDATE_PRODUCT_START, updateProduct)
+}
+
+export function* fetchAllProducts(){
+    try{
+        const allProducts = yield handleFetchAllProducts();
+        yield put (
+            setAllProducts(allProducts)
+        );
+    }catch(err){
+
+    }
+}
+
+export function* onFetchAllProductsStart(){
+    yield takeLatest(productsTypes.FETCH_ALL_PRODUCTS, fetchAllProducts)
+}
+
 export default function* productsSagas() {
     yield all([
         call(onAddProductStart),
         call(onFetchProductsStart),
         call(onDeleteProductStart),
         call(onFetchProductStart),
+        call(onUpdateProductStart),
+        call(onFetchAllProductsStart),
         
     ])
 }

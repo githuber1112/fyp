@@ -43,7 +43,7 @@ const Product = (product) => {
   
         <div className="product">
             <Popover content={productDesc1} title={productName}>
-            <Card hoverable={true} cover={<img src={productThumbnail} />} style={{width:200}} actions={[<ShoppingCartOutlined onClick={()=> handleAddToCart(product)}/>]}>
+            <Card hoverable={true} cover={<img src={productThumbnail} />} style={{width:300}} actions={[<ShoppingCartOutlined onClick={()=> handleAddToCart(product)}/>]}>
             <Link to={`/product/${documentID}`} >
               <Meta title={productName} description={productPrice}/>
             </Link>

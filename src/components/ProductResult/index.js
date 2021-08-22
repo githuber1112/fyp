@@ -72,18 +72,7 @@ const ProductResult = ({}) => {
             <div className="products">
                 <p>No search results</p>
                 <FormSelect {...configFilters}/>    
-            <form onSubmit={handleSearch}>
-            <FormInput
-                        type="text"
-                        name="search"
-                        value={searchProducts}
-                        placeholder="Search"
-                        handleChange={e => setSearchProducts(e.target.value)}
-                    />
-            <Button type="submit">
-                        Search
-                    </Button>
-            </form>
+           
             </div>
         );
     }
@@ -105,15 +94,7 @@ const ProductResult = ({}) => {
         <div className="products">
             <h1>Product page</h1>
             <FormSelect {...configFilters}/>
-            <Space style={{float:'right',marginRight:'10px'}} direction="vertical">
-            <Search
-            placeholder="Search"
-            allowClear
-            enterButton="Search"
-            size="large"
-             onSearch={handleSearch}
-             />
-            </Space>
+ 
 
             {/* <form onSubmit={handleSearch}>
             <FormInput

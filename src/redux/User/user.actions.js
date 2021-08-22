@@ -44,6 +44,10 @@ export const resetPasswordSuccess = () => ({
 
 export const resetUserState = () => ({
     type:userTypes.RESET_USER_STATE
+});
+
+export const resetError = () => ({
+    type:userTypes.RESET_ERROR
 })
 
 export const googleSignInStart = () => ({

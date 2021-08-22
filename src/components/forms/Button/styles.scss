@@ -4,7 +4,7 @@
   background: black;
   padding: 10px;
   margin: 0 auto;
-  color: rgb(247, 229, 229);
+  color: rgb(255, 255, 255);
   font-size: 18px;
   line-height: 1;
   font-weight: 300;
@@ -12,4 +12,19 @@
   border: 0;
   outline: none;
   cursor: pointer;
+  border-radius:10px;
+  z-index:9999;
+
+}
+
+.btn:hover{
+  background: rgb(160, 160, 160);
+  color: #242424;
+  transition: 250ms;
+}
+
+.btn:active{
+  background:rgb(104, 104, 104);
+  color:#242424;
+  transition:250ms;
 }

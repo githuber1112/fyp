@@ -1,6 +1,12 @@
+import React from 'react';
+import { Rate } from 'antd';
+
+
 
 // ActionProvider starter code
 class ActionProvider {
+
+
     constructor(createChatBotMessage, setStateFunc, createClientMessage) {
       this.createChatBotMessage = createChatBotMessage;
       this.setState = setStateFunc;
@@ -14,8 +20,12 @@ class ActionProvider {
 
     handleLeaving = () => {
       const message = this.createChatBotMessage("Happy to help ! Hope you enjoy purchasing on this website!")
-
+      const message1 = this.createChatBotMessage("Please rate this chatbot (1-5).Your feedback is highly appreciated and will help us to improve our ability to serve you and other users of our web sites.")
+      const message2= this.createChatBotMessage(<Rate />)
       this.setChatbotMessage(message);
+      this.setChatbotMessage(message1);
+      this.setChatbotMessage(message2);
+
     }
     
     handleUnderstand = () => {
@@ -89,7 +99,9 @@ class ActionProvider {
     }
 
     handleQuotation = () => {
+      const clientMessage = this.createClientMessage("Quotation");
       const message = this.createChatBotMessage("For customized quotations, please contact Mr. Teoh at 012-3456789 or email to customersvc@elonmask.com !")
+      this.setChatbotMessage(clientMessage);
       this.setChatbotMessage(message);
      
     }

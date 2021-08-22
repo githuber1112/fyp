@@ -25,7 +25,7 @@ body,
 }
 
 body {
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1.8rem;
   font-weight: 400;
   line-height: 1;
@@ -147,7 +147,7 @@ a:hover {
   width: 100% !important;
   padding: 12.5px !important;
   border: none !important;
-  font-size: 0.85rem !important;
+  font-size: 15px !important;
   border-top: 1px solid #a78e8e !important;
   border-bottom-left-radius: 5px !important;
 }
@@ -180,4 +180,46 @@ a:hover {
     height: auto !important;
     margin: 10px 14px !important;
   }
+}
+
+.toggleChatbotButton:hover{
+  background:rgb(204, 204, 204) !important;
+}
+
+.toggleChatbotButton:active{
+  background:grey !important;
+}
+
+.toggleChatbotButton:focus{
+  background:rgb(0, 0, 0) !important;
+}
+.toggleChatbotButton:target{
+  background:rgb(0, 0, 0) !important;
+}
+
+
+.site-layout .site-layout-background {
+  background: #fff;
+}
+
+::-webkit-scrollbar{
+  width:10px;
+}
+
+::-webkit-scrollbar-track{
+  background:white;
+}
+
+::-webkit-scrollbar-thumb{
+  background: rgb(201, 201, 201);
+  border-radius:20px;
+  margin:10px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background:rgb(104, 104, 104);
+}
+
+::-webkit-scrollbar-thumb:active{
+  background:rgb(63, 63, 63);
 }

@@ -23,6 +23,11 @@ export const deleteProductStart = productID => ({
     payload:productID
 });
 
+export const updateProductStart = updateProductData => ({
+    type:productsTypes.UPDATE_PRODUCT_START,
+    payload:updateProductData
+})
+
 export const fetchProductStart = productID => ({
     type:productTypes.FETCH_PRODUCT_START,
     payload:productID
@@ -32,3 +37,12 @@ export const setProduct = product => ({
     type:productTypes.SET_PRODUCT,
     payload:product
 });
+
+export const fetchAllProductsStart = () => ({
+    type:productsTypes.FETCH_ALL_PRODUCTS
+});
+
+export const setAllProducts = allProducts => ({
+    type:productTypes.SET_ALL_PRODUCTS,
+    payload:allProducts
+})

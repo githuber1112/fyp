@@ -11,9 +11,7 @@ const Registration = props => {
     return (
     <div className="registration">
     <div className="cross">
-    <span onClick={() => history.goBack()}>
-      <img className="imgRegistration" src={Cross} alts="close"/>
-     </span>
+    
     </div>
     <SignUp />
     </div>

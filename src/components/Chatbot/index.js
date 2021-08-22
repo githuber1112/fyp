@@ -8,7 +8,7 @@ import ToggleIcon from './../../assets/chat.svg';
 
 const ChatBot = () => {
     const [showBot, toggleBot] = useState(false);
-    
+
 
     return (
         <div className="app-chatbot-container">
@@ -18,8 +18,9 @@ const ChatBot = () => {
                 actionProvider={ActionProvider}
                 messageParser={MessageParser}
               />
+
             )}
-            <div className="toggleChatbotButton">
+            <div className="toggleChatbotButton" >
             <img src={ToggleIcon} className="iconCSS"   onClick={() => toggleBot((prev) => !prev)}/>
             </div>
         </div>

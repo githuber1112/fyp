@@ -1,67 +1,96 @@
-.directory {
-  height: 1000px;
+.directoryWrap {
+  width: 100%;
+  height: 100%;
+  margin-top: 10px;
+  margin-bottom: 100px !important;
+}
+.faceMaskPoster {
+  background: url("./../../assets/ShopMask.jpg") center center/cover no-repeat;
+  height: 900px;
+  width: 100%;
+  border-radius: 30px;
+  transition: transform 0.3s;
+  box-shadow: 0 0 2rem rgba(0, 0, 0, 0.2);
+}
 
-  .wrap {
-    display: inline-block;
-    width: 100%;
-    height: 100%;
+.faceMaskPoster:hover {
+  transform: scale(1.01);
+  box-shadow: 0 0 5rem rgba(0, 0, 0, 0.2) inset;
+}
+
+.sanitizerPoster {
+  background: url("./../../assets/ShopSanitizer.jpg") center center/cover
+    no-repeat;
+  height: 900px;
+  width: 100%;
+  border-radius: 30px;
+  transition: transform 0.3s;
+  box-shadow: 0 0 2rem rgba(0, 0, 0, 0.2);
+}
+
+.sanitizerPoster:hover {
+  transform: scale(1.01);
+  box-shadow: 0 0 5rem rgba(0, 0, 0, 0.2) inset;
+}
+
+.textBottomDirectory {
+  bottom: 0;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  -webkit-box-align: center;
+  align-items: center;
+  top: 50%;
+  position: relative;
+  width: 100%;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  -webkit-box-align: start;
+  padding: 5rem;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+
+  h1 {
+    max-width: 40rem;
+    margin-bottom: 30px;
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    white-space: nowrap;
   }
-  .item {
-    position: relative;
-    width: 50%;
-    height: 100%;
-    float: left;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
 
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
+  a {
+    border-radius: 15px;
+    background: rgba(255, 0, 0, 0.5);
+    width: 400px;
+    height: 30px;
+    text-align: center;
+    padding-top: 5px;
+    color: rgb(255, 255, 255);
+    text-transform: uppercase;
+    font-weight: 700;
+    cursor: pointer;
+  }
 
-      z-index: 1;
-      width: 100%;
-      height: 100%;
-    }
+  a:hover {
+    background: white;
+    color: grey;
+    transform: translateY(-4px);
+  }
+}
 
+@media screen and (max-width: 960px) {
+  .textBottomDirectory {
     a {
-      border-radius: 10px;
-      padding: 4px 10px;
-      width: 300px;
-      height: 25px;
-      position: absolute;
-      top: 65%;
-      left: 50%;
-      -webkit-transform: translate(-50%, -50%);
-      -moz-transform: translate(-50%, -50%);
-      z-index: 2;
-      background: rgba(0, 0, 0, 0.5);
-      font-size: 15px;
-      text-align: center;
-      color: white;
-      text-transform: uppercase;
-    }
-
-    a:hover {
-      background-color: rgba($color: #30b6b6, $alpha: 1);
+      width: 250px;
     }
 
     h1 {
-      width: 50%;
-      position: absolute;
-      top: 58%;
-      left: 58%;
-      -webkit-transform: translate(-50%, -50%);
-      -moz-transform: translate(-50%, -50%);
-      z-index: 2;
-      font-family: "Roboto Condensed", sans-serif;
-      text-transform: uppercase;
-      color: white;
-      text-shadow: #000 0px 0px 1px, #000 0px 0px 1px, #000 0px 0px 1px;
-      font-size: 50px;
-      white-space: nowrap;
+      font-size: 40px;
     }
   }
 }

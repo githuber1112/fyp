@@ -7,8 +7,16 @@
   }
 }
 
-.loginLink {
+.backStoreDiv {
+  display: block;
   margin-top: 10px;
-  cursor: text;
-  font-size: 12px;
+  width: 100%;
+  text-align: center;
+
+  a {
+    color: black;
+    font-weight: 400;
+    font-size: 12px;
+    text-decoration: underline;
+  }
 }

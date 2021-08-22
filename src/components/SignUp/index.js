@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory,Link} from 'react-router-dom';
 import './styles.scss';
-import {signUpUserStart} from './../../redux/User/user.actions';
+import {signUpUserStart,resetError} from './../../redux/User/user.actions';
 
 import AuthWrapper from './../AuthWrapper';
 import FormInput from '../forms/FormInput';
@@ -24,6 +24,11 @@ const Signup = props =>{
     const [confirmPassword,setConfirmPassword] = useState('');
     const [errors,setErrors] = useState([]);
 
+    useEffect(() => {
+
+        dispatch(resetError());
+        reset();
+    },[])
 
     useEffect(() => {
         if(currentUser){
@@ -34,9 +39,15 @@ const Signup = props =>{
     },[currentUser]);
 
     useEffect(() => {
+ 
+
         if(Array.isArray(userErr) && userErr.length >0){
+            console.log(userErr);
+
             setErrors(userErr);     
         }
+
+
     },[userErr]);
 
     const reset = () =>{
@@ -119,17 +130,17 @@ const Signup = props =>{
                         handleChange={e => setConfirmPassword(e.target.value)}
                     />      
 
-                    <div className="links">
-                    <span className="loginLink">Already a member?  <Link to ="/login">Login</Link></span>
-
-                               
-                    </div>                     
+                                        
                     <Button type="submit">
                         Register
                     </Button>
 
                     </form>
+                    <div className="backStoreDiv">
+                    <Link to ="/" onClick={()=> dispatch(resetError())}>Return To Store</Link>
 
+                               
+                    </div> 
                     </div>
                     </AuthWrapper>
              

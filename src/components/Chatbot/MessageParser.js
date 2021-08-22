@@ -24,7 +24,7 @@ class MessageParser {
         return;
       }
 
-      if (lowercase.includes("thanks") || lowercase.includes("bye") ){
+      if (lowercase.includes("thanks") || lowercase.includes("bye") || lowercase.includes("no")){
         this.actionProvider.handleLeaving()
         return;
       }

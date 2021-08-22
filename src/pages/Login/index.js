@@ -2,17 +2,19 @@ import React from 'react';
 import './styles.scss';
 import SignIn from './../../components/SignIn';
 import Cross from './../../assets/cross.png';
-import {useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 
 
 const Login = props => {
-    const history = useHistory();
+
     return (
     <div className="login">
     <div className="cross">
-    <span onClick={() => history.goBack()}>
+    <span >
+      <Link to="/">
       <img className="imgRegistration" src={Cross} alts="close"/>
+      </Link>
     </span>
     </div>
     <SignIn />

@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import './styles.scss';
 import {Link,useHistory} from 'react-router-dom';
 import Button from './../forms/Button';
-import {emailSignInStart, googleSignInStart} from './../../redux/User/user.actions';
+import {emailSignInStart, googleSignInStart,resetError} from './../../redux/User/user.actions';
 import {Divider} from 'antd';
 import googleIcon from './../../assets/googleButton.png'
 import googleHoverIcon from './../../assets/googleButtonHover.png'
@@ -27,8 +27,15 @@ const SignIn = props =>{
     const[password,setPassword] = useState('');
     const [errors,setErrors] = useState([]);
 
+    
+    useEffect(() => {
+
+        dispatch(resetError());
+        resetForm();
+    },[])
 
     useEffect(() => {
+   
         if(currentUser){
             resetForm();
             history.push('/');
@@ -36,8 +43,11 @@ const SignIn = props =>{
     },[currentUser]);
 
     useEffect(() => {
+        
         if(Array.isArray(userErr) && userErr.length >0){
+            console.log("hi");
             setErrors(userErr);     
+
         }
     },[userErr]);
 
@@ -45,6 +55,7 @@ const SignIn = props =>{
         setEmail('');
         setPassword('');
         setErrors([]);
+     
 
     };
 
@@ -100,10 +111,10 @@ const SignIn = props =>{
                             />
 
                             <div className="links">
-                                <Link to="/forgetPassword">
+                                <Link to="/forgetPassword" onClick={()=> dispatch(resetError())}>
                                     Forgot password?
                                 </Link>
-                                <Link to="/forgetPassword" className="registerLink">
+                                <Link to="/registration" className="registerLink" onClick={()=> dispatch(resetError())}>
                                     Register for an account
                                 </Link>
                             </div>

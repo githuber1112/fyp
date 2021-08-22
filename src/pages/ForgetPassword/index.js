@@ -9,9 +9,7 @@ const ForgetPassword = props => {
     return (
         <div className="forgetPassword">
         <div className="cross">
-        <span onClick={() => history.goBack()}>
-       <img className="imgRegistration" src={Cross} alts="close"/>
-       </span>
+        
         </div>
         <EmailPassword />
         </div>
