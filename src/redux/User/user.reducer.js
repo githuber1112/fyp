@@ -1,10 +1,12 @@
-import { resetPassword } from './user.actions';
-import userTypes from './user.types';
+import { STATEMENT_OR_BLOCK_KEYS } from "@babel/types";
+import { resetPassword } from "./user.actions";
+import userTypes from "./user.types";
 
 const INITIAL_STATE = {
-    currentUser: null,
-    resetPasswordSuccess: false,
-    userErr:[]
+  loading: false,
+  currentUser: null,
+  resetPasswordSuccess: false,
+  userErr: [],
 };
 
 const userReducer = (state=INITIAL_STATE, action) => {

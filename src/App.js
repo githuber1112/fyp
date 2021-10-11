@@ -28,15 +28,16 @@ import Registration from'./pages/Registration';
 import Login from './pages/Login';
 import ForgetPassword from './pages/ForgetPassword';
 import Dashboard from './pages/Dashboard';
-import Admin from './pages/Admin';
+import AdminManageProduct from './pages/AdminManageProduct';
 import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import Payment from './pages/Payment';
 import Order from './pages/Order';
 import AboutUsPage from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
-import ProfileDetails from './pages/ProfileDetails';
-import ChatBot from './components/Chatbot';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminAddProduct from './pages/AdminAddProduct';
+
 
 const App = props =>{
   const dispatch = useDispatch();
@@ -126,10 +127,26 @@ const App = props =>{
             </DashBoardLayout>
           </WithAuth>
         )}/>
-         <Route path="/admin" render={() => (
+         <Route path="/manageproduct" render={() => (
             <WithAdminAuth>
              <AdminLayout>
-                <Admin />
+                <AdminManageProduct />
+              </AdminLayout>
+            </WithAdminAuth>
+         
+        )}/>
+          <Route path="/addproduct" render={() => (
+            <WithAdminAuth>
+             <AdminLayout>
+                <AdminAddProduct />
+              </AdminLayout>
+            </WithAdminAuth>
+         
+        )}/>
+         <Route path="/admindashboard" render={() => (
+            <WithAdminAuth>
+             <AdminLayout>
+                <AdminDashboard />
               </AdminLayout>
             </WithAdminAuth>
          
@@ -143,6 +160,11 @@ const App = props =>{
            <MainLayout>
            <ContactUs  />
            </MainLayout>
+       )}/>
+       <Route path="/chatbot" render={() => (
+      
+           <ChatBot/>
+
        )}/>
        
         </Switch>

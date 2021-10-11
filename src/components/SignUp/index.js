@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useHistory,Link} from 'react-router-dom';
 import './styles.scss';
 import {signUpUserStart,resetError} from './../../redux/User/user.actions';
-
+import BounceLoader from "react-spinners/BounceLoader";
 import AuthWrapper from './../AuthWrapper';
 import FormInput from '../forms/FormInput';
 import Button from './../forms/Button';
@@ -11,13 +11,14 @@ import Button from './../forms/Button';
 
 const mapState = ({user}) => ({
     currentUser:user.currentUser,
-    userErr: user.userErr
+    userErr: user.userErr,
+    loading: user.loading
 });
 
 const Signup = props =>{
     const dispatch = useDispatch();
     const history = useHistory();
-    const {currentUser,userErr} = useSelector(mapState);
+    const {currentUser,userErr, loading} = useSelector(mapState);
     const [displayName,setDisplayName] = useState('');
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
@@ -34,7 +35,7 @@ const Signup = props =>{
         if(currentUser){
             alert("Email has been sent. Please check your email to verify your account.");
             reset();
-            history.push('/');
+            history.push('/login');
         }
     },[currentUser]);
 
@@ -81,7 +82,11 @@ const Signup = props =>{
             headline:'Sign up'
         };
 
-        return(
+        return loading ? (
+            <div className="loadingDiv">
+            <BounceLoader color={'black'} loading={loading}  size={100} />
+            </div>
+            ) : (
            <AuthWrapper {...configAuthWrapper}>
                     <div className="formWrap">
                     {errors.length > 0 && (

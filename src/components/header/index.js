@@ -6,7 +6,7 @@ import { selectCartItemsCount } from '../../redux/Cart/cart.selectors';
 import './styles.scss';
 import Logo from './../../assets/logo.png';
 import { ShoppingCartOutlined, UserOutlined,SearchOutlined,LeftOutlined,RightOutlined,DeleteOutlined } from '@ant-design/icons';
-import { Badge,Popover,Card,Divider } from 'antd';
+import { Badge,Popover,Card,Divider,Empty } from 'antd';
 import AutoComplete1 from './../AutoComplete/index';
 import Button from './../forms/Button/index'
 import {selectCartItems, selectCartTotal} from './../../redux/Cart/cart.selectors';
@@ -89,7 +89,16 @@ const Header = props => {
 
 
 
-    const content =  (
+    const content = 
+    
+    cartItems.length < 1 ? (
+
+        <div className="emptyDiv">
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+        </div>
+    ) :
+    (
+      
       <div className="popoverContainer">
         <div className="flickingWrapper">
         <span onClick={() => flicking.current.prev()}><LeftOutlined style={{ fontSize: '300%'}}/></span>
@@ -116,6 +125,7 @@ const Header = props => {
               </div>
 
             )
+            
           })}
         </Flicking>
         <span onClick={() => flicking.current.next()}><RightOutlined style={{ fontSize: '300%'}}  /></span>

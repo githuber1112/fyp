@@ -25,7 +25,7 @@ export function* getSnapshotFromUserAuth(user, additionalData={}){
 
 export function* emailSignIn({ payload: {email, password} }){
     try{
-
+            
             const {user} = yield auth.signInWithEmailAndPassword(email, password);
             yield getSnapshotFromUserAuth(user)
             
@@ -45,7 +45,6 @@ export function* onEmailSignInStart(){
 export function* isUserAuthenticated() {
     try{
         const userAuth = yield getCurrentUser();
-        if(!userAuth) return;
         yield getSnapshotFromUserAuth(userAuth);
 
     }catch(err){
@@ -92,7 +91,10 @@ export function* signUpUser({payload: {
        const additionalData = {displayName};
        yield getSnapshotFromUserAuth(user, additionalData)
         user.sendEmailVerification();
-      
+        yield auth.signOut();
+        yield put(
+            signOutUserSuccess()
+        )
      
     }catch(err){
         yield put(

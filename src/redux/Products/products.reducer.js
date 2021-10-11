@@ -5,11 +5,17 @@ import productsTypes from "./products.types";
 const INITIAL_STATE = {
     products: [],
     product: {},
-    allProducts: []
+    allProducts: [],
+    loading:false
 };
 
 const productsReducer = ( state = INITIAL_STATE, action ) => {
     switch(action.type) {
+        case productsTypes.ADD_NEW_PRODUCT_START:
+            return{
+                ...state,
+                loading:true
+            }
         case productsTypes.SET_PRODUCTS:
             return{
                 ...state,

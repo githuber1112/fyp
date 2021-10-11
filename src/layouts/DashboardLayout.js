@@ -1,13 +1,12 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { signOutUserStart } from './../redux/User/user.actions';
+import React from "react";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { signOutUserStart } from "./../redux/User/user.actions";
+import Header from "./../components/header";
+import VerticalNav from "./../components/VerticalNav";
+import Footer from "./../components/Footer";
 
-import Header from './../components/header';
-import VerticalNav from './../components/VerticalNav';
-import Footer from './../components/Footer';
-
-const DashBoardLayout = props => {
+const DashBoardLayout = (props) => {
   const dispatch = useDispatch();
 
   const signOut = () => {
@@ -44,9 +43,7 @@ const DashBoardLayout = props => {
             </ul>
           </VerticalNav>
         </div>
-        <div className="content">
-          {props.children}
-        </div>
+        <div className="content">{props.children}</div>
       </div>
       <Footer />
     </div>
