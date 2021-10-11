@@ -35,6 +35,7 @@ import Payment from './pages/Payment';
 import Order from './pages/Order';
 import AboutUsPage from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
+import ProfileDetails from './pages/ProfileDetails';
 import ChatBot from './components/Chatbot';
 
 const App = props =>{
@@ -106,6 +107,14 @@ const App = props =>{
             <WithAuth>
               <DashBoardLayout>
                 <Dashboard />
+              </DashBoardLayout>
+            </WithAuth>
+         
+        )}/>
+        <Route path="/profile" render={() => (
+            <WithAuth>
+              <DashBoardLayout>
+                <ProfileDetails />
               </DashBoardLayout>
             </WithAuth>
          

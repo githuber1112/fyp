@@ -1,3 +1,4 @@
+import { updateUserProfile } from './user.sagas';
 import userTypes from './user.types';
 
 export const emailSignInStart = userCredentials => ({
@@ -53,3 +54,13 @@ export const resetError = () => ({
 export const googleSignInStart = () => ({
     type:userTypes.GOOGLE_SIGN_IN_START
 });
+
+export const updateUserInfoStart = updateInformation => ({
+    type:userTypes.UPDATE_USER_INFO_START,
+    payload: updateInformation
+})
+
+//  export const updateUserStart = () => ({
+//      type:userTypes.UPDATE_USER_START,
+//      payload:userDetails
+//  });

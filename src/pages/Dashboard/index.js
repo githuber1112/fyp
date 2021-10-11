@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import {useDispatch,useSelector} from 'react-redux';
 import { getUserOrderHistory } from '../../redux/Orders/orders.actions';
 import OrderHistory from '../../components/OrderHistory';
+import { Divider } from 'antd';
 import './styles.scss';
 
 const mapState = ({ user, ordersData }) => ({
@@ -20,10 +21,12 @@ const Dashboard = props => {
     },[]);
 
     return (
-        <div>
+        <div className="myOrdersWrapper">
             <h1>
                 Order History
             </h1>
+            <h5>View your order details below.</h5>
+            <Divider />
 
             <OrderHistory orders={orderHistory} />
         </div>

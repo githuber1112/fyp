@@ -218,7 +218,7 @@ const Header = props => {
                     {currentUser && [
                  
                         <li>
-                             <Link to="/dashboard">
+                             <Link to="/profile">
                              <UserOutlined style={{ fontSize: '150%'}} />
                              </Link>
                         </li>

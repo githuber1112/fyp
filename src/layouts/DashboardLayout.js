@@ -22,8 +22,18 @@ const DashBoardLayout = props => {
           <VerticalNav>
             <ul>
               <li>
-                <Link to="/dashboard">
-                  Home
+                <Link to ="/profile">
+                  My Profile
+                </Link>
+              </li>
+              <li>
+                <Link to ="/dashboard">
+                My Orders
+                </Link>
+              </li>
+              <li>
+                <Link to ="/dashboard">
+                Account Settings
                 </Link>
               </li>
               <li>
