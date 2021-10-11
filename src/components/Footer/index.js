@@ -1,12 +1,37 @@
 import React from 'react';
 import Button from '../forms/Button';
 import { Link } from 'react-router-dom';
+import {Row,Col} from 'antd';
 import './styles.scss';
 
 function Footer() {
     return (
       <div className='footer-container'>
-        <section className='footer-subscription'>
+        <Row gutter={[48,48]}>
+          <Col span={12}>
+          <div class='footer-links'>
+          <div className='footer-link-wrapper'>
+            <div class='footer-link-items'>
+              <h2>About Us</h2>
+              <Link to='/aboutus'>Our story</Link>
+              <Link to='/'>Testimonials</Link>
+              <Link to='/'>Careers</Link>
+              <Link to='/'>Investors</Link>
+              <Link to='/'>Terms of Service</Link>
+            </div>
+            <div class='footer-link-items'>
+              <h2>Contact Us</h2>
+              <Link to='/contactus'>Contact</Link>
+              <Link to='/'>Support</Link>
+              <Link to='/'>Destinations</Link>
+              <Link to='/'>Sponsorships</Link>
+            </div>
+          </div>
+            
+        </div>
+          </Col>
+          <Col span={12}>
+          <section className='footer-subscription'>
           <p className='footer-subscription-heading'>
             Join the newletter to receive the best deal!
           </p>
@@ -25,26 +50,10 @@ function Footer() {
             </form>
           </div>
         </section>
-        <div class='footer-links'>
-          <div className='footer-link-wrapper'>
-            <div class='footer-link-items'>
-              <h2>About Us</h2>
-              <Link to='/sign-up'>How it works</Link>
-              <Link to='/'>Testimonials</Link>
-              <Link to='/'>Careers</Link>
-              <Link to='/'>Investors</Link>
-              <Link to='/'>Terms of Service</Link>
-            </div>
-            <div class='footer-link-items'>
-              <h2>Contact Us</h2>
-              <Link to='/contactus'>Contact</Link>
-              <Link to='/'>Support</Link>
-              <Link to='/'>Destinations</Link>
-              <Link to='/'>Sponsorships</Link>
-            </div>
-          </div>
-            
-        </div>
+          </Col>
+        </Row>
+        
+
         <section class='social-media'>
           <div class='social-media-wrap'>
             

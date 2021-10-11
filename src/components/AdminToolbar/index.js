@@ -18,7 +18,7 @@ const AdminToolbar = props => {
         <div className="adminToolbar">
             <ul>
                 <li>
-                    <Link to="/admin">
+                    <Link to="/admindashboard">
                     My admin
                     </Link>
                 </li>

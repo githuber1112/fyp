@@ -20,7 +20,7 @@ const ChatBot = () => {
               />
 
             )}
-            <div className="toggleChatbotButton" >
+            <div className="toggleChatbotButton"  >
             <img src={ToggleIcon} className="iconCSS"   onClick={() => toggleBot((prev) => !prev)}/>
             </div>
         </div>

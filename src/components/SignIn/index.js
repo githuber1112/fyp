@@ -7,6 +7,8 @@ import {emailSignInStart, googleSignInStart,resetError} from './../../redux/User
 import {Divider} from 'antd';
 import googleIcon from './../../assets/googleButton.png'
 import googleHoverIcon from './../../assets/googleButtonHover.png'
+import BounceLoader from "react-spinners/BounceLoader";
+
 
 
 import AuthWrapper from './../../components/AuthWrapper';
@@ -15,14 +17,14 @@ import Buttons from './../forms/Button';
 
 const mapState = ({user}) => ({
     currentUser: user.currentUser,
-    userErr: user.userErr
-
+    userErr: user.userErr,
+    loading: user.loading
 })
 
 const SignIn = props =>{
     const dispatch = useDispatch();
     const history = useHistory();
-    const {currentUser,userErr} = useSelector(mapState);
+    const {currentUser,userErr,loading} = useSelector(mapState);
     const[email,setEmail] = useState('');
     const[password,setPassword] = useState('');
     const [errors,setErrors] = useState([]);
@@ -75,9 +77,11 @@ const SignIn = props =>{
             headline:'Login'
         };
 
-        return (
-            
-          
+        return loading ? (
+            <div className="loadingDiv">
+            <BounceLoader color={'black'} loading={loading}  size={100} />
+            </div>
+            ) : (
                     
                     <AuthWrapper {...configAuthWrapper}>
                     <div className="formWrap">
@@ -138,8 +142,8 @@ const SignIn = props =>{
                         </form>
                     </div>
                     </AuthWrapper>
-           
-        );
+        )
+        
     }
    
 
