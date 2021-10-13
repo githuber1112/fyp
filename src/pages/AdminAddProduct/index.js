@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import AddProduct from "../../components/AddProduct";
 
 const AdminAddProduct = () => {
-    return (
-        <div>Add Product</div>
-    )
-}
+
+
+  return (
+    <AddProduct />
+  );
+};
 
 export default AdminAddProduct;

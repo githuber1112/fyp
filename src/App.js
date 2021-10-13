@@ -35,7 +35,7 @@ import Payment from './pages/Payment';
 import Order from './pages/Order';
 import AboutUsPage from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
-import ChatBot from './components/ChatbotMAD';
+import ChatBot from './components/Chatbot';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminAddProduct from './pages/AdminAddProduct';
 

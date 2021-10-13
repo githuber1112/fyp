@@ -1,5 +1,6 @@
 import React from 'react';
 import './styles.scss';
+import {Select} from 'antd'
 
 const FormSelect = ({ options, defaultValue, handleChange,label, ...otherProps}) => {
     if (!Array.isArray(options) || options.length<1) return null;
@@ -12,7 +13,7 @@ const FormSelect = ({ options, defaultValue, handleChange,label, ...otherProps})
                 </label>
             )}
 
-            <select className="formSelect" value ={defaultValue} onChange ={handleChange} {...otherProps}>
+            <Select className="formSelect" value ={defaultValue} onChange ={handleChange} {...otherProps}>
                 {options.map((option,index) => {
                     const { value , name } = option;
 
@@ -20,7 +21,7 @@ const FormSelect = ({ options, defaultValue, handleChange,label, ...otherProps})
                         <option key={index} value={value}>{name}</option>
                     );
                 })}
-            </select>
+            </Select>
         </div>
 
     );

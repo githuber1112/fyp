@@ -6,6 +6,7 @@ import {
   fetchProductsStart,
   fetchAllProductsStart,
   setAllProducts,
+  addProductSuccess,
 } from "./products.actions";
 import productsTypes from "./products.types";
 import {
@@ -25,7 +26,7 @@ export function* addProduct({ payload }) {
       productAdminUserUID: auth.currentUser.uid,
       createdDate: timestamp,
     });
-    yield put(fetchAllProductsStart());
+    yield put(addProductSuccess());
   } catch (err) {
     console.log(err);
   }
