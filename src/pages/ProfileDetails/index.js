@@ -40,7 +40,9 @@ const ProfileDetails = () => {
     useEffect(() => {
         setDisplayName(currentDisplayName)
         setPhoneNumber(currentUser.phoneNumber)
-        setUserAddress(currentAddress)
+        if(currentAddress != null){
+            setUserAddress(currentAddress)
+        }
     },[])
 
     const handleAddress = evt => {
@@ -191,7 +193,7 @@ const ProfileDetails = () => {
                             <Button type="submit" className="btnUpdate">Update Info</Button>
                       
                         
-                        <Button type="cancel" className="btnDiscard">Discard Changes</Button>
+                        <Button type="cancel" className="btnChangePassword">Change Password</Button>
                         
             
                 
