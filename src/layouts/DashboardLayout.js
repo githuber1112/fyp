@@ -21,7 +21,14 @@ const DashBoardLayout = (props) => {
           <VerticalNav>
             <ul>
               <li>
-                <Link to="/dashboard">Home</Link>
+                <Link to ="/profile">
+                  My Profile
+                </Link>
+              </li>
+              <li>
+                <Link to ="/dashboard">
+                My Orders
+                </Link>
               </li>
               <li>
                 <span className="signOut" onClick={() => signOut()}>
