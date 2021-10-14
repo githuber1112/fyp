@@ -11,6 +11,8 @@ import { createStructuredSelector } from 'reselect';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import './styles.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCcAmex, faCcDiscover, faCcMastercard, faCcVisa } from '@fortawesome/free-brands-svg-icons';
 
 const initialAddressState = {
   line1: '',
@@ -20,6 +22,8 @@ const initialAddressState = {
   postal_code: '',
   country: '',
 };
+
+
 
 const mapState = createStructuredSelector({
   total: selectCartTotal,
@@ -37,6 +41,7 @@ const PaymentDetails = () => {
   const [shippingAddress, setShippingAddress] = useState({ ...initialAddressState });
   const [recipientName, setRecipientName] = useState('');
   const [nameOnCard, setNameOnCard] = useState('');
+
 
   useEffect(() => {
     if (itemCount < 1) {
@@ -59,7 +64,8 @@ const PaymentDetails = () => {
       ...billingAddress,
       [name]: value
     });
-  }
+  };
+
 
   const handleFormSubmit = async evt => {
     evt.preventDefault();
@@ -140,6 +146,7 @@ const PaymentDetails = () => {
     hidePostalCode: true
   };
 
+
   return (
     <div className="paymentDetails">
       <form onSubmit={handleFormSubmit}>
@@ -199,7 +206,7 @@ const PaymentDetails = () => {
             name="postal_code"
             handleChange={evt => handleShipping(evt)}
             value={shippingAddress.postal_code}
-            type="text"
+            type="number"
           />
 
           <div className="formRow checkoutInput">
@@ -215,7 +222,7 @@ const PaymentDetails = () => {
               valueType="short"
             />
           </div>
-
+        
         </div>
 
         <div className="group">
@@ -273,7 +280,8 @@ const PaymentDetails = () => {
             name="postal_code"
             handleChange={evt => handleBilling(evt)}
             value={billingAddress.postal_code}
-            type="text"
+            type="number" 
+            
           />
 
           <div className="formRow checkoutInput">
@@ -297,16 +305,32 @@ const PaymentDetails = () => {
             Card Details
           </h2>
 
+          <p>
+            Accepted Card
+          </p>
+          <div class="icon-container">
+          <span className="visa"><FontAwesomeIcon icon={faCcVisa} /></span>
+          <span className="amex"><FontAwesomeIcon icon={faCcAmex} /></span>
+          <span className="master"><FontAwesomeIcon icon={faCcMastercard} /></span>
+          <span className="discover"><FontAwesomeIcon icon={faCcDiscover}/></span>
+            </div>
+
           <CardElement
             options={configCardElement}
           />
         </div>
 
-        <Button
-          type="submit"
-        >
+        <div>
+        <Button class="backBtn" onClick={()=> history.goBack()}>
+          Back to Cart
+        </Button>
+        
+        <span>
+        <Button className="payBtn" type="submit">
           Pay Now
         </Button>
+        </span>
+        </div>
 
       </form>
     </div>
