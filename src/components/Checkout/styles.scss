@@ -71,7 +71,7 @@
     margin: 0;
   }
 
-  .btn1{
+  .button1{
     padding: 15px 32px;
     font-size: smaller;
     font-weight: bold;
@@ -79,9 +79,10 @@
    background-color: rgb(221, 221, 221);
    border: 2px rgb(221, 221, 221);
    cursor: pointer;
+   height: 50px;
   }
 
-  .btn2{
+  .button2{
     padding: 15px 32px;
     font-size: smaller;
     font-weight: bold;
@@ -90,13 +91,14 @@
     background-color: #242222;
     border: 2px #242222;
     cursor: pointer;
+    height: 50px;
   }
 
-  .btn2:hover{
+  .button2:hover{
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0);
   }
 
-  .btn1:hover{
+  .button1:hover{
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0);
     background-color: white;
     color: black;

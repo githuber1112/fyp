@@ -185,7 +185,7 @@ const PaymentDetails = () => {
   };
 
   const sendEmail = () => {
-    e.preventDefault();
+   
     console.log(templateParams);
 
     emailjs.send('service_jzr6y7f', 'template_8azgz5h' , templateParams, 'user_9QUKndUMONiSkSFx2deMH')

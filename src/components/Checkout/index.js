@@ -84,12 +84,12 @@ const Checkout = ({}) => {
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <Button class="btn1" onClick={()=> history.goBack()}>
+                                                    <Button className="button1" onClick={()=> history.goBack()}>
                                                         Continue Shopping
                                                     </Button>
                                                 </td>
                                                 <td>
-                                                    <Button class="btn2" onClick={() => history.push('/payment')}>
+                                                    <Button className="button2" onClick={() => history.push('/payment')}>
                                                     Checkout
                                                     </Button>
                                                 </td>
