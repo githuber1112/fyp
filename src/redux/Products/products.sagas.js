@@ -6,6 +6,8 @@ import {
   fetchProductsStart,
   fetchAllProductsStart,
   setAllProducts,
+  doneAction,
+  doneDelete,
 } from "./products.actions";
 import productsTypes from "./products.types";
 import {
@@ -25,7 +27,7 @@ export function* addProduct({ payload }) {
       productAdminUserUID: auth.currentUser.uid,
       createdDate: timestamp,
     });
-    yield put(fetchAllProductsStart());
+    yield put(doneAction());
   } catch (err) {
     console.log(err);
   }
@@ -52,6 +54,7 @@ export function* deleteProduct({ payload }) {
   try {
     yield handleDeleteProducts(payload);
     yield put(fetchAllProductsStart());
+    yield put(doneDelete());
   } catch (err) {}
 }
 
@@ -76,6 +79,7 @@ export function* updateProduct({ payload }) {
   try {
     yield handleUpdateProducts(payload);
     yield put(fetchAllProductsStart());
+    yield put(doneAction());
   } catch (err) {
     console.log(err);
   }

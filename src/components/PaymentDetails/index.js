@@ -158,15 +158,6 @@ const PaymentDetails = () => {
 
           <FormInput
             required
-            placeholder="Recipient Name"
-            name="recipientName"
-            handleChange={evt => setRecipientName(evt.target.value)}
-            value={recipientName}
-            type="text"
-          />
-
-          <FormInput
-            required
             placeholder="Line 1"
             name="line1"
             handleChange={evt => handleShipping(evt)}
