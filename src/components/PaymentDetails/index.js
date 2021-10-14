@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import React, { useState, useEffect, useRef } from 'react';
+import { CardElement, useStripe, useElements, PaymentRequestButtonElement } from '@stripe/react-stripe-js';
 import FormInput from './../forms/FormInput';
 import Button from './../forms/Button';
 import { CountryDropdown } from 'react-country-region-selector';
@@ -13,6 +13,8 @@ import { useHistory } from 'react-router-dom';
 import './styles.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCcAmex, faCcDiscover, faCcMastercard, faCcVisa } from '@fortawesome/free-brands-svg-icons';
+import emailjs from 'emailjs-com';
+import { message } from "antd";
 
 const initialAddressState = {
   line1: '',
@@ -23,13 +25,34 @@ const initialAddressState = {
   country: '',
 };
 
+/* const loadingState ={
+  loading: false
+};
+
+const loadingData = () => {
+  this.setLoadingState({ loading: true });
+
+    //Faking API call here
+    setTimeout(() => {
+      this.setLoadingState({ loading: false });
+    }, 2000);
+};
+
+const {loading} = loadingState; */
+const userMapState = ({ user }) => ({
+  currentUser: user.currentUser,
+  
+});
 
 
 const mapState = createStructuredSelector({
   total: selectCartTotal,
   itemCount: selectCartItemsCount,
   cartItems: selectCartItems,
+
 });
+
+
 
 const PaymentDetails = () => {
   const stripe = useStripe();
@@ -41,7 +64,12 @@ const PaymentDetails = () => {
   const [shippingAddress, setShippingAddress] = useState({ ...initialAddressState });
   const [recipientName, setRecipientName] = useState('');
   const [nameOnCard, setNameOnCard] = useState('');
+  const {currentUser}= useSelector(userMapState);
+  const {email}= currentUser;
 
+  var templateParams ={
+    to: email
+  }
 
   useEffect(() => {
     if (itemCount < 1) {
@@ -50,6 +78,12 @@ const PaymentDetails = () => {
 
   }, [itemCount]);
 
+  // useEffect(() => {
+  //   if (handleFormSubmit){
+  //     message.success("Payment successfull!");
+  //   }
+  // }, []);
+  
   const handleShipping = evt => {
     const { name, value } = evt.target;
     setShippingAddress({
@@ -124,6 +158,7 @@ const PaymentDetails = () => {
             })
           }
 
+          sendEmail();
           dispatch(
             saveOrderHistory(configOrder)
           );
@@ -134,7 +169,10 @@ const PaymentDetails = () => {
 
     });
 
+
+
   };
+
 
   const configCardElement = {
     iconStyle: 'solid',
@@ -146,15 +184,36 @@ const PaymentDetails = () => {
     hidePostalCode: true
   };
 
+  const sendEmail = () => {
+    e.preventDefault();
+    console.log(templateParams);
+
+    emailjs.send('service_jzr6y7f', 'template_8azgz5h' , templateParams, 'user_9QUKndUMONiSkSFx2deMH')
+      .then((result) => {
+          console.log(result.text);
+      }, (error) => {
+          console.log(error.text);
+      });
+  };
+
 
   return (
     <div className="paymentDetails">
-      <form onSubmit={handleFormSubmit}>
+      <form id="testForm" onSubmit={handleFormSubmit}>
 
         <div className="group">
           <h2>
             Shipping Address
           </h2>
+
+          <FormInput
+            required
+            placeholder="Recipient Name"
+            name="recipientName"
+            handleChange={evt => setRecipientName(evt.target.value)}
+            value={recipientName}
+            type="text"
+          />
 
           <FormInput
             required
@@ -229,6 +288,8 @@ const PaymentDetails = () => {
             value={nameOnCard}
             type="text"
           />
+
+        
 
           <FormInput
             required
@@ -312,15 +373,23 @@ const PaymentDetails = () => {
         </div>
 
         <div>
-        <Button class="backBtn" onClick={()=> history.goBack()}>
+        <Button className="backBtn" onClick={()=> history.goBack()}>
           Back to Cart
         </Button>
         
-        <span>
-        <Button className="payBtn" type="submit">
-          Pay Now
+       
+        <Button className="payBtn" htmlType="submit" onClick={() => message.success("Payment Successfull, please check your email!")}>
+            Pay Now
+          {/* {loading && (
+            <i
+              className="fa fa-refresh fa-spin"
+              style={{ marginRight: "5px" }}
+            />
+          )}
+          {loading && <span>Payment Processing</span>}
+          {!loading && <span>Pay Now</span>} */}
         </Button>
-        </span>
+
         </div>
 
       </form>
