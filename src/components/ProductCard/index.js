@@ -6,6 +6,7 @@ import { addProduct } from '../../redux/Cart/cart.actions';
 import Button from '../forms/Button';
 import './styles.scss'
 import productsTypes from '../../redux/Products/products.types';
+import {ShoppingCartOutlined, HeartOutlined} from '@ant-design/icons';
 
 const mapState = state => ({
     product: state.productsData.product
@@ -57,29 +58,31 @@ const ProductCard = ({ }) => {
                 <img src={productThumbnail}/>
             </div>
             <div className="productDetails">
-                <ul>
-                    <li>
-                        <h1>
-                            {productName}
-                        </h1>
-                    </li>
-                    <li>
-                        <span>
-                            RM{productPrice}
-                        </span>
-                    </li>
-                    <li>
-                        <div className="addToCart">
-                            <Button {...configAddToCartBtn} onClick={() => handleAddToCart(product)}>
-                                Add to Cart
-                            </Button>
-                        </div>
-                    </li>
-                    <li>
-                        <span className="productDesc"
-                        dangerouslySetInnerHTML={{__html:productDesc}}/>
-                    </li>
-                </ul>
+                
+                    <h1>
+                        {productName}
+                    </h1>
+
+                    <h2>
+                        RM{productPrice}
+                    </h2>
+                
+                <div className="prodDetails">
+                    <p>PRODUCT DETAILS</p>
+                    <span className="productDesc"
+                dangerouslySetInnerHTML={{__html:productDesc}}/>
+                </div>      
+                
+                <div className="addToCart">
+                        <Button className="addCartBtn" {...configAddToCartBtn} onClick={() => handleAddToCart(product)}>
+                            <ShoppingCartOutlined /> &nbsp;&nbsp; Add to Cart
+                        </Button>
+
+                        <Button className="addWishlistBtn">
+                            {/*<HeartOutlined />*/}
+                        </Button>
+                </div>
+                
             </div>
         </div>
     );

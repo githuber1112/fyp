@@ -1,6 +1,7 @@
 import React from 'react';
 import {useDispatch} from 'react-redux';
 import {removeCartItem,addProduct, reduceCartItem} from './../../../redux/Cart/cart.actions';
+import {DeleteOutlined, MinusOutlined, PlusOutlined} from '@ant-design/icons';
 
 const Item = (product) => {
 
@@ -43,23 +44,25 @@ const Item = (product) => {
                     <td>
                         {productName}
                     </td>
-                    <td>
-                        <span className="cartBtn" onClick={()=> handleReduceItem(product)} >
-                            {`<`}
+                    <td align="center">
+                     <div className="qtyBox">
+                        <span className="cartBtn" onClick={()=> handleReduceItem(product)}  >
+                            <MinusOutlined/> 
                         </span>
-                        <span>
-                            {quantity}
+                        <span >
+                        &nbsp;&nbsp; {quantity} &nbsp;&nbsp;
                         </span>
-                        <span className="cartBtn"onClick={()=>handleAddProduct(product)}>
-                            {`>`}
+                        <span className="cartBtn"onClick={()=>handleAddProduct(product)} >
+                            <PlusOutlined/> 
                         </span>
+                        </div>
                     </td>
-                    <td>
+                    <td align="center">
                         RM{productPrice}
                     </td>
                     <td align="center">
                         <span className="cartBtn" onClick={()=>handleRemoveCartItem(documentID)}>
-                            X
+                          <DeleteOutlined />
                         </span>
                     </td>
                 </tr>

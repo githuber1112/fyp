@@ -7,5 +7,69 @@
 
   .group {
     margin: 0 0 20px;
+
+    p{
+      font-size: 16px;
+    }
+  }
+
+  .backBtn{
+    padding: 15px 32px;
+    font-size: smaller;
+    font-weight: bold;
+    width: 490px;
+   background-color: rgb(221, 221, 221);
+   border: 2px rgb(221, 221, 221);
+   cursor: pointer;
+   margin-top:15px;
+  }
+
+  .payBtn{
+    padding: 15px 32px;
+    font-size: smaller;
+    font-weight: bold;
+    color: white;
+    width: 490px;
+    background-color: #242222;
+    border: 2px #242222;
+    cursor: pointer;
+    margin-left: 20px;
+    margin-top:15px;
+  }
+
+  .payBtn:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0);
+  }
+
+  .backBtn:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0);
+    background-color: white;
+    color: black;
+    border: 2px #e7e7e7;
+  }
+
+
+  .icon-container {
+    margin-bottom: 15px;
+    font-size: 24px;
+
+    .visa{
+      color:navy
+    }
+    
+    .amex{
+      margin-left: 3px;
+      color:blue
+    }
+
+    .master{
+      margin-left: 3px;
+      color:red
+    }
+
+    .discover{
+      margin-left: 3px;
+      color:orange
+    }
   }
 }

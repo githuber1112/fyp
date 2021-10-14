@@ -34,21 +34,22 @@ const Checkout = ({}) => {
                          <tbody>
                              <tr>
                                 <th>
-                                    Product
+                                    PRODUCT
                                 </th>
                                 <th>
-                                    Description
+                                    
                                 </th>
-                                <th>
-                                    Quantity
+                                <th align="center">
+                                    QUANTITY
                                 </th>
-                                <th>
-                                    Price
+                                <th align="center">
+                                    PRICE
                                 </th>
-                                <th>
-                                    Remove
+                                <th align="center">
+                                    REMOVE
                                 </th>
                              </tr>
+                            
                           </tbody>
                         </table>
                         </tr>
@@ -79,17 +80,17 @@ const Checkout = ({}) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <table border="0" cellPadding="10" cellSpacing ="0">
+                                    <table border="0" cellPadding="10" cellSpacing ="0" >
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <Button onClick={()=> history.goBack()}>
+                                                    <Button class="btn1" onClick={()=> history.goBack()}>
                                                         Continue Shopping
                                                     </Button>
                                                 </td>
                                                 <td>
-                                                    <Button onClick={() => history.push('/payment')}>
-                                                        Checkout
+                                                    <Button class="btn2" onClick={() => history.push('/payment')}>
+                                                    Checkout
                                                     </Button>
                                                 </td>
                                             </tr>
