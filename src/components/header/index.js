@@ -101,16 +101,21 @@ const Header = (props) => {
           </span>
           <Flicking
             className="flicking"
+            autoResize={true}
+            resizeOnContentsReady={true}
             ref={flicking}
             onMoveEnd={(e) => {
               setSelected(e.item);
+              console.log(e.item);
             }}
             gap={10}
             style={{ height: 400 }}
           >
             {cartItems.map((item, pos) => {
+              console.log(item);
+
               return (
-                <div className="panel">
+                <div className="panel" key={pos}>
                   <Card
                     hoverable
                     actions={[

@@ -11,17 +11,29 @@ const INITIAL_STATE = {
 
 const productsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case productsTypes.DONE_DELETE:
+      return {
+        ...state,
+        loading: false,
+        status: "deleted",
+      };
+    case productsTypes.DONE_ACTION:
+      return {
+        ...state,
+        loading: false,
+        status: "complete",
+      };
+    case productsTypes.UPDATE_PRODUCT_START:
+      return {
+        ...state,
+        loading: true,
+        status: "incomplete",
+      };
     case productsTypes.RESET_LOADING:
       return {
         ...state,
         loading: false,
         status: "incomplete",
-      };
-    case productsTypes.ADD_NEW_PRODUCT_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        status: "complete",
       };
     case productsTypes.ADD_NEW_PRODUCT_START:
       return {

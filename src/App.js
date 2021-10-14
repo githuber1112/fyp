@@ -39,7 +39,6 @@ import ChatBot from "./components/Chatbot";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminAddProduct from "./pages/AdminAddProduct";
 import ProfileDetails from "./pages/ProfileDetails";
-import ChatBot from "./components/Chatbot";
 const App = (props) => {
   const dispatch = useDispatch();
 

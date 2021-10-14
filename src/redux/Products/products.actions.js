@@ -6,10 +6,6 @@ export const addProductStart = (productData) => ({
   payload: productData,
 });
 
-export const addProductSuccess = () => ({
-  type: productTypes.ADD_NEW_PRODUCT_SUCCESS,
-});
-
 export const fetchProductsStart = (filters = {}) => ({
   type: productsTypes.FETCH_PRODUCTS_START,
   payload: filters,
@@ -51,4 +47,12 @@ export const setAllProducts = (allProducts) => ({
 
 export const resetLoading = () => ({
   type: productTypes.RESET_LOADING,
+});
+
+export const doneAction = () => ({
+  type: productTypes.DONE_ACTION,
+});
+
+export const doneDelete = () => ({
+  type: productTypes.DONE_DELETE,
 });
