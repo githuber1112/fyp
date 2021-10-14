@@ -1,91 +1,88 @@
-import React, {useEffect} from 'react';
-import {useParams,useHistory} from 'react-router-dom';
-import {useDispatch,useSelector} from 'react-redux';
-import { fetchProductStart, setProduct } from '../../redux/Products/products.actions';
-import { addProduct } from '../../redux/Cart/cart.actions';
-import Button from '../forms/Button';
-import './styles.scss'
-import productsTypes from '../../redux/Products/products.types';
-import {ShoppingCartOutlined, HeartOutlined} from '@ant-design/icons';
+import React, { useEffect, useState } from "react";
+import { useParams, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchProductStart,
+  setProduct,
+} from "../../redux/Products/products.actions";
+import { addProduct } from "../../redux/Cart/cart.actions";
+import Button from "../forms/Button";
+import "./styles.scss";
+import productsTypes from "../../redux/Products/products.types";
+import { ShoppingCartOutlined, HeartOutlined } from "@ant-design/icons";
+import { Image } from "antd";
+import BounceLoader from "react-spinners/BounceLoader";
 
-const mapState = state => ({
-    product: state.productsData.product
+const mapState = ({ productsData }) => ({
+  product: productsData.product,
+  loading: productsData.loading,
 });
 
+const ProductCard = ({}) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { productID } = useParams();
+  const [loading, setLoading] = useState(true);
+  const { product, loading: loading1 } = useSelector(mapState);
 
-const ProductCard = ({ }) => {
-    const history = useHistory();
-    const dispatch = useDispatch();
-    const {productID} = useParams();
-    const {product} = useSelector(mapState);
+  const { allImageURL, productName, productPrice, productDesc, documentID } =
+    product;
 
-    const {
-        productThumbnail,
-        productName,
-        productPrice,
-        productDesc,
-        documentID
-    } = product;
+  useEffect(() => {
+    dispatch(fetchProductStart(productID));
 
-    useEffect (() => {
-        dispatch(
-            fetchProductStart(productID)
-        )
+    console.log(allImageURL);
+  }, []);
 
-        return() => {
-            dispatch(
-                setProduct({})
-            )
-        }
+  useEffect(() => {
+    setLoading(loading1);
+  }, [loading1]);
+  const handleAddToCart = (product) => {
+    if (!product) return;
+    dispatch(addProduct(product));
+    history.push("/cart");
+  };
 
-    },[]);
+  const configAddToCartBtn = {
+    type: "button",
+  };
 
-    const handleAddToCart= (product) =>{
-        if (!product) return;
-        dispatch(
-            addProduct(product)
-        );
-        history.push('/cart');
-    }
+  return loading ? (
+    <div className="loadingDiv">
+      <BounceLoader color={"black"} loading={loading} size={100} />
+    </div>
+  ) : (
+    <div className="productCard">
+      <div className="hero">
+        <Image src={allImageURL} />
+      </div>
+      <div className="productDetails">
+        <h1>{productName}</h1>
 
-    const configAddToCartBtn = {
-        type: 'button'
-    }
+        <h2>RM{productPrice}</h2>
 
-    return (
-        <div className="productCard">
-            <div className="hero">
-                <img src={productThumbnail}/>
-            </div>
-            <div className="productDetails">
-                
-                    <h1>
-                        {productName}
-                    </h1>
-
-                    <h2>
-                        RM{productPrice}
-                    </h2>
-                
-                <div className="prodDetails">
-                    <p>PRODUCT DETAILS</p>
-                    <span className="productDesc"
-                dangerouslySetInnerHTML={{__html:productDesc}}/>
-                </div>      
-                
-                <div className="addToCart">
-                        <Button className="addCartBtn" {...configAddToCartBtn} onClick={() => handleAddToCart(product)}>
-                            <ShoppingCartOutlined /> &nbsp;&nbsp; Add to Cart
-                        </Button>
-
-                        <Button className="addWishlistBtn">
-                            {/*<HeartOutlined />*/}
-                        </Button>
-                </div>
-                
-            </div>
+        <div className="prodDetails">
+          <p>PRODUCT DETAILS</p>
+          <span
+            className="productDesc"
+            dangerouslySetInnerHTML={{ __html: productDesc }}
+          />
         </div>
-    );
+
+        <div className="addToCart">
+          <Button
+            className="addCartBtn"
+            {...configAddToCartBtn}
+            onClick={() => handleAddToCart(product)}
+          >
+            <ShoppingCartOutlined /> &nbsp;&nbsp; Add to Cart
+          </Button>
+
+          <Button className="addWishlistBtn">{/*<HeartOutlined />*/}</Button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default ProductCard;
