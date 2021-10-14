@@ -111,7 +111,20 @@ export const handleFetchProducts = ({
         const data = [
           ...persistProducts,
           ...snapshot.docs.map((doc) => {
+            const allImageURL = [];
+            for (let i = 0; i < 5; i++) {
+              let imageURL = `imageURL${i}`;
+              console.log(doc.get(imageURL))
+
+              let image = doc.get(imageURL);
+              if (doc.get(imageURL) == null) {
+                break;
+              }
+              allImageURL.push(image.url);
+            }
+  
             return {
+              allImageURL,
               ...doc.data(),
               documentID: doc.id,
             };
@@ -262,6 +275,17 @@ export const handleFetchProduct = (productID) => {
       .get()
       .then((snapshot) => {
         if (snapshot.exists) {
+          const allImageURL = [];
+
+          for (let i = 0; i < 5; i++) {
+            let imageURL = `imageURL${i}`;
+            let image = snapshot.get(imageURL);
+            if (snapshot.get(imageURL) == null) {
+              break;
+            }
+            allImageURL.push(image.url);
+          }
+          
           resolve(snapshot.data());
         }
       })

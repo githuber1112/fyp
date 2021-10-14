@@ -13,7 +13,7 @@ const Product = (product) => {
     const dispatch = useDispatch();
     const{
             documentID,
-            productThumbnail,
+            allImageURL,
             productName,
             productPrice,
             productDesc
@@ -24,7 +24,7 @@ const Product = (product) => {
        return   <span dangerouslySetInnerHTML={{__html:productDesc}}/>
    };
 
-    if(!documentID || !productThumbnail || !productName || typeof productPrice === 'undefined') return null;
+    if(!documentID || !productName || typeof productPrice === 'undefined') return null;
 
     const configAddToCartBtn ={
         type:'button'
@@ -43,7 +43,7 @@ const Product = (product) => {
   
         <div className="product">
             <Popover content={productDesc1} title={productName}>
-            <Card hoverable={true} cover={<img src={productThumbnail} />} style={{width:300}} actions={[<ShoppingCartOutlined onClick={()=> handleAddToCart(product)}/>]}>
+            <Card hoverable={true} cover={<img src={allImageURL[0]} />} style={{width:300}} actions={[<ShoppingCartOutlined onClick={()=> handleAddToCart(product)}/>]}>
             <Link to={`/product/${documentID}`} >
               <Meta title={productName} description={productPrice}/>
             </Link>

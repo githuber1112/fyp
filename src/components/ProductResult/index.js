@@ -107,20 +107,19 @@ const ProductResult = ({}) => {
 
       <div className="productResults">
         {data.map((product, pos) => {
-          const { productThumbnail, productName, productPrice, productDesc } =
+          const {  productName, productPrice, productDesc, allImageURL } =
             product;
           if (
-            !productThumbnail ||
             !productName ||
             typeof productPrice === "undefined" ||
-            !productDesc
+            !productDesc || !allImageURL
           )
             return null;
 
           const configProduct = {
             ...product,
           };
-
+          console.log(allImageURL)
           return <Product {...configProduct} />;
         })}
       </div>
