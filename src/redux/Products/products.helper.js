@@ -10,26 +10,21 @@ export const handleAddProduct = (product) => {
   return new Promise((resolve, reject) => {
     const { fileList: fileList, ...productData } = product;
     const uploadFirestore = firestore.collection("products").doc();
-  
+
     const addProductImage = (i) => {
-
-
-
       return new Promise((resolve) => {
         try {
-
-
           new Compressor(fileList[i].originFileObj, {
-            quality: 0.8, 
+            quality: 0.8,
             success: (compressedResult) => {
-              console.log("Check upload")
-    
+              console.log("Check upload");
+
               const storageRef = storage
                 .ref(
                   `${productData.productCategory}/${uploadFirestore.id}/${fileList[i].name}`
                 )
                 .put(compressedResult);
-    
+
               storageRef.on(
                 "state_changed",
                 (error) => {},
@@ -47,7 +42,7 @@ export const handleAddProduct = (product) => {
                         url: url,
                         uploadedAt: firebase.firestore.Timestamp.now(),
                       };
-    
+
                       uploadFirestore
                         .set({ [imageURL]: item[i] }, { merge: true })
                         .then(() => resolve());
@@ -56,8 +51,6 @@ export const handleAddProduct = (product) => {
               );
             },
           });
-          
-        
         } catch (e) {
           console.log(e);
         }
@@ -72,17 +65,16 @@ export const handleAddProduct = (product) => {
       console.log(e);
     }
 
-    uploadFirestore
-    .set(productData, { merge: true })
+    uploadFirestore.set(productData, { merge: true });
 
-    Promise.all(promises).then(() => {
-      console.log("checking");
-          resolve();
-        })
-        .catch((err) => {
-          reject(err);
-        });
-
+    Promise.all(promises)
+      .then(() => {
+        console.log("checking");
+        resolve();
+      })
+      .catch((err) => {
+        reject(err);
+      });
   });
 };
 
@@ -114,7 +106,7 @@ export const handleFetchProducts = ({
             const allImageURL = [];
             for (let i = 0; i < 5; i++) {
               let imageURL = `imageURL${i}`;
-              console.log(doc.get(imageURL))
+              console.log(doc.get(imageURL));
 
               let image = doc.get(imageURL);
               if (doc.get(imageURL) == null) {
@@ -122,7 +114,7 @@ export const handleFetchProducts = ({
               }
               allImageURL.push(image.url);
             }
-  
+
             return {
               allImageURL,
               ...doc.data(),
@@ -164,51 +156,54 @@ export const handleUpdateProducts = (product) => {
   const uploadFirestoreId = product.documentID;
 
   return new Promise((resolve, reject) => {
-    const { updateFileList: updateFileList, documentID, ...productData } = product;
+    const {
+      updateFileList: updateFileList,
+      documentID,
+      ...productData
+    } = product;
     let count = 0;
     const promises = [];
 
     const uploadImage = (i) => {
       return new Promise((resolve) => {
         if (updateFileList[i].originFileObj !== undefined) {
-          new Compressor(updateFileList[i].originFileObj, {      
+          new Compressor(updateFileList[i].originFileObj, {
             quality: 0.8,
             success: (compressedResult) => {
               const storageRef = storage
-              .ref(
-                `${productData.productCategory}/${uploadFirestoreId}/${updateFileList[i].name}`
-              )
-              .put(compressedResult);
-  
-            storageRef.on(
-              "state_changed",
-              (error) => {},
-              (snapshot) => {},
-              async () => {
-                await storage
-                  .ref(
-                    `${productData.productCategory}/${uploadFirestoreId}/${updateFileList[i].name}`
-                  )
-                  .getDownloadURL()
-                  .then((url) => {
-                    const imageURL = `imageURL${i}`;
-                    const item = [];
-                    item[i] = {
-                      url: url,
-                      uploadedAt: firebase.firestore.Timestamp.now(),
-                    };
-  
-                    uploadFirestore
-                      .set({ [imageURL]: item[i] }, { merge: true })
-                      .then(() => {
-                        resolve();
-                      });
-                  });
-              }
-            );
+                .ref(
+                  `${productData.productCategory}/${uploadFirestoreId}/${updateFileList[i].name}`
+                )
+                .put(compressedResult);
+
+              storageRef.on(
+                "state_changed",
+                (error) => {},
+                (snapshot) => {},
+                async () => {
+                  await storage
+                    .ref(
+                      `${productData.productCategory}/${uploadFirestoreId}/${updateFileList[i].name}`
+                    )
+                    .getDownloadURL()
+                    .then((url) => {
+                      const imageURL = `imageURL${i}`;
+                      const item = [];
+                      item[i] = {
+                        url: url,
+                        uploadedAt: firebase.firestore.Timestamp.now(),
+                      };
+
+                      uploadFirestore
+                        .set({ [imageURL]: item[i] }, { merge: true })
+                        .then(() => {
+                          resolve();
+                        });
+                    });
+                }
+              );
             },
           });
-      
         } else {
           const imageURL = `imageURL${i}`;
           const item = [];
@@ -285,8 +280,10 @@ export const handleFetchProduct = (productID) => {
             }
             allImageURL.push(image.url);
           }
-          
-          resolve(snapshot.data());
+
+          const productArray = { allImageURL, ...snapshot.data() };
+
+          resolve(productArray);
         }
       })
       .catch((err) => {

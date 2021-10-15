@@ -11,6 +11,11 @@ const INITIAL_STATE = {
 
 const productsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case productsTypes.FETCH_PRODUCT_START:
+      return {
+        ...state,
+        loading: true,
+      };
     case productsTypes.DONE_DELETE:
       return {
         ...state,
@@ -49,6 +54,7 @@ const productsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         product: action.payload,
+        loading: false,
       };
     case productsTypes.SET_ALL_PRODUCTS:
       return {
