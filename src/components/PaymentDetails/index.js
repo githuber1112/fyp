@@ -27,8 +27,12 @@ import {
   faCcMastercard,
   faCcVisa,
 } from "@fortawesome/free-brands-svg-icons";
+<<<<<<< HEAD
 import emailjs from "emailjs-com";
 import { message } from "antd";
+=======
+import { ConsoleSqlOutlined } from "@ant-design/icons";
+>>>>>>> 1e7f1d6aba6367937f9a9b06a3311ae0e8927fc0
 
 const initialAddressState = {
   line1: "",
@@ -166,7 +170,7 @@ const PaymentDetails = () => {
                   orderItems: cartItems.map((item) => {
                     const {
                       documentID,
-                      productThumbnail,
+                      allImageURL,
                       productName,
                       productPrice,
                       quantity,
@@ -174,15 +178,19 @@ const PaymentDetails = () => {
 
                     return {
                       documentID,
-                      productThumbnail,
+                      allImageURL,
                       productName,
                       productPrice,
                       quantity,
                     };
                   }),
                 };
+<<<<<<< HEAD
 
                 sendEmail();
+=======
+                console.log(configOrder);
+>>>>>>> 1e7f1d6aba6367937f9a9b06a3311ae0e8927fc0
                 dispatch(saveOrderHistory(configOrder));
               });
           });

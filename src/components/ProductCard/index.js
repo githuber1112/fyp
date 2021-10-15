@@ -16,18 +16,21 @@ import { Row, Col } from "antd";
 
 const mapState = ({ productsData }) => ({
   product: productsData.product,
-  loading: productsData.loading,
 });
 
 const ProductCard = ({}) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { productID } = useParams();
-  const [loading, setLoading] = useState(true);
-  const { product, loading: loading1 } = useSelector(mapState);
+  const { product } = useSelector(mapState);
 
-  const { allImageURL, productName, productPrice, productDesc, documentID } =
-    product;
+  const {
+    productName,
+    productPrice,
+    productDesc,
+    documentID,
+    allImageURL = [],
+  } = product;
 
   useEffect(() => {
     dispatch(fetchProductStart(productID));
@@ -35,9 +38,6 @@ const ProductCard = ({}) => {
     console.log(allImageURL);
   }, []);
 
-  useEffect(() => {
-    setLoading(loading1);
-  }, [loading1]);
   const handleAddToCart = (product) => {
     if (!product) return;
     dispatch(addProduct(product));
@@ -48,29 +48,25 @@ const ProductCard = ({}) => {
     type: "button",
   };
 
-  return loading ? (
-    <div className="loadingDiv">
-      <BounceLoader color={"black"} loading={loading} size={100} />
-    </div>
-  ) : (
+  return (
     <div className="productCard">
       <div className="imgThumb">
         <div className="hero">
-          <Image src={allImageURL} />
+          <Image src={allImageURL[0]} />
         </div>
         <div className="thumb">
           <Row>
             <Col span={6}>
-              <Image src={allImageURL} />
+              <Image src={allImageURL[1]} />
             </Col>
             <Col span={6}>
-              <Image src={allImageURL} />
+              <Image src={allImageURL[2]} />
             </Col>
             <Col span={6}>
-              <Image src={allImageURL} />
+              <Image src={allImageURL[3]} />
             </Col>
             <Col span={6}>
-              <Image src={allImageURL} />
+              <Image src={allImageURL[4]} />
             </Col>
           </Row>
         </div>
