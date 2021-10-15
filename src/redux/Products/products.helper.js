@@ -106,7 +106,6 @@ export const handleFetchProducts = ({
             const allImageURL = [];
             for (let i = 0; i < 5; i++) {
               let imageURL = `imageURL${i}`;
-              console.log(doc.get(imageURL));
 
               let image = doc.get(imageURL);
               if (doc.get(imageURL) == null) {

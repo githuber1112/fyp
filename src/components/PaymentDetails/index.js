@@ -22,6 +22,7 @@ import {
   faCcMastercard,
   faCcVisa,
 } from "@fortawesome/free-brands-svg-icons";
+import { ConsoleSqlOutlined } from "@ant-design/icons";
 
 const initialAddressState = {
   line1: "",
@@ -141,7 +142,7 @@ const PaymentDetails = () => {
                   orderItems: cartItems.map((item) => {
                     const {
                       documentID,
-                      productThumbnail,
+                      allImageURL,
                       productName,
                       productPrice,
                       quantity,
@@ -149,14 +150,14 @@ const PaymentDetails = () => {
 
                     return {
                       documentID,
-                      productThumbnail,
+                      allImageURL,
                       productName,
                       productPrice,
                       quantity,
                     };
                   }),
                 };
-
+                console.log(configOrder);
                 dispatch(saveOrderHistory(configOrder));
               });
           });

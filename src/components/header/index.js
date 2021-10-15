@@ -112,8 +112,6 @@ const Header = (props) => {
             style={{ height: 400 }}
           >
             {cartItems.map((item, pos) => {
-              console.log(item);
-
               return (
                 <div className="panel" key={pos}>
                   <Card
@@ -143,7 +141,7 @@ const Header = (props) => {
                     style={{ width: 300, height: 300 }}
                     cover={
                       <img
-                        src={item.productThumbnail}
+                        src={item.allImageURL[0]}
                         style={{ width: 300, height: 300 }}
                       />
                     }

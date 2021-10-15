@@ -15,18 +15,21 @@ import BounceLoader from "react-spinners/BounceLoader";
 
 const mapState = ({ productsData }) => ({
   product: productsData.product,
-  loading: productsData.loading,
 });
 
 const ProductCard = ({}) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { productID } = useParams();
-  const [loading, setLoading] = useState(true);
-  const { product, loading: loading1 } = useSelector(mapState);
+  const { product } = useSelector(mapState);
 
-  const { allImageURL, productName, productPrice, productDesc, documentID } =
-    product;
+  const {
+    productName,
+    productPrice,
+    productDesc,
+    documentID,
+    allImageURL = [],
+  } = product;
 
   useEffect(() => {
     dispatch(fetchProductStart(productID));
@@ -34,9 +37,6 @@ const ProductCard = ({}) => {
     console.log(allImageURL);
   }, []);
 
-  useEffect(() => {
-    setLoading(loading1);
-  }, [loading1]);
   const handleAddToCart = (product) => {
     if (!product) return;
     dispatch(addProduct(product));
@@ -47,14 +47,10 @@ const ProductCard = ({}) => {
     type: "button",
   };
 
-  return loading ? (
-    <div className="loadingDiv">
-      <BounceLoader color={"black"} loading={loading} size={100} />
-    </div>
-  ) : (
+  return (
     <div className="productCard">
       <div className="hero">
-        <Image src={allImageURL} />
+        <Image src={allImageURL[0]} />
       </div>
       <div className="productDetails">
         <h1>{productName}</h1>

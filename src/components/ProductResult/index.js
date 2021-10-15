@@ -46,7 +46,7 @@ const ProductResult = ({}) => {
   if (!Array.isArray(data)) return null;
 
   const configFilters = {
-    defaultValue: filterType,
+    defaultValue: "Show all",
     options: [
       {
         name: "Show all",
@@ -81,6 +81,7 @@ const ProductResult = ({}) => {
         persistProducts: data,
       })
     );
+    console.log(filterType);
   };
 
   const configLoadMore = {
@@ -90,7 +91,7 @@ const ProductResult = ({}) => {
   return (
     <div className="products">
       <h1>Product page</h1>
-      <FormSelect {...configFilters} />
+      <FormSelect {...configFilters} style={{ width: 150 }} />
 
       {/* <form onSubmit={handleSearch}>
             <FormInput
@@ -107,19 +108,20 @@ const ProductResult = ({}) => {
 
       <div className="productResults">
         {data.map((product, pos) => {
-          const {  productName, productPrice, productDesc, allImageURL } =
+          const { productName, productPrice, productDesc, allImageURL } =
             product;
           if (
             !productName ||
             typeof productPrice === "undefined" ||
-            !productDesc || !allImageURL
+            !productDesc ||
+            !allImageURL
           )
             return null;
 
           const configProduct = {
             ...product,
           };
-          console.log(allImageURL)
+          console.log(allImageURL);
           return <Product {...configProduct} />;
         })}
       </div>
