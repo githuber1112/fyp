@@ -27,12 +27,9 @@ import {
   faCcMastercard,
   faCcVisa,
 } from "@fortawesome/free-brands-svg-icons";
-<<<<<<< HEAD
 import emailjs from "emailjs-com";
 import { message } from "antd";
-=======
-import { ConsoleSqlOutlined } from "@ant-design/icons";
->>>>>>> 1e7f1d6aba6367937f9a9b06a3311ae0e8927fc0
+import ordersTypes from "../../redux/Orders/orders.types";
 
 const initialAddressState = {
   line1: "",
@@ -61,6 +58,11 @@ const userMapState = ({ user }) => ({
   currentUser: user.currentUser,
 });
 
+const orderMapState = ({ ordersData }) => ({
+  loading: ordersData.loading,
+  status: ordersData.status,
+});
+
 const mapState = createStructuredSelector({
   total: selectCartTotal,
   itemCount: selectCartItemsCount,
@@ -72,6 +74,8 @@ const PaymentDetails = () => {
   const elements = useElements();
   const history = useHistory();
   const { total, itemCount, cartItems } = useSelector(mapState);
+  const { currentUser } = useSelector(userMapState);
+  const { loading, status } = useSelector(orderMapState);
   const dispatch = useDispatch();
   const [billingAddress, setBillingAddress] = useState({
     ...initialAddressState,
@@ -81,12 +85,23 @@ const PaymentDetails = () => {
   });
   const [recipientName, setRecipientName] = useState("");
   const [nameOnCard, setNameOnCard] = useState("");
-  const { currentUser } = useSelector(userMapState);
-  const { email } = currentUser;
+  const { email, displayName } = currentUser;
+  const [currentLoading, setCurrentLoading] = useState(false);
 
   var templateParams = {
     to: email,
+    name: displayName,
   };
+
+  useEffect(() => {
+    setCurrentLoading(loading);
+  }, [loading]);
+
+  useEffect(() => {
+    if (status == "complete") {
+      message.success("Payment successfull, please check your email!");
+    }
+  }, [status]);
 
   useEffect(() => {
     if (itemCount < 1) {
@@ -118,6 +133,7 @@ const PaymentDetails = () => {
 
   const handleFormSubmit = async (evt) => {
     evt.preventDefault();
+    setCurrentLoading(true);
     const cardElement = elements.getElement("card");
 
     if (
@@ -185,12 +201,8 @@ const PaymentDetails = () => {
                     };
                   }),
                 };
-<<<<<<< HEAD
-
-                sendEmail();
-=======
                 console.log(configOrder);
->>>>>>> 1e7f1d6aba6367937f9a9b06a3311ae0e8927fc0
+                sendEmail();
                 dispatch(saveOrderHistory(configOrder));
               });
           });
@@ -403,13 +415,7 @@ const PaymentDetails = () => {
             Back to Cart
           </Button>
 
-          <Button
-            className="payBtn"
-            htmlType="submit"
-            onClick={() =>
-              message.success("Payment Successfull, please check your email!")
-            }
-          >
+          <Button className="payBtn" htmlType="submit" loading={currentLoading}>
             Pay Now
             {/* {loading && (
             <i

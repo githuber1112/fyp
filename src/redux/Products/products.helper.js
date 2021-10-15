@@ -269,6 +269,7 @@ export const handleFetchProduct = (productID) => {
       .get()
       .then((snapshot) => {
         if (snapshot.exists) {
+          const documentID = productID;
           const allImageURL = [];
 
           for (let i = 0; i < 5; i++) {
@@ -279,8 +280,12 @@ export const handleFetchProduct = (productID) => {
             }
             allImageURL.push(image.url);
           }
-
-          const productArray = { allImageURL, ...snapshot.data() };
+          console.log(snapshot.data());
+          const productArray = {
+            allImageURL,
+            documentID,
+            ...snapshot.data(),
+          };
 
           resolve(productArray);
         }

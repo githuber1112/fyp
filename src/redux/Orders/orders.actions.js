@@ -1,26 +1,34 @@
-import ordersTypes from './orders.types';
+import ordersTypes from "./orders.types";
 
-export const saveOrderHistory = order => ({
+export const saveOrderHistory = (order) => ({
   type: ordersTypes.SAVE_ORDER_HISTORY_START,
-  payload: order
+  payload: order,
 });
 
-export const getUserOrderHistory = uid => ({
+export const saveOrderHistorySuccess = () => ({
+  type: ordersTypes.SAVE_ORDER_HISTORY_SUCCESS,
+});
+
+export const getUserOrderHistory = (uid) => ({
   type: ordersTypes.GET_USER_ORDER_HISTORY_START,
-  payload: uid
+  payload: uid,
 });
 
-export const setUserOrderHistory = history => ({
+export const setUserOrderHistory = (history) => ({
   type: ordersTypes.SET_USER_ORDER_HISOTRY,
-  payload: history
+  payload: history,
 });
 
-export const getOrderDetailsStart = orderID => ({
+export const getOrderDetailsStart = (orderID) => ({
   type: ordersTypes.GET_ORDER_DETAILS_START,
-  payload: orderID
+  payload: orderID,
 });
 
-export const setOrderDetails = order => ({
+export const setOrderDetails = (order) => ({
   type: ordersTypes.SET_ORDER_DETAILS,
-  payload: order
+  payload: order,
+});
+
+export const resetAction = () => ({
+  type: ordersTypes.RESET_ACTION,
 });
