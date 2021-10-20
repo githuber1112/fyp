@@ -29,6 +29,7 @@
       display: block;
       width: 100%;
       margin: 0;
+      border-radius: 10px;
     }
   }
 
@@ -95,13 +96,16 @@ button.btnATC {
 
 .ant-card-bordered {
   border: 1px solid #0808082e;
+  border-radius: 10px;
 }
 
 .ant-card-actions {
   border-top: 1px solid #0808082e;
+  border-radius: 10px;
 }
 
 .ant-card-bordered .ant-card-cover {
-  margin:0 auto;
+  margin: 0 auto;
   border-bottom: 1px solid #0808082e;
+  border-radius: 10px;
 }

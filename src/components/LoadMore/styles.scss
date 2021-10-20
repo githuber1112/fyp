@@ -1,0 +1,19 @@
+.loadBtn {
+  font-size: x-smaller;
+  font-weight: bold;
+  color: white;
+  width: 200px;
+  background-color: #313131;
+  border: 2px #313131;
+  cursor: pointer;
+  height: 45px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  margin: 0 auto;
+  display: block;
+}
+
+.loadBtn:hover {
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0);
+}

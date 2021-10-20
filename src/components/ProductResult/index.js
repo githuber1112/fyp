@@ -91,7 +91,7 @@ const ProductResult = ({}) => {
   return (
     <div className="products">
       <h1>Product page</h1>
-      <FormSelect {...configFilters} style={{ width: 150 }} />
+      <FormSelect {...configFilters} style={{ width: 200 }} />
 
       {/* <form onSubmit={handleSearch}>
             <FormInput
