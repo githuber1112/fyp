@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { signOutUserStart } from "./../../redux/User/user.actions";
 import { selectCartItemsCount } from "../../redux/Cart/cart.selectors";
 import "./styles.scss";
+import { useHistory } from "react-router-dom";
 import Logo from "./../../assets/logo.png";
 import {
   ShoppingCartOutlined,
@@ -26,7 +27,8 @@ import {
   reduceCartItem,
 } from "./../../redux/Cart/cart.actions";
 import { createStructuredSelector } from "reselect";
-import Flicking from "@egjs/react-flicking";
+import { ScrollMenu } from "react-horizontal-scrolling-menu";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 const { Meta } = Card;
 
@@ -42,6 +44,7 @@ const mapState1 = createStructuredSelector({
 
 const Header = (props) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { currentUser, totalNumCartItems } = useSelector(mapState);
   const { cartItems, total } = useSelector(mapState1);
   const [isOpened, setIsOpened] = useState(false);
@@ -49,7 +52,6 @@ const Header = (props) => {
   const [button, setButton] = useState(true);
   const [showUl, setShowUl] = useState(true);
   const [selected, setSelected] = useState(0);
-  const flicking = useRef(null);
 
   const toggleSearch = () => {
     setIsOpened((wasOpened) => !wasOpened);
@@ -95,25 +97,12 @@ const Header = (props) => {
       </div>
     ) : (
       <div className="popoverContainer">
-        <div className="flickingWrapper">
-          <span onClick={() => flicking.current.prev()}>
-            <LeftOutlined style={{ fontSize: "300%" }} />
-          </span>
-          <Flicking
-            className="flicking"
-            autoResize={true}
-            resizeOnContentsReady={true}
-            ref={flicking}
-            onMoveEnd={(e) => {
-              setSelected(e.item);
-              console.log(e.item);
-            }}
-            gap={10}
-            style={{ height: 400 }}
-          >
+        <div className="scrollWrapper">
+          <ScrollMenu>
             {cartItems.map((item, pos) => {
+              console.log(pos);
               return (
-                <div className="panel" key={pos}>
+                <div className="item">
                   <Card
                     hoverable
                     actions={[
@@ -151,19 +140,27 @@ const Header = (props) => {
                 </div>
               );
             })}
-          </Flicking>
-          <span onClick={() => flicking.current.next()}>
-            <RightOutlined style={{ fontSize: "300%" }} />
-          </span>
+          </ScrollMenu>
         </div>
 
         <Divider />
         <div className="actionContainer">
-          <h2>Total:RM{total}</h2>
-          <a className="cartTag" href="/cart">
+          <a
+            className="cartTag"
+            onClick={() => {
+              history.push("/cart");
+            }}
+          >
             Your Cart
           </a>
-          <a href="/payment">Checkout</a>
+
+          <a
+            onClick={() => {
+              history.push("/payment");
+            }}
+          >
+            Checkout
+          </a>
         </div>
       </div>
     );

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Modal from "./../components/Modal/index";
 import FormInput from "./../components/forms/FormInput";
@@ -13,104 +13,14 @@ import {
   SettingOutlined,
   PlusCircleOutlined,
   CloseCircleOutlined,
+  PercentageOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
 const { Header, Content, Footer, Sider } = Layout;
 
 const AdminLayout = (props) => {
-  const dispatch = useDispatch();
   const [collapsed, setCollapsed] = useState(false);
-  const [hideModal, setHideModal] = useState(true);
-  const [productCategory, setProductCategory] = useState("facemask");
-  const [productName, setProductName] = useState("");
-  const [productPrice, setProductPrice] = useState(0);
-  const [productDesc, setProductDesc] = useState("");
   const [breadcrumbName, setBreadCrumbName] = useState("Dashboard");
-  const toggleModal = () => setHideModal(!hideModal);
-  const [previewVisible, setPreviewVisible] = useState(false);
-  const [previewImage, setPreviewImage] = useState(false);
-  const [previewTitle, setPreviewTitle] = useState(false);
-  const [fileList, setFileList] = useState([]);
-
-  
-  useEffect(()=>{
-    if(hideModal){
-        setFileList([])
-        resetForm()
-    }
-},[hideModal])
-
-  const getBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
-  };
-
-  const beforeUpload = (file) => {
-    if (!["image/jpeg", "image/png"].includes(file.type)) {
-      console.log(`${file.name} is not a valid image type`, 2);
-      return null;
-    }
-    return false;
-  };
-
-  const handleCancel = () => {
-    setPreviewVisible(false);
-  };
-
-  const handlePreview = async (file) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
-    }
-
-    console.log(fileList);
-    setPreviewImage(file.url || file.preview);
-    setPreviewVisible(true);
-    setPreviewTitle(
-      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
-    );
-  };
-
-  const handleImageChangeAnt = ({ fileList }) =>
-    setFileList(fileList.filter((file) => file.status !== "error"));
-
-  const configModal = {
-    hideModal,
-    toggleModal,
-  };
-
-  const resetForm = () => {
-    setHideModal(true);
-    setProductCategory("facemask");
-    setProductName("");
-    setProductPrice(0);
-    setProductDesc("");
-  };
-
-  const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </div>
-  );
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    dispatch(
-      addProductStart({
-        productCategory,
-        productName,
-        productPrice,
-        productDesc,
-        fileList,
-      })
-    );
-    resetForm();
-  };
 
   const handleOnCollapse = (collapsed) => {
     console.log(collapsed);
@@ -131,7 +41,7 @@ const AdminLayout = (props) => {
             icon={<DashboardOutlined />}
             onClick={() => setBreadCrumbName("Dashboard")}
           >
-            <Link to ="/admindashboard">Dashboard</Link>
+            <Link to="/admindashboard">Dashboard</Link>
           </Menu.Item>
           <Menu.Item
             key="2"
@@ -147,7 +57,14 @@ const AdminLayout = (props) => {
           >
             <Link to="/addproduct">Add new product</Link>
           </Menu.Item>
-          <Menu.Item key="4" icon={<CloseCircleOutlined />}>
+          <Menu.Item
+            key="4"
+            icon={<PercentageOutlined />}
+            onClick={() => setBreadCrumbName("Promotion Code")}
+          >
+            <Link to="/promocode">Promotion code</Link>
+          </Menu.Item>
+          <Menu.Item key="5" icon={<CloseCircleOutlined />}>
             <Link to="/">Back to homepage</Link>
           </Menu.Item>
         </Menu>
@@ -167,67 +84,6 @@ const AdminLayout = (props) => {
         </Content>
         <Footer style={{ textAlign: "center" }}>elonMask</Footer>
       </Layout>
-      <Modal {...configModal}>
-        <div className="addNewProductForm">
-          <form onSubmit={handleSubmit}>
-            <h2>Add new product</h2>
-            <h3>Product Thumbnail</h3>
-            <Upload
-              name="ProductThumbnail"
-              listType="picture-card"
-              fileList={fileList}
-              beforeUpload={beforeUpload}
-              onPreview={handlePreview}
-              onChange={handleImageChangeAnt}
-            >
-              {fileList.length >= 8 ? null : uploadButton}
-            </Upload>
-            <Modal1
-              visible={previewVisible}
-              title={previewTitle}
-              footer={null}
-              onCancel={handleCancel}
-            >
-              <img alt="example" style={{ width: "100%" }} src={previewImage} />
-            </Modal1>
-
-            <FormSelect
-              label="Category"
-              options={[
-                {
-                  value: "facemask",
-                  name: "Face Mask",
-                },
-                {
-                  value: "sanitizer",
-                  name: "Sanitizer",
-                },
-              ]}
-              handleChange={(e) => setProductCategory(e.target.value)}
-            />
-            <FormInput
-              label="Name"
-              type="text"
-              value={productName}
-              handleChange={(e) => setProductName(e.target.value)}
-            />
-            <FormInput
-              label="Price"
-              type="number"
-              min="0.00"
-              max="10000.00"
-              step="0.01"
-              value={productPrice}
-              handleChange={(e) => setProductPrice(e.target.value)}
-            />
-            <CKEditor
-              onChange={(evt) => setProductDesc(evt.editor.getData())}
-            />
-            <br />
-            <Button type="submit">Add Product</Button>
-          </form>
-        </div>
-      </Modal>
     </Layout>
   );
 };

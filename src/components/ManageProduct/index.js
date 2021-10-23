@@ -237,7 +237,7 @@ const ManageProduct = () => {
                 onPreview={handlePreview}
                 onChange={handleImageChangeAnt}
               >
-                {updateFileList.length >= 8 ? null : uploadButton}
+                {updateFileList.length >= 5 ? null : uploadButton}
               </Upload>
               <Modal1
                 visible={previewVisible}
@@ -252,6 +252,7 @@ const ManageProduct = () => {
                 />
               </Modal1>
               <FormSelect
+                style={{ marginTop: 10, marginBottom: 10 }}
                 label="Category"
                 options={[
                   {
@@ -264,7 +265,7 @@ const ManageProduct = () => {
                   },
                 ]}
                 defaultValue={productCategory}
-                handleChange={(e) => setProductCategory(e.target.value)}
+                handleChange={(value) => setProductCategory(value)}
               />
 
               <FormInput
