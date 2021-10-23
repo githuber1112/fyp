@@ -28,8 +28,9 @@ import {
   faCcVisa,
 } from "@fortawesome/free-brands-svg-icons";
 import emailjs from "emailjs-com";
-import { message } from "antd";
-import ordersTypes from "../../redux/Orders/orders.types";
+import { Checkbox, message } from "antd";
+import Form from "rc-field-form/es/Form";
+import FormItem from "antd/lib/form/FormItem";
 
 const initialAddressState = {
   line1: "",
@@ -54,6 +55,7 @@ const loadingData = () => {
 };
 
 const {loading} = loadingState; */
+
 const userMapState = ({ user }) => ({
   currentUser: user.currentUser,
 });
@@ -61,6 +63,7 @@ const userMapState = ({ user }) => ({
 const orderMapState = ({ ordersData }) => ({
   loading: ordersData.loading,
   status: ordersData.status,
+  orderHistory: ordersData.orderHistory,
 });
 
 const mapState = createStructuredSelector({
@@ -75,7 +78,7 @@ const PaymentDetails = () => {
   const history = useHistory();
   const { total, itemCount, cartItems } = useSelector(mapState);
   const { currentUser } = useSelector(userMapState);
-  const { loading, status } = useSelector(orderMapState);
+  const { loading, status, orderHistory } = useSelector(orderMapState);
   const dispatch = useDispatch();
   const [billingAddress, setBillingAddress] = useState({
     ...initialAddressState,
@@ -91,7 +94,12 @@ const PaymentDetails = () => {
   var templateParams = {
     to: email,
     name: displayName,
+    total: total,
   };
+
+  useEffect(() => {
+    setRecipientName(displayName);
+  }, []);
 
   useEffect(() => {
     setCurrentLoading(loading);
@@ -114,6 +122,23 @@ const PaymentDetails = () => {
   //     message.success("Payment successfull!");
   //   }
   // }, []);
+
+  const [checked, setChecked] = useState(false);
+
+  const handleCheck = () => {
+    setChecked(!checked);
+    if (!checked) {
+      setBillingAddress({
+        ...shippingAddress,
+      });
+
+      // document.getElementById("text").disabled = true;
+    } else {
+      setBillingAddress({
+        ...initialAddressState,
+      });
+    }
+  };
 
   const handleShipping = (evt) => {
     const { name, value } = evt.target;
@@ -244,16 +269,16 @@ const PaymentDetails = () => {
       <form onSubmit={handleFormSubmit}>
         <div className="group">
           <h2>Shipping Address</h2>
-
+          <label class="required">Recipient Name</label>
           <FormInput
             required
-            placeholder="Recipient Name"
+            // placeholder="Recipient Name"
             name="recipientName"
             handleChange={(evt) => setRecipientName(evt.target.value)}
             value={recipientName}
             type="text"
           />
-
+          <label class="required">Shipping Address</label>
           <FormInput
             required
             placeholder="Line 1"
@@ -262,42 +287,45 @@ const PaymentDetails = () => {
             value={shippingAddress.line1}
             type="text"
           />
-
           <FormInput
-            placeholder="Line 2"
+            placeholder="Line 2 (Optional)"
             name="line2"
             handleChange={(evt) => handleShipping(evt)}
             value={shippingAddress.line2}
             type="text"
           />
-
+          <label class="required">City</label>
           <FormInput
             required
-            placeholder="City"
+            //placeholder="City"
             name="city"
             handleChange={(evt) => handleShipping(evt)}
             value={shippingAddress.city}
             type="text"
+            pattern="^[a-zA-Z ]*$"
           />
-
+          <label class="required">State</label>
           <FormInput
             required
-            placeholder="State"
+            //placeholder="State"
             name="state"
             handleChange={(evt) => handleShipping(evt)}
             value={shippingAddress.state}
             type="text"
+            pattern="^[a-zA-Z ]*$"
           />
-
+          <label class="required">Postal Code</label>
           <FormInput
             required
-            placeholder="Postal Code"
+            //placeholder="Postal Code"
             name="postal_code"
             handleChange={(evt) => handleShipping(evt)}
             value={shippingAddress.postal_code}
-            type="number"
+            type="text"
+            pattern="^[0-9]*$"
+            maxLength={5}
           />
-
+          <label class="required">Country</label>
           <div className="formRow checkoutInput">
             <CountryDropdown
               required
@@ -313,20 +341,32 @@ const PaymentDetails = () => {
               valueType="short"
             />
           </div>
+          <label>
+            <input
+              type="checkbox"
+              name="checky"
+              checked={checked}
+              onChange={handleCheck}
+            />{" "}
+            Shipping address is same as billing address.
+          </label>
         </div>
+        <br></br>
 
         <div className="group">
           <h2>Billing Address</h2>
 
+          <label class="required">Name on Card</label>
           <FormInput
             required
-            placeholder="Name on Card"
+            //placeholder="Name on Card"
             name="nameOnCard"
             handleChange={(evt) => setNameOnCard(evt.target.value)}
             value={nameOnCard}
             type="text"
           />
 
+          <label class="required">Billing Address</label>
           <FormInput
             required
             placeholder="Line 1"
@@ -337,40 +377,48 @@ const PaymentDetails = () => {
           />
 
           <FormInput
-            placeholder="Line 2"
+            placeholder="Line 2 (Optional)"
             name="line2"
             handleChange={(evt) => handleBilling(evt)}
             value={billingAddress.line2}
             type="text"
           />
 
+          <label class="required">City</label>
           <FormInput
             required
-            placeholder="City"
+            //placeholder="City"
             name="city"
             handleChange={(evt) => handleBilling(evt)}
             value={billingAddress.city}
             type="text"
+            pattern="^[a-zA-Z ]*$"
           />
 
+          <label class="required">State</label>
           <FormInput
             required
-            placeholder="State"
+            //placeholder="State"
             name="state"
             handleChange={(evt) => handleBilling(evt)}
             value={billingAddress.state}
             type="text"
+            pattern="^[a-zA-Z ]*$"
           />
 
+          <label class="required">Postal Code</label>
           <FormInput
             required
-            placeholder="Postal Code"
+            //placeholder="Postal Code"
             name="postal_code"
             handleChange={(evt) => handleBilling(evt)}
             value={billingAddress.postal_code}
-            type="number"
+            type="text"
+            pattern="^[0-9]*$"
+            maxLength={5}
           />
 
+          <label class="required">Country</label>
           <div className="formRow checkoutInput">
             <CountryDropdown
               required
@@ -410,7 +458,7 @@ const PaymentDetails = () => {
           <CardElement options={configCardElement} />
         </div>
 
-        <div>
+        <div className="paymentBtn">
           <Button className="backBtn" onClick={() => history.goBack()}>
             Back to Cart
           </Button>

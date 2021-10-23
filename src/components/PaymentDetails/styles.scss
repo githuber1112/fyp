@@ -8,24 +8,32 @@
   .group {
     margin: 0 0 20px;
 
-    p{
+    p {
       font-size: 16px;
+    }
+
+    h2 {
+      font-weight: bolder;
     }
   }
 
-  .backBtn{
+  .paymentBtn {
+    margin: 0 auto;
+  }
+
+  .backBtn {
     padding: 15px 32px;
     font-size: smaller;
     font-weight: bold;
     width: 490px;
-   background-color: rgb(221, 221, 221);
-   border: 2px rgb(221, 221, 221);
-   cursor: pointer;
-   margin-top:15px;
-   height: 50px;
+    background-color: rgb(221, 221, 221);
+    border: 2px rgb(221, 221, 221);
+    cursor: pointer;
+    height: 50px;
+    border-radius: 10px;
   }
 
-  .payBtn{
+  .payBtn {
     padding: 15px 32px;
     font-size: smaller;
     font-weight: bold;
@@ -34,44 +42,57 @@
     background-color: #242222;
     border: 2px #242222;
     cursor: pointer;
-    margin-left: 20px;
+    align-items: right;
     height: 50px;
-    
+    border-radius: 10px;
+    margin-left: 20px;
   }
 
-  .payBtn:hover{
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0);
+  .payBtn:hover {
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+      0 17px 50px 0 rgba(0, 0, 0, 0);
+    background-color: aquamarine;
+    color: black;
   }
 
-  .backBtn:hover{
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0);
+  .backBtn:hover {
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+      0 17px 50px 0 rgba(0, 0, 0, 0);
     background-color: white;
     color: black;
     border: 2px #e7e7e7;
   }
 
-
   .icon-container {
     margin-bottom: 15px;
     font-size: 24px;
 
-    .visa{
-      color:navy
-    }
-    
-    .amex{
-      margin-left: 3px;
-      color:blue
+    .visa {
+      color: navy;
     }
 
-    .master{
+    .amex {
       margin-left: 3px;
-      color:red
+      color: blue;
     }
 
-    .discover{
+    .master {
       margin-left: 3px;
-      color:orange
+      color: red;
     }
+
+    .discover {
+      margin-left: 3px;
+      color: orange;
+    }
+  }
+
+  .required:after {
+    content: " *";
+    color: red;
+  }
+
+  .required {
+    font-size: 18px;
   }
 }
