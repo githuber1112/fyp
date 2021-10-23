@@ -8,7 +8,7 @@ import { Carousel } from "antd";
 function HeroSection() {
   return (
     <div className="heroWrap">
-      <Carousel>
+      <Carousel autoplay effect="fade">
         <div className="hero-container">
           <p>Elonmask is a leading online store.</p>
           <p>
@@ -22,6 +22,7 @@ function HeroSection() {
             </Link>
           </div>
         </div>
+        <div>2</div>
       </Carousel>
     </div>
   );
