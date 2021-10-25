@@ -328,3 +328,24 @@ export const handleFetchAllProducts = () => {
       });
   });
 };
+
+export const handleFetchPromotionCode = () => {
+  return new Promise((resolve, reject) => {
+    firestore
+      .collection("promotionCode")
+      .orderBy("createdDate")
+      .get()
+      .then((snapshot) => {
+        const promotionCodeArray = snapshot.docs.map((doc) => {
+          return {
+            ...doc.data(),
+            documentID: doc.id,
+          };
+        });
+        resolve(promotionCodeArray);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};

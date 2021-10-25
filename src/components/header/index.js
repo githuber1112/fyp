@@ -28,7 +28,6 @@ import {
 } from "./../../redux/Cart/cart.actions";
 import { createStructuredSelector } from "reselect";
 import { ScrollMenu } from "react-horizontal-scrolling-menu";
-import { Swiper, SwiperSlide } from "swiper/react";
 
 const { Meta } = Card;
 
@@ -100,7 +99,6 @@ const Header = (props) => {
         <div className="scrollWrapper">
           <ScrollMenu>
             {cartItems.map((item, pos) => {
-              console.log(pos);
               return (
                 <div className="item">
                   <Card

@@ -7,10 +7,16 @@ const INITIAL_STATE = {
   allProducts: [],
   loading: false,
   status: "incomplete",
+  promotionCode: [],
 };
 
 const productsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case productsTypes.SET_PROMOTION_CODE:
+      return {
+        ...state,
+        promotionCode: action.payload,
+      };
     case productsTypes.FETCH_PRODUCT_START:
       return {
         ...state,

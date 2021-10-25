@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Form,
   Input,
@@ -9,23 +9,38 @@ import {
   Checkbox,
   DatePicker,
   message,
+  Table,
 } from "antd";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "./../forms/Button";
 import { firestore } from "./../../firebase/utils";
 import firebase from "firebase";
+import { fetchPromotionCodeStart } from "../../redux/Products/products.actions";
+
+const mapState = ({ productsData }) => ({
+  promotionCode: productsData.promotionCode,
+});
 
 const PromoCode = () => {
   const [codeType, setCodeType] = useState("");
   const [limitedDate, setLimitedDate] = useState(false);
+  const dispatch = useDispatch();
+  const { promotionCode } = useSelector(mapState);
+  const timestamp = new Date();
+
+  useEffect(() => {
+    dispatch(fetchPromotionCodeStart());
+  }, []);
 
   const handleSubmit = (values) => {
     const { limitedDateRange } = values;
-    let allValues = values;
+    let allValues = { ...values, createdDate: timestamp };
 
     if (limitedDateRange) {
       allValues = {
         ...values,
         "date-picker": values["date-picker"].format("YYYY-MM-DD"),
+        timestamp,
       };
     }
     console.log("Received values of form: ", allValues);
@@ -71,6 +86,39 @@ const PromoCode = () => {
       },
     ],
   };
+
+  const columns = [
+    {
+      title: "Code Name",
+      dataIndex: "codeName",
+      key: "name",
+    },
+    {
+      title: "Code Description",
+      dataIndex: "codeDesc",
+      key: "codeDesc",
+    },
+    {
+      title: "Discount amount",
+      dataIndex: "discountAmount",
+      key: "discountAmount",
+    },
+    {
+      title: "Discount type",
+      dataIndex: "discountType",
+      key: "discountType",
+    },
+    {
+      title: "Discount amount",
+      dataIndex: "discountAmount",
+      key: "address",
+    },
+    {
+      title: "Limited Date Range",
+      dataIndex: "limitedDateRange",
+      key: "limitedDateRange",
+    },
+  ];
 
   return (
     <div>
@@ -159,6 +207,7 @@ const PromoCode = () => {
               wrapperCol={{ span: 12, offset: 8 }}
               name="limitedDateRange"
               getValueFromEvent={handleLimitedDateChange}
+              initialValue={false}
             >
               <Checkbox
                 onChange={(e) => {
@@ -182,6 +231,7 @@ const PromoCode = () => {
           </Form>
         </Col>
       </Row>
+      <Table dataSource={promotionCode} columns={columns} />
     </div>
   );
 };
