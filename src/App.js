@@ -39,6 +39,8 @@ import ChatBot from "./components/Chatbot";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminAddProduct from "./pages/AdminAddProduct";
 import ProfileDetails from "./pages/ProfileDetails";
+import CovidTracker from "./pages/CovidTracker";
+
 const App = (props) => {
   const dispatch = useDispatch();
 
