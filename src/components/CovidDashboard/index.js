@@ -3,7 +3,7 @@ import GraphData from "./GraphData";
 import InfoData from "./InfoData";
 import MapData from "./MapData";
 import { NumberFormat, sortData } from "./Util";
-import { Card, Form } from "antd";
+import { Card } from "antd";
 import { Select, MenuItem, FormControl } from "@material-ui/core";
 import "./styles.scss";
 import "leaflet/dist/leaflet.css";
@@ -83,6 +83,7 @@ const CovidDashboardComponent = () => {
         <div className="covidHeader">
           <h1>COVID-19 DASHBOARD</h1>
           <FormControl className="covidDropdown">
+            {/*loop country in dropdown*/}
             <Select
               variant="outlined"
               onChange={onCountryChange}
