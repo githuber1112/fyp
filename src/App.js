@@ -182,6 +182,14 @@ const App = (props) => {
               </MainLayout>
             )}
           />
+          <Route
+            path="/covidtracker"
+            render={() => (
+              <MainLayout>
+                <CovidTracker />
+              </MainLayout>
+            )}
+          />
           <Route path="/chatbot" render={() => <ChatBot />} />
         </Switch>
       </ScrollToTop>

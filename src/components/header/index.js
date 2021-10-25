@@ -213,6 +213,15 @@ const Header = (props) => {
                 Contact Us
               </Link>
             </li>
+            <li className="nav-item">
+              <Link
+                to="/covidtracker"
+                className="nav-links"
+                onClick={closeMobileMenu}
+              >
+                Covid-19 Tracker
+              </Link>
+            </li>
 
             <li>
               <Link
