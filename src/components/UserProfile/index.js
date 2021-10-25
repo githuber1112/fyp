@@ -1,11 +1,21 @@
 import './styles.scss';
+import { useSelector } from 'react-redux'
 import userIMG from './../../assets/user.png';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Input, Button, Radio } from 'antd';
 
-const UserProfile = props => {
-  const { currentUser } = props;
+const mapState = ({ user }) => ({
+  currentUser: user.currentUser
+})
+
+const UserProfile = () => {
+  const { currentUser } = useSelector(mapState);
   const { displayName } = currentUser;
+  const [currentDisplayName,setCurrentDisplayName]  = useState(displayName)
+
+  useEffect(()=> {
+    setCurrentDisplayName(displayName)
+  },[currentUser])
 
   return (
     <div className="userProfile">
@@ -18,7 +28,7 @@ const UserProfile = props => {
         </li>
         <li>
           <span className="displayName">
-            {displayName && displayName}
+            {currentDisplayName && currentDisplayName}
           </span>
         </li>
       </ul>

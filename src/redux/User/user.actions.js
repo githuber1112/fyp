@@ -60,7 +60,23 @@ export const updateUserInfoStart = updateInformation => ({
     payload: updateInformation
 })
 
-//  export const updateUserStart = () => ({
-//      type:userTypes.UPDATE_USER_START,
-//      payload:userDetails
-//  });
+export const updateUserInfoSuccess = user => ({
+    type:userTypes.UPDATE_USER_INFO_SUCCESS,
+    payload:user
+
+})
+
+export const deleteUserStart = () => ({
+    type:userTypes.DELETE_USER_START,
+
+})
+
+export const deleteUserSuccess = user => ({
+    type:userTypes.DELETE_USER_SUCCESS,
+    payload:user
+
+})
+
+export const resetStatus = () => ({
+    type:userTypes.RESET_STATUS,
+})
