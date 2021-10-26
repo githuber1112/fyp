@@ -32,3 +32,12 @@ export const setOrderDetails = (order) => ({
 export const resetAction = () => ({
   type: ordersTypes.RESET_ACTION,
 });
+
+export const getRecentOrderHistoryStart = () => ({
+  type: ordersTypes.GET_RECENT_ORDER_HISTORY_START,
+});
+
+export const setRecentOrderHistory = (order) => ({
+  type: ordersTypes.SET_RECENT_ORDER_HISTORY,
+  payload: order,
+});

@@ -39,6 +39,7 @@ import ChatBot from "./components/Chatbot";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminAddProduct from "./pages/AdminAddProduct";
 import ProfileDetails from "./pages/ProfileDetails";
+import ReportGenerator from "./pages/ReportGenerator";
 const App = (props) => {
   const dispatch = useDispatch();
 
@@ -152,6 +153,16 @@ const App = (props) => {
               <WithAdminAuth>
                 <AdminLayout>
                   <AdminAddProduct />
+                </AdminLayout>
+              </WithAdminAuth>
+            )}
+          />
+          <Route
+            path="/dashboardreport"
+            render={() => (
+              <WithAdminAuth>
+                <AdminLayout>
+                  <ReportGenerator />
                 </AdminLayout>
               </WithAdminAuth>
             )}

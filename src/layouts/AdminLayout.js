@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Modal from "./../components/Modal/index";
 import FormInput from "./../components/forms/FormInput";
@@ -14,6 +14,7 @@ import {
   PlusCircleOutlined,
   CloseCircleOutlined,
   PlusOutlined,
+  FileDoneOutlined,
 } from "@ant-design/icons";
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -32,13 +33,12 @@ const AdminLayout = (props) => {
   const [previewTitle, setPreviewTitle] = useState(false);
   const [fileList, setFileList] = useState([]);
 
-  
-  useEffect(()=>{
-    if(hideModal){
-        setFileList([])
-        resetForm()
+  useEffect(() => {
+    if (hideModal) {
+      setFileList([]);
+      resetForm();
     }
-},[hideModal])
+  }, [hideModal]);
 
   const getBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -131,7 +131,7 @@ const AdminLayout = (props) => {
             icon={<DashboardOutlined />}
             onClick={() => setBreadCrumbName("Dashboard")}
           >
-            <Link to ="/admindashboard">Dashboard</Link>
+            <Link to="/admindashboard">Dashboard</Link>
           </Menu.Item>
           <Menu.Item
             key="2"
@@ -147,7 +147,14 @@ const AdminLayout = (props) => {
           >
             <Link to="/addproduct">Add new product</Link>
           </Menu.Item>
-          <Menu.Item key="4" icon={<CloseCircleOutlined />}>
+          <Menu.Item
+            key="4"
+            icon={<FileDoneOutlined />}
+            onClick={() => setBreadCrumbName("Reports")}
+          >
+            <Link to="/dashboardreport">Reports</Link>
+          </Menu.Item>
+          <Menu.Item key="5" icon={<CloseCircleOutlined />}>
             <Link to="/">Back to homepage</Link>
           </Menu.Item>
         </Menu>
