@@ -4,6 +4,7 @@ import {
   handleSaveOrder,
   handleGetUserOrderHistory,
   handleGetOrder,
+  handleGetRecentOrderHistory,
 } from "./orders.helpers";
 import { auth } from "./../../firebase/utils";
 import { clearCart } from "./../Cart/cart.actions";
@@ -12,6 +13,7 @@ import {
   setOrderDetails,
   saveOrderHistorySuccess,
   resetAction,
+  setRecentOrderHistory,
 } from "./orders.actions";
 
 export function* getUserOrderHistory({ payload }) {
@@ -66,10 +68,27 @@ export function* onGetOrderDetailsStart() {
   yield takeLatest(ordersTypes.GET_ORDER_DETAILS_START, getOrderDetails);
 }
 
+export function* getRecentOrderHistory() {
+  try {
+    const order = yield handleGetRecentOrderHistory();
+    yield put(setRecentOrderHistory(order));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export function* onGetRecentOrderHistoryStart() {
+  yield takeLatest(
+    ordersTypes.GET_RECENT_ORDER_HISTORY_START,
+    getRecentOrderHistory
+  );
+}
+
 export default function* ordersSagas() {
   yield all([
     call(onSaveOrderHistoryStart),
     call(onGetUserOrderHistoryStart),
     call(onGetOrderDetailsStart),
+    call(onGetRecentOrderHistoryStart),
   ]);
 }
