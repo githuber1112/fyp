@@ -27,9 +27,11 @@ const CovidDashboardComponent = () => {
       });
   }, []);
 
+  //"https://disease.sh/v3/covid-19/countries?yesterday=yesterday"
+
   useEffect(() => {
     const getCountriesData = async () => {
-      await fetch("https://disease.sh/v3/covid-19/countries")
+      await fetch("https://disease.sh/v3/covid-19/countries?yesterday=true")
         .then((response) => response.json())
         .then((data) => {
           const countries = data.map((country) => ({
@@ -55,7 +57,7 @@ const CovidDashboardComponent = () => {
     const url =
       countryCode === "worldwide"
         ? "https://disease.sh/v3/covid-19/all"
-        : `https://disease.sh/v3/covid-19/countries/${countryCode}`;
+        : `https://disease.sh/v3/covid-19/countries/${countryCode}/?yesterday=true`;
 
     await fetch(url)
       .then((response) => response.json())

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useReactToPrint } from "react-to-print";
+//import { useReactToPrint } from "react-to-print";
 import { useDispatch, useSelector } from "react-redux";
 
 import Button from "./../../components/forms/Button";
