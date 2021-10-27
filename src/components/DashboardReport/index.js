@@ -1,27 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import { useDispatch, useSelector } from "react-redux";
-import Modal from "./../../components/Modal/index";
-import FormInput from "./../../components/forms/FormInput";
-import FormSelect from "./../../components/forms/FormSelect";
+
 import Button from "./../../components/forms/Button";
-import {
-  addProductStart,
-  resetLoading,
-} from "./../../redux/Products/products.actions";
-import CKEditor from "ckeditor4-react";
-import {
-  Row,
-  Col,
-  Form,
-  Modal as Modal1,
-  Upload,
-  Select,
-  Input,
-  InputNumber,
-  message,
-} from "antd";
-import { render } from "node-sass";
+
+import { Row, Col, Form, Select } from "antd";
 
 import moment from "moment";
 import { useHistory } from "react-router-dom";
@@ -37,12 +20,11 @@ const DashboardReport = () => {
   const [reportCategory, setReportCategory] = useState("recentOrders");
   const { Option } = Select;
   const history = useHistory();
-  const dispatch = useDispatch();
   const { orderHistory } = useSelector(mapState);
 
   const handleSubmit = () => {
-    if (value == "recentOrders") {
-    }
+    // if (value == "recentOrders") {
+    // }
   };
 
   const layout = {
@@ -50,12 +32,12 @@ const DashboardReport = () => {
     wrapperCol: { span: 16 },
   };
 
-  const Example = () => {
-    const componentRef = useRef();
-    const handlePrint = useRefToPrint({
-      content: () => componentRef.current,
-    });
-  };
+  // const Example = () => {
+  //   const componentRef = useRef();
+  //   const handlePrint = useRefToPrint({
+  //     content: () => componentRef.current,
+  //   });
+  // };
 
   useEffect(() => {
     dispatch(getRecentOrderHistoryStart());
@@ -85,8 +67,6 @@ const DashboardReport = () => {
     },
   ];
 
-  render();
-
   return (
     <div>
       <Row gutter={[40, 0]}>
@@ -115,13 +95,7 @@ const DashboardReport = () => {
             </Form.Item>
 
             <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
-              <DashboardReport ref={componentRef} />
-              <Button
-                type="primary"
-                htmlType="submit"
-                loading={loading}
-                onClick={handlePrint}
-              >
+              <Button type="primary" htmlType="submit" loading={loading}>
                 Submit
               </Button>
             </Form.Item>
