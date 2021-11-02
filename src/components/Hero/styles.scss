@@ -6,8 +6,7 @@
 }
 
 .hero-container {
-  background: url("./../../assets/heropicture.jpg") center center/cover
-    no-repeat;
+  background: url("./../../assets/carousel.jpg") center center/cover no-repeat;
   height: 100vh;
   width: 100%;
   display: flex !important;
@@ -23,13 +22,64 @@
   text-align: center;
 }
 
+.hero-container2 {
+  background: url("./../../assets/carousel2.png") center center/cover no-repeat;
+  background-size: cover;
+  height: 100vh;
+  width: 100%;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 2rem rgba(0, 0, 0, 0.2);
+  object-fit: contain;
+  border-radius: 30px;
+  transition: transform 0.3s;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.hero-container4 {
+  background: url("./../../assets/carousel4.jpg") center center/cover no-repeat;
+  background-size: cover;
+  height: 100vh;
+  width: 100%;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 2rem rgba(0, 0, 0, 0.2);
+  object-fit: contain;
+  border-radius: 30px;
+  transition: transform 0.3s;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.hero-container3 {
+  background: url("./../../assets/carousel3.jpg") center center/cover no-repeat;
+  background-size: cover;
+  height: 100vh;
+  width: 100%;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 2rem rgba(0, 0, 0, 0.2);
+  object-fit: contain;
+  border-radius: 30px;
+  transition: transform 0.3s;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  text-align: center;
+  object-fit: cover;
+}
+
 .hero-container:hover {
   transform: scale(1.01);
   box-shadow: 0 0 5rem rgba(0, 0, 0, 0.2) inset;
-}
-
-.hero-container > p:first-of-type {
-  margin-top: 550px;
 }
 
 .hero-container > p {

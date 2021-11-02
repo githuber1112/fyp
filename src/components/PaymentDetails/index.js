@@ -28,9 +28,11 @@ import {
   faCcVisa,
 } from "@fortawesome/free-brands-svg-icons";
 import emailjs from "emailjs-com";
-import { Checkbox, message } from "antd";
+import { Checkbox, message, Row, Col, Divider, Table } from "antd";
+import { fetchPromotionCodeStart } from "../../redux/Products/products.actions";
 import Form from "rc-field-form/es/Form";
 import FormItem from "antd/lib/form/FormItem";
+import Item from "../Checkout/Item";
 
 const initialAddressState = {
   line1: "",
@@ -72,11 +74,22 @@ const mapState = createStructuredSelector({
   cartItems: selectCartItems,
 });
 
+const promoCodeMapState = ({ productsData }) => ({
+  promotionCode: productsData.promotionCode,
+});
+
 const PaymentDetails = () => {
   const stripe = useStripe();
   const elements = useElements();
   const history = useHistory();
   const { total, itemCount, cartItems } = useSelector(mapState);
+  const { promotionCode } = useSelector(promoCodeMapState);
+  const [promotionCodeInput, setPromotionCodeInput] = useState("");
+  const [totalPrice, setTotalPrice] = useState(total);
+  const [disable, setDisable] = useState(false);
+  const [error, setError] = useState(false);
+  const [promoCodeNameChosen, setPromoCodeNameChosen] = useState("");
+  const [promoCodeAmountChosen, setPromoCodeAmountChosen] = useState("");
   const { currentUser } = useSelector(userMapState);
   const { loading, status, orderHistory } = useSelector(orderMapState);
   const dispatch = useDispatch();
@@ -98,6 +111,10 @@ const PaymentDetails = () => {
   };
 
   useEffect(() => {
+    setTotalPrice(total);
+  }, [total]);
+
+  useEffect(() => {
     setRecipientName(displayName);
   }, []);
 
@@ -116,6 +133,52 @@ const PaymentDetails = () => {
       history.push("/dashboard");
     }
   }, [itemCount]);
+
+  const handlePromoCode = () => {
+    promotionCode.map((item) => {
+      if (promotionCodeInput == item.codeName) {
+        switch (item.discountType) {
+          case "percentage":
+            setTotalPrice((totalPrice * (100 - item.discountAmount)) / 100);
+            setDisable(true);
+            setPromoCodeNameChosen(item.codeName);
+            setPromoCodeAmountChosen((totalPrice * item.discountAmount) / 100);
+            message.success(
+              `Successfully applied promo code : ${item.codeName}`
+            );
+            return;
+            break;
+          case "fixedAmount":
+            if (totalPrice < item.discountAmount) {
+              message.error("Please topup");
+              setError(false);
+              return;
+            } else {
+              setTotalPrice(totalPrice - item.discountAmount);
+              setPromoCodeNameChosen(item.codeName);
+              setPromoCodeAmountChosen(item.discountAmount);
+              setDisable(true);
+              message.success(
+                `Successfully applied promo code : ${item.codeName}`
+              );
+              return;
+            }
+            break;
+        }
+        return;
+      } else {
+        setError(true);
+      }
+    });
+  };
+
+  useEffect(() => {
+    setError(false);
+  }, [disable]);
+
+  useEffect(() => {
+    dispatch(fetchPromotionCodeStart());
+  }, []);
 
   // useEffect(() => {
   //   if (handleFormSubmit){
@@ -180,7 +243,7 @@ const PaymentDetails = () => {
 
     apiInstance
       .post("/payments/create", {
-        amount: total * 100,
+        amount: totalPrice * 100,
         shipping: {
           name: recipientName,
           address: {
@@ -207,7 +270,7 @@ const PaymentDetails = () => {
               })
               .then(({ paymentIntent }) => {
                 const configOrder = {
-                  orderTotal: total,
+                  orderTotal: totalPrice,
                   orderItems: cartItems.map((item) => {
                     const {
                       documentID,
@@ -265,207 +328,317 @@ const PaymentDetails = () => {
   };
 
   return (
-    <div className="paymentDetails">
-      <form onSubmit={handleFormSubmit}>
-        <div className="group">
-          <h2>Shipping Address</h2>
-          <label class="required">Recipient Name</label>
-          <FormInput
-            required
-            // placeholder="Recipient Name"
-            name="recipientName"
-            handleChange={(evt) => setRecipientName(evt.target.value)}
-            value={recipientName}
-            type="text"
-          />
-          <label class="required">Shipping Address</label>
-          <FormInput
-            required
-            placeholder="Line 1"
-            name="line1"
-            handleChange={(evt) => handleShipping(evt)}
-            value={shippingAddress.line1}
-            type="text"
-          />
-          <FormInput
-            placeholder="Line 2 (Optional)"
-            name="line2"
-            handleChange={(evt) => handleShipping(evt)}
-            value={shippingAddress.line2}
-            type="text"
-          />
-          <label class="required">City</label>
-          <FormInput
-            required
-            //placeholder="City"
-            name="city"
-            handleChange={(evt) => handleShipping(evt)}
-            value={shippingAddress.city}
-            type="text"
-            pattern="^[a-zA-Z ]*$"
-          />
-          <label class="required">State</label>
-          <FormInput
-            required
-            //placeholder="State"
-            name="state"
-            handleChange={(evt) => handleShipping(evt)}
-            value={shippingAddress.state}
-            type="text"
-            pattern="^[a-zA-Z ]*$"
-          />
-          <label class="required">Postal Code</label>
-          <FormInput
-            required
-            //placeholder="Postal Code"
-            name="postal_code"
-            handleChange={(evt) => handleShipping(evt)}
-            value={shippingAddress.postal_code}
-            type="text"
-            pattern="^[0-9]*$"
-            maxLength={5}
-          />
-          <label class="required">Country</label>
-          <div className="formRow checkoutInput">
-            <CountryDropdown
-              required
-              onChange={(val) =>
-                handleShipping({
-                  target: {
-                    name: "country",
-                    value: val,
-                  },
-                })
-              }
-              value={shippingAddress.country}
-              valueType="short"
-            />
+    <div className="paymentWrapper">
+      <Row>
+        <Col span={16}>
+          <div className="paymentDetails">
+            <form id="paymentForm" onSubmit={handleFormSubmit}>
+              <div className="group">
+                <h2>Shipping Address</h2>
+                <label class="required">Recipient Name</label>
+                <FormInput
+                  required
+                  // placeholder="Recipient Name"
+                  name="recipientName"
+                  handleChange={(evt) => setRecipientName(evt.target.value)}
+                  value={recipientName}
+                  type="text"
+                />
+                <label class="required">Shipping Address</label>
+                <FormInput
+                  required
+                  placeholder="Line 1"
+                  name="line1"
+                  handleChange={(evt) => handleShipping(evt)}
+                  value={shippingAddress.line1}
+                  type="text"
+                />
+                <FormInput
+                  placeholder="Line 2 (Optional)"
+                  name="line2"
+                  handleChange={(evt) => handleShipping(evt)}
+                  value={shippingAddress.line2}
+                  type="text"
+                />
+                <label class="required">City</label>
+                <FormInput
+                  required
+                  //placeholder="City"
+                  name="city"
+                  handleChange={(evt) => handleShipping(evt)}
+                  value={shippingAddress.city}
+                  type="text"
+                  pattern="^[a-zA-Z ]*$"
+                />
+                <label class="required">State</label>
+                <FormInput
+                  required
+                  //placeholder="State"
+                  name="state"
+                  handleChange={(evt) => handleShipping(evt)}
+                  value={shippingAddress.state}
+                  type="text"
+                  pattern="^[a-zA-Z ]*$"
+                />
+                <label class="required">Postal Code</label>
+                <FormInput
+                  required
+                  //placeholder="Postal Code"
+                  name="postal_code"
+                  handleChange={(evt) => handleShipping(evt)}
+                  value={shippingAddress.postal_code}
+                  type="text"
+                  pattern="^[0-9]*$"
+                  maxLength={5}
+                />
+                <label class="required">Country</label>
+                <div className="formRow checkoutInput">
+                  <CountryDropdown
+                    required
+                    onChange={(val) =>
+                      handleShipping({
+                        target: {
+                          name: "country",
+                          value: val,
+                        },
+                      })
+                    }
+                    value={shippingAddress.country}
+                    valueType="short"
+                  />
+                </div>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="checky"
+                    checked={checked}
+                    onChange={handleCheck}
+                  />{" "}
+                  Shipping address is same as billing address.
+                </label>
+              </div>
+              <br></br>
+
+              <div className="group">
+                <h2>Billing Address</h2>
+
+                <label class="required">Name on Card</label>
+                <FormInput
+                  required
+                  //placeholder="Name on Card"
+                  name="nameOnCard"
+                  handleChange={(evt) => setNameOnCard(evt.target.value)}
+                  value={nameOnCard}
+                  type="text"
+                />
+
+                <label class="required">Billing Address</label>
+                <FormInput
+                  required
+                  placeholder="Line 1"
+                  name="line1"
+                  handleChange={(evt) => handleBilling(evt)}
+                  value={billingAddress.line1}
+                  type="text"
+                />
+
+                <FormInput
+                  placeholder="Line 2 (Optional)"
+                  name="line2"
+                  handleChange={(evt) => handleBilling(evt)}
+                  value={billingAddress.line2}
+                  type="text"
+                />
+
+                <label class="required">City</label>
+                <FormInput
+                  required
+                  //placeholder="City"
+                  name="city"
+                  handleChange={(evt) => handleBilling(evt)}
+                  value={billingAddress.city}
+                  type="text"
+                  pattern="^[a-zA-Z ]*$"
+                />
+
+                <label class="required">State</label>
+                <FormInput
+                  required
+                  //placeholder="State"
+                  name="state"
+                  handleChange={(evt) => handleBilling(evt)}
+                  value={billingAddress.state}
+                  type="text"
+                  pattern="^[a-zA-Z ]*$"
+                />
+
+                <label class="required">Postal Code</label>
+                <FormInput
+                  required
+                  //placeholder="Postal Code"
+                  name="postal_code"
+                  handleChange={(evt) => handleBilling(evt)}
+                  value={billingAddress.postal_code}
+                  type="text"
+                  pattern="^[0-9]*$"
+                  maxLength={5}
+                />
+
+                <label class="required">Country</label>
+                <div className="formRow checkoutInput">
+                  <CountryDropdown
+                    required
+                    onChange={(val) =>
+                      handleBilling({
+                        target: {
+                          name: "country",
+                          value: val,
+                        },
+                      })
+                    }
+                    value={billingAddress.country}
+                    valueType="short"
+                  />
+                </div>
+              </div>
+
+              <div className="group">
+                <h2>Card Details</h2>
+
+                <p>Accepted Card</p>
+                <div class="icon-container">
+                  <span className="visa">
+                    <FontAwesomeIcon icon={faCcVisa} />
+                  </span>
+                  <span className="amex">
+                    <FontAwesomeIcon icon={faCcAmex} />
+                  </span>
+                  <span className="master">
+                    <FontAwesomeIcon icon={faCcMastercard} />
+                  </span>
+                  <span className="discover">
+                    <FontAwesomeIcon icon={faCcDiscover} />
+                  </span>
+                </div>
+
+                <CardElement options={configCardElement} />
+              </div>
+            </form>
           </div>
-          <label>
-            <input
-              type="checkbox"
-              name="checky"
-              checked={checked}
-              onChange={handleCheck}
-            />{" "}
-            Shipping address is same as billing address.
-          </label>
-        </div>
-        <br></br>
+        </Col>
+        <Col span={1}>
+          <Divider type="vertical" style={{ height: "100%" }} />
+        </Col>
+        <Col span={7}>
+          <div className="smallCart">
+            <table border="0" cellPadding="0" cellPadding="0">
+              <tbody>
+                {cartItems.map((item, pos) => {
+                  return (
+                    <tr key={pos}>
+                      <td>
+                        <table
+                          className="cartItem"
+                          border="0"
+                          cellSpacing="0"
+                          cellPadding="10"
+                        >
+                          <tbody>
+                            <tr>
+                              <td>
+                                <img
+                                  className="smallCartImage"
+                                  src={item.allImageURL[0]}
+                                  alt={item.productName}
+                                />
+                              </td>
+                              <td width="200px">{item.productName}</td>
 
-        <div className="group">
-          <h2>Billing Address</h2>
-
-          <label class="required">Name on Card</label>
-          <FormInput
-            required
-            //placeholder="Name on Card"
-            name="nameOnCard"
-            handleChange={(evt) => setNameOnCard(evt.target.value)}
-            value={nameOnCard}
-            type="text"
-          />
-
-          <label class="required">Billing Address</label>
-          <FormInput
-            required
-            placeholder="Line 1"
-            name="line1"
-            handleChange={(evt) => handleBilling(evt)}
-            value={billingAddress.line1}
-            type="text"
-          />
-
-          <FormInput
-            placeholder="Line 2 (Optional)"
-            name="line2"
-            handleChange={(evt) => handleBilling(evt)}
-            value={billingAddress.line2}
-            type="text"
-          />
-
-          <label class="required">City</label>
-          <FormInput
-            required
-            //placeholder="City"
-            name="city"
-            handleChange={(evt) => handleBilling(evt)}
-            value={billingAddress.city}
-            type="text"
-            pattern="^[a-zA-Z ]*$"
-          />
-
-          <label class="required">State</label>
-          <FormInput
-            required
-            //placeholder="State"
-            name="state"
-            handleChange={(evt) => handleBilling(evt)}
-            value={billingAddress.state}
-            type="text"
-            pattern="^[a-zA-Z ]*$"
-          />
-
-          <label class="required">Postal Code</label>
-          <FormInput
-            required
-            //placeholder="Postal Code"
-            name="postal_code"
-            handleChange={(evt) => handleBilling(evt)}
-            value={billingAddress.postal_code}
-            type="text"
-            pattern="^[0-9]*$"
-            maxLength={5}
-          />
-
-          <label class="required">Country</label>
-          <div className="formRow checkoutInput">
-            <CountryDropdown
-              required
-              onChange={(val) =>
-                handleBilling({
-                  target: {
-                    name: "country",
-                    value: val,
-                  },
-                })
-              }
-              value={billingAddress.country}
-              valueType="short"
-            />
+                              <td align="center">RM{item.productPrice}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
-        </div>
+          <div className="promoCodeInput">
+            <div className="promoCodeWrapper">
+              <FormInput
+                disabled={disable}
+                type="text"
+                value={promotionCodeInput}
+                placeholder="Enter promo code"
+                handleChange={(e) => setPromotionCodeInput(e.target.value)}
+                style={{
+                  width: 240,
+                  borderRadius: 10,
+                  float: "left",
+                  marginRight: 10,
+                  height: "50px",
+                }}
+              />
 
-        <div className="group">
-          <h2>Card Details</h2>
-
-          <p>Accepted Card</p>
-          <div class="icon-container">
-            <span className="visa">
-              <FontAwesomeIcon icon={faCcVisa} />
-            </span>
-            <span className="amex">
-              <FontAwesomeIcon icon={faCcAmex} />
-            </span>
-            <span className="master">
-              <FontAwesomeIcon icon={faCcMastercard} />
-            </span>
-            <span className="discover">
-              <FontAwesomeIcon icon={faCcDiscover} />
-            </span>
+              {!disable && [
+                <Button onClick={handlePromoCode} className="promoCodeBtn">
+                  Apply
+                </Button>,
+              ]}
+            </div>
+            {error && [
+              <div className="promoCodeError">Promo code not exist</div>,
+            ]}
           </div>
 
-          <CardElement options={configCardElement} />
-        </div>
+          <div className="summaryDiv">
+            <div className="subTotal">
+              <Row>
+                <Col span={20}>
+                  <span>Subtotal</span>
+                </Col>
+                <Col span={4}>
+                  <span>RM{total}</span>
+                </Col>
+              </Row>
+            </div>
+            <div className="subTotal">
+              {disable && [
+                <Row>
+                  <Col span={20}>
+                    <span>Promo code applied : `${promoCodeNameChosen}`</span>
+                  </Col>
+                  <Col span={4}>
+                    <span>RM{promoCodeAmountChosen}</span>
+                  </Col>
+                </Row>,
+              ]}
+            </div>
 
-        <div className="paymentBtn">
-          <Button className="backBtn" onClick={() => history.goBack()}>
-            Back to Cart
-          </Button>
+            <Divider />
+            <div className="totalPriceDiv">
+              <Row>
+                <Col span={20}>
+                  <span>Total</span>
+                </Col>
+                <Col span={4}>
+                  <span>RM{totalPrice}</span>
+                </Col>
+              </Row>
+            </div>
+          </div>
 
-          <Button className="payBtn" htmlType="submit" loading={currentLoading}>
-            Pay Now
-            {/* {loading && (
+          <div className="paymentBtn">
+            <Button
+              form="paymentForm"
+              className="payBtn"
+              htmlType="submit"
+              loading={currentLoading}
+            >
+              Pay Now
+              {/* {loading && (
             <i
               className="fa fa-refresh fa-spin"
               style={{ marginRight: "5px" }}
@@ -473,9 +646,13 @@ const PaymentDetails = () => {
           )}
           {loading && <span>Payment Processing</span>}
           {!loading && <span>Pay Now</span>} */}
-          </Button>
-        </div>
-      </form>
+            </Button>
+            <Button className="backBtn" onClick={() => history.goBack()}>
+              Back to Cart
+            </Button>
+          </div>
+        </Col>
+      </Row>
     </div>
   );
 };

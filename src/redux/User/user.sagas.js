@@ -6,64 +6,59 @@ import {
   GoogleProvider,
 } from "./../../firebase/utils";
 import userTypes from "./user.types";
-import {signInSuccess, signOutUserSuccess, resetPasswordSuccess, userError, changePasswordSuccess, updateUserInfoSuccess} from './user.actions';
-import {handleResetPasswordAPI,handleUpdateInfo} from './user.helper';
+import {
+  signInSuccess,
+  signOutUserSuccess,
+  resetPasswordSuccess,
+  userError,
+  changePasswordSuccess,
+  updateUserInfoSuccess,
+} from "./user.actions";
+import { handleResetPasswordAPI, handleUpdateInfo } from "./user.helper";
 
-export function* getSnapshotFromUserAuth(user, additionalData={}){
-    try{
-                
-        const userRef = yield call(handleUserProfile, { userAuth: user , additionalData});
-        const snapshot = yield userRef.get();
-        yield put(
-                signInSuccess({           
-                    id:snapshot.id,
-                    ...snapshot.data()
-               })
-        );
-         
-      
-              
-    }catch(err){
-
-    }
+export function* getSnapshotFromUserAuth(user, additionalData = {}) {
+  try {
+    const userRef = yield call(handleUserProfile, {
+      userAuth: user,
+      additionalData,
+    });
+    const snapshot = yield userRef.get();
+    yield put(
+      signInSuccess({
+        id: snapshot.id,
+        ...snapshot.data(),
+      })
+    );
+  } catch (err) {}
 }
 
-export function* updateUserAuth(user, additionalData={}){
-    try{
-                
-        const userRef = yield call(handleUserProfile, { userAuth: user , additionalData});
-        const snapshot = yield userRef.get();
-        yield put(
-                updateUserInfoSuccess({           
-                    id:snapshot.id,
-                    ...snapshot.data()
-               })
-        );
-         
-      
-              
-    }catch(err){
-
-    }
+export function* updateUserAuth(user, additionalData = {}) {
+  try {
+    const userRef = yield call(handleUserProfile, {
+      userAuth: user,
+      additionalData,
+    });
+    const snapshot = yield userRef.get();
+    yield put(
+      updateUserInfoSuccess({
+        id: snapshot.id,
+        ...snapshot.data(),
+      })
+    );
+  } catch (err) {}
 }
 
-export function* emailSignIn({ payload: {email, password} }){
-    try{
-            
-            const {user} = yield auth.signInWithEmailAndPassword(email, password);
-            yield getSnapshotFromUserAuth(user)
-            
-            
-        
-        }catch(err){
-            yield put(
-                userError([err.message])
-                );
-        }
+export function* emailSignIn({ payload: { email, password } }) {
+  try {
+    const { user } = yield auth.signInWithEmailAndPassword(email, password);
+    yield getSnapshotFromUserAuth(user);
+  } catch (err) {
+    yield put(userError([err.message]));
+  }
 }
 
-export function* onEmailSignInStart(){
-    yield takeLatest(userTypes.EMAIL_SIGN_IN_START, emailSignIn);
+export function* onEmailSignInStart() {
+  yield takeLatest(userTypes.EMAIL_SIGN_IN_START, emailSignIn);
 }
 
 export function* isUserAuthenticated() {
@@ -122,16 +117,8 @@ export function* resetPassword({ payload: { email } }) {
   }
 }
 
-export function* updateUserInfo({payload}){
-    console.log(payload)
-    try{
-    yield handleUpdateInfo(payload) 
-    const userAuth = yield getCurrentUser();
-        yield updateUserAuth(userAuth);
- 
-    }catch(err){
-        console.log(err)
-    }
+export function* onResetPasswordStart() {
+  yield takeLatest(userTypes.RESET_PASSWORD_START, resetPassword);
 }
 
 export function* googleSignIn() {
@@ -139,6 +126,25 @@ export function* googleSignIn() {
     const { user } = yield auth.signInWithPopup(GoogleProvider);
     yield getSnapshotFromUserAuth(user);
   } catch (err) {}
+}
+
+export function* onGoogleSignInStart() {
+  yield takeLatest(userTypes.GOOGLE_SIGN_IN_START, googleSignIn);
+}
+
+export function* updateUserInfo({ payload }) {
+  console.log(payload);
+  try {
+    yield handleUpdateInfo(payload);
+    const userAuth = yield getCurrentUser();
+    yield updateUserAuth(userAuth);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export function* onUpdateUserInfoStart() {
+  yield takeLatest(userTypes.UPDATE_USER_INFO_START, updateUserInfo);
 }
 
 // export function* changePassword({payload:{email}}){
@@ -159,19 +165,6 @@ export function* googleSignIn() {
 //     yield takeLatest(userTypes.CHANGE_PASSWORD_START, changePassword);
 // }
 
-export default function* userSagas(){
-    yield all([
-        call(onEmailSignInStart), 
-        call(onCheckUserSession), 
-        call(onSignOutUserStart),
-        call(onSignUpUserStart),
-        call(onResetPasswordStart),
-        call(onGoogleSignInStart),
-        call(onUpdateUserInfoStart),
-        //call(onChangePasswordStart),
-    ])
-}
-
 export default function* userSagas() {
   yield all([
     call(onEmailSignInStart),
@@ -181,5 +174,6 @@ export default function* userSagas() {
     call(onResetPasswordStart),
     call(onGoogleSignInStart),
     call(onUpdateUserInfoStart),
+    //call(onChangePasswordStart),
   ]);
 }

@@ -19,6 +19,7 @@ import {
   handleUpdateProducts,
   handleFetchAllProducts,
   handleFetchPromotionCode,
+  handleFetchAllPromotionCode,
 } from "./products.helper";
 
 export function* addProduct({ payload }) {
@@ -105,6 +106,7 @@ export function* onFetchAllProductsStart() {
 export function* fetchPromotionCode() {
   try {
     const promotionCode = yield handleFetchPromotionCode();
+
     yield put(setPromotionCode(promotionCode));
   } catch (err) {
     console.log(err);
@@ -115,6 +117,22 @@ export function* onFetchPromotionCodeStart() {
   yield takeLatest(productsTypes.FETCH_PROMOTION_CODE, fetchPromotionCode);
 }
 
+export function* fetchAllPromotionCode() {
+  try {
+    const promotionCode = yield handleFetchAllPromotionCode();
+
+    yield put(setPromotionCode(promotionCode));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export function* onFetchAllPromotionCodeStart() {
+  yield takeLatest(
+    productsTypes.FETCH_ALL_PROMOTION_CODE,
+    fetchAllPromotionCode
+  );
+}
 export default function* productsSagas() {
   yield all([
     call(onAddProductStart),
@@ -124,5 +142,6 @@ export default function* productsSagas() {
     call(onUpdateProductStart),
     call(onFetchAllProductsStart),
     call(onFetchPromotionCodeStart),
+    call(onFetchAllPromotionCodeStart),
   ]);
 }

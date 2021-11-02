@@ -4,6 +4,7 @@ import firebase from "firebase";
 import React, { useState, useEffect } from "react";
 import { fixControlledValue } from "antd/lib/input/Input";
 import Compressor from "compressorjs";
+import moment from "moment";
 
 export const handleAddProduct = (product) => {
   const promises = [];
@@ -331,12 +332,52 @@ export const handleFetchAllProducts = () => {
 
 export const handleFetchPromotionCode = () => {
   return new Promise((resolve, reject) => {
+    const now = moment();
+
     firestore
       .collection("promotionCode")
-      .orderBy("createdDate")
+      .where("status", "==", "active")
       .get()
       .then((snapshot) => {
         const promotionCodeArray = snapshot.docs.map((doc) => {
+          let dateLimit = doc.data().limitedDate;
+
+          if (dateLimit != null && now.isAfter(dateLimit)) {
+            console.log(now.toString());
+            console.log(dateLimit.toString());
+            doc.ref.update({ status: "expired" });
+          } else {
+            return {
+              ...doc.data(),
+              documentID: doc.id,
+            };
+          }
+        });
+        resolve(promotionCodeArray);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
+
+export const handleFetchAllPromotionCode = () => {
+  return new Promise((resolve, reject) => {
+    const now = moment();
+
+    firestore
+      .collection("promotionCode")
+      .orderBy("status")
+      .get()
+      .then((snapshot) => {
+        const promotionCodeArray = snapshot.docs.map((doc) => {
+          let dateLimit = doc.data().limitedDate;
+
+          if (dateLimit != null && now.isAfter(dateLimit)) {
+            console.log(now.toString());
+            console.log(dateLimit.toString());
+            doc.ref.update({ status: "expired" });
+          }
           return {
             ...doc.data(),
             documentID: doc.id,

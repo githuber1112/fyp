@@ -12,6 +12,11 @@ const INITIAL_STATE = {
 
 const productsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case productsTypes.FETCH_PRODUCTS_START:
+      return {
+        ...state,
+        loading: true,
+      };
     case productsTypes.SET_PROMOTION_CODE:
       return {
         ...state,
@@ -55,6 +60,7 @@ const productsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         products: action.payload,
+        loading: false,
       };
     case productsTypes.SET_PRODUCT:
       return {

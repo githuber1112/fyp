@@ -22,7 +22,15 @@ function HeroSection() {
             </Link>
           </div>
         </div>
-        <div>2</div>
+        <div>
+          <div className="hero-container2"></div>
+        </div>
+        <div>
+          <div className="hero-container3"></div>
+        </div>
+        <div>
+          <div className="hero-container4"></div>
+        </div>
       </Carousel>
     </div>
   );

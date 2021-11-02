@@ -10,6 +10,7 @@ import AuthWrapper from "./../AuthWrapper";
 import FormInput from "./../forms/FormInput";
 import Button from "./../forms/Button";
 import "./styles.scss";
+import { message } from "antd";
 
 const mapState = ({ user }) => ({
   resetPasswordSuccess: user.resetPasswordSuccess,
@@ -39,6 +40,10 @@ const EmailPassword = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!email) {
+      message.error("Please fill in all input fields");
+      return;
+    }
     dispatch(resetPasswordStart({ email }));
   };
 
