@@ -85,7 +85,7 @@ const App = (props) => {
             path="/product/:productID"
             render={() => (
               <MainLayout>
-                <ProductDetails />
+                <ProductDetails key={Date.now()} />
               </MainLayout>
             )}
           />

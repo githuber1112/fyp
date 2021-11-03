@@ -27,7 +27,7 @@
 
 .slide-content {
   width: 400px;
-  height: 400px;
+  height: 500px;
   margin: auto;
   border-radius: 10px;
   display: flex;
@@ -36,6 +36,27 @@
   flex-direction: column;
   text-align: center;
   padding: 10px;
+}
+
+.ant-card-meta-title {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ant-card-bordered {
+  border: 1px solid #0808082e;
+  border-radius: 10px;
+}
+
+.ant-card-actions {
+  border-top: 1px solid #0808082e;
+  border-radius: 10px;
+}
+
+.ant-card-bordered .ant-card-cover {
+  margin: 0 auto;
+  border-bottom: 1px solid #0808082e;
+  border-radius: 10px;
 }
 
 @media only screen and (min-width: 1200px) {

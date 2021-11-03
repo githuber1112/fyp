@@ -8,12 +8,15 @@ import "swiper/components/navigation/navigation.scss";
 import "swiper/components/pagination/pagination.scss";
 import { Card } from "antd";
 import "swiper/components/scrollbar/scrollbar.scss";
+import { addProduct } from "../../redux/Cart/cart.actions";
 import SwiperCore, {
   Navigation,
   Pagination,
   Scrollbar,
   EffectFade,
 } from "swiper";
+import { Link, useHistory } from "react-router-dom";
+import { ShoppingCartOutlined } from "@ant-design/icons";
 
 const { Meta } = Card;
 
@@ -28,6 +31,13 @@ const ProductCarousel = () => {
   const { products, loading } = useSelector(mapState);
   const dispatch = useDispatch();
   const { data = [], queryDoc, isLastPage } = products;
+  const history = useHistory();
+
+  const handleAddToCart = (product) => {
+    if (!product) return;
+    dispatch(addProduct(product));
+    history.push("/cart");
+  };
 
   useEffect(() => {
     dispatch(fetchProductsStart());
@@ -52,16 +62,21 @@ const ProductCarousel = () => {
               <SwiperSlide key={pos} className="slide">
                 <div className="slide-content">
                   <Card
-                    hoverable
-                    style={{ width: 300, height: 300 }}
-                    cover={
-                      <img
-                        src={item.allImageURL[0]}
-                        style={{ width: 300, height: 300 }}
-                      />
-                    }
+                    hoverable={true}
+                    cover={<img src={item.allImageURL[0]} />}
+                    style={{ width: 300 }}
+                    actions={[
+                      <ShoppingCartOutlined
+                        onClick={() => handleAddToCart(item)}
+                      />,
+                    ]}
                   >
-                    <Meta title={item.productName} />
+                    <Link to={`/product/${item.documentID}`}>
+                      <Meta
+                        title={item.productName}
+                        description={item.productPrice}
+                      />
+                    </Link>
                   </Card>
                 </div>
               </SwiperSlide>
