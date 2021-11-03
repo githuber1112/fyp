@@ -40,7 +40,7 @@ const Item = (product) => {
           <td>
             <img src={allImageURL[0]} alt={productName} />
           </td>
-          <td>{productName}</td>
+          <td className="productName">{productName}</td>
           <td align="center">
             <div className="qtyBox">
               <span

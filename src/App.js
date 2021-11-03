@@ -40,6 +40,9 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminAddProduct from "./pages/AdminAddProduct";
 import AdminPromoCode from "./pages/AdminPromoCode";
 import ProfileDetails from "./pages/ProfileDetails";
+import CovidTracker from "./pages/CovidTracker";
+import ReportGenerator from "./pages/ReportGenerator";
+
 const App = (props) => {
   const dispatch = useDispatch();
 
@@ -168,6 +171,16 @@ const App = (props) => {
             )}
           />
           <Route
+            path="/dashboardreport"
+            render={() => (
+              <WithAdminAuth>
+                <AdminLayout>
+                  <ReportGenerator />
+                </AdminLayout>
+              </WithAdminAuth>
+            )}
+          />
+          <Route
             path="/admindashboard"
             render={() => (
               <WithAdminAuth>
@@ -190,6 +203,14 @@ const App = (props) => {
             render={() => (
               <MainLayout>
                 <ContactUs />
+              </MainLayout>
+            )}
+          />
+          <Route
+            path="/covidtracker"
+            render={() => (
+              <MainLayout>
+                <CovidTracker />
               </MainLayout>
             )}
           />

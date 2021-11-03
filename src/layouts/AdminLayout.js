@@ -15,6 +15,7 @@ import {
   CloseCircleOutlined,
   PercentageOutlined,
   PlusOutlined,
+  FileDoneOutlined,
 } from "@ant-design/icons";
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -64,7 +65,14 @@ const AdminLayout = (props) => {
           >
             <Link to="/promocode">Promotion code</Link>
           </Menu.Item>
-          <Menu.Item key="5" icon={<CloseCircleOutlined />}>
+          <Menu.Item
+            key="5"
+            icon={<FileDoneOutlined />}
+            onClick={() => setBreadCrumbName("Reports")}
+          >
+            <Link to="/dashboardreport">Reports</Link>
+          </Menu.Item>
+          <Menu.Item key="6" icon={<CloseCircleOutlined />}>
             <Link to="/">Back to homepage</Link>
           </Menu.Item>
         </Menu>

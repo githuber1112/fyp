@@ -14,7 +14,10 @@ import {
   selectCartItemsCount,
   selectCartItems,
 } from "./../../redux/Cart/cart.selectors";
-import { saveOrderHistory } from "./../../redux/Orders/orders.actions";
+import {
+  saveOrderHistory,
+  saveRecentOrderHistory,
+} from "./../../redux/Orders/orders.actions";
 import { clearCart } from "./../../redux/Cart/cart.actions";
 import { createStructuredSelector } from "reselect";
 import { useSelector, useDispatch } from "react-redux";
@@ -286,11 +289,25 @@ const PaymentDetails = () => {
                       productName,
                       productPrice,
                       quantity,
+
+                      //loop order details
+                      // for (var i = 0; i < orderItems.length(); i++){
+                      //   firestore
+                      //   .collection('dashboard')
+                      //   .doc()
+                      //   .set(order)
+                      //   .then(() => {
+                      //     resolve();
+                      //     })
+                      //     .catch(err => {
+                      //       reject(err);
+                      //     });
+                      // }
                     };
                   }),
                 };
                 console.log(configOrder);
-                sendEmail();
+                //sendEmail();
                 dispatch(saveOrderHistory(configOrder));
               });
           });

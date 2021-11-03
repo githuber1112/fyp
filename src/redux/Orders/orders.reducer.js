@@ -9,6 +9,11 @@ const INITIAL_STATE = {
 
 const ordersReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case ordersTypes.SET_RECENT_ORDER_HISTORY:
+      return {
+        ...state,
+        orderHistory: action.payload,
+      };
     case ordersTypes.RESET_ACTION:
       return {
         ...state,
