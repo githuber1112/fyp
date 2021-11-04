@@ -1,45 +1,37 @@
-import React, { useEffect } from 'react';
-import {
-  TableContainer, Table, TableHead,
-  TableBody, TableRow, TableCell
-} from '@material-ui/core';
-import { useDispatch } from 'react-redux';
-import { setOrderDetails } from './../../redux/Orders/orders.actions';
+import React, { useEffect } from "react";
+import { Table } from "antd";
+import { useDispatch } from "react-redux";
+import { setOrderDetails } from "./../../redux/Orders/orders.actions";
 
 const columns = [
   {
-    id: 'productThumbnail',
-    label: ''
+    dataIndex: "allImageURL",
+    key: "1",
+    render: (record) => {
+      return <img src={record[0]} width={250} />;
+    },
   },
   {
-    id: 'productName',
-    label: 'Name'
+    title: "Product Name",
+    dataIndex: "productName",
+    key: "2",
   },
   {
-    id: 'productPrice',
-    label: 'Price'
+    title: "Product Price",
+    dataIndex: "productPrice",
+    key: "3",
   },
   {
-    id: 'quantity',
-    label: 'Quantity'
-  }
-]
+    title: "Quantity",
+    dataIndex: "quantity",
+    key: "4",
+  },
+];
 
 const styles = {
-  fontSize: '16px',
-  width: '10%'
+  fontSize: "16px",
+  width: "10%",
 };
-
-const formatText = (columnName, columnValue) => {
-  switch(columnName) {
-    case 'productPrice':
-      return `RM${columnValue}`;
-    case 'productThumbnail':
-      return <img src={columnValue} width={250} />;
-    default:
-      return columnValue;
-  }
-}
 
 const OrderDetails = ({ order }) => {
   const dispatch = useDispatch();
@@ -47,62 +39,20 @@ const OrderDetails = ({ order }) => {
 
   useEffect(() => {
     return () => {
-      dispatch(
-        setOrderDetails({})
-      );
-    }
+      dispatch(setOrderDetails({}));
+    };
   }, []);
 
   return (
-    <TableContainer>
-      <Table>
-
-        <TableHead>
-          <TableRow>
-
-            {columns.map((col, pos) => {
-              return (
-                <TableCell
-                  key={pos}
-                  style={styles}
-                >
-                  {col.label}
-                </TableCell>
-              )
-            })}
-
-          </TableRow>
-        </TableHead>
-
-        <TableBody>
-
-          {(Array.isArray(orderItems) && orderItems.length > 0) && orderItems.map((row, pos) => {
-            return (
-              <TableRow key={pos}>
-
-                {columns.map((col, pos) => {
-                  const columnName = col.id;
-                  const columnValue = row[columnName];
-
-                  return (
-                    <TableCell
-                      key={pos}
-                      style={styles}
-                    >
-                      {formatText(columnName, columnValue)}
-                    </TableCell>
-                  )
-                })}
-
-              </TableRow>
-            )
-          })}
-
-        </TableBody>
-
-      </Table>
-    </TableContainer>
-  )
-}
+    <div>
+      <Table
+        style={{ background: "red" }}
+        pagination={false}
+        dataSource={orderItems}
+        columns={columns}
+      />
+    </div>
+  );
+};
 
 export default OrderDetails;
