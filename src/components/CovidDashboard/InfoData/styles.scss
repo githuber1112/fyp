@@ -1,0 +1,54 @@
+.infoCard {
+  flex: 1;
+  cursor: pointer;
+  height: 140px;
+  border: none;
+  box-shadow: 0 0 8px -4px rgba(0, 0, 0, 0.5);
+}
+
+.infoCard:not(:last-child) {
+  margin-right: 15px;
+}
+
+.infoCases {
+  color: #4cbb17;
+  font-weight: 600;
+  font-size: 24px;
+  margin-bottom: 0.5rem;
+}
+
+.infoTotal {
+  color: #6c757d;
+  font-weight: 700;
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+.infoCardSelected {
+  border-top: 14px solid #80f34b;
+}
+
+.infoRedSelected {
+  border-color: #ff5d7b;
+}
+
+.infoGreySelected {
+  border-color: #a798c7;
+}
+
+.infoCard:hover {
+  box-shadow: 0 0 8px -1px rgba(0, 0, 0, 0.5);
+}
+
+.infoCasesRed {
+  color: #cc1034;
+}
+
+.infoCasesBlack {
+  color: #695d81;
+}
+
+.infoTitle {
+  color: #242424;
+  font-size: px;
+}

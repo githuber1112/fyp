@@ -7,6 +7,7 @@ import BounceLoader from "react-spinners/BounceLoader";
 import AuthWrapper from "./../AuthWrapper";
 import FormInput from "../forms/FormInput";
 import Button from "./../forms/Button";
+import { message } from "antd";
 
 const mapState = ({ user }) => ({
   currentUser: user.currentUser,
@@ -58,7 +59,7 @@ const Signup = (props) => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     if (!displayName || !email || !password || !confirmPassword) {
-      alert("Please enter required field.");
+      message.error("Please fill in all input fields");
       return;
     }
 

@@ -56,3 +56,16 @@ export const doneAction = () => ({
 export const doneDelete = () => ({
   type: productTypes.DONE_DELETE,
 });
+
+export const fetchPromotionCodeStart = () => ({
+  type: productTypes.FETCH_PROMOTION_CODE,
+});
+
+export const fetchAllPromotionCodeStart = () => ({
+  type: productTypes.FETCH_ALL_PROMOTION_CODE,
+});
+
+export const setPromotionCode = (promotionCode) => ({
+  type: productsTypes.SET_PROMOTION_CODE,
+  payload: promotionCode,
+});

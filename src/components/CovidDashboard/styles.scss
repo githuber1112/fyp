@@ -1,0 +1,73 @@
+.covidApp {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 20px;
+}
+
+.covidHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  justify-content: space-between;
+
+  h1 {
+    font-weight: bold;
+    color: #242424;
+  }
+}
+
+.covidStats {
+  display: flex;
+  justify-content: space-between;
+}
+
+.covidDropdown {
+  background-color: white;
+  border-radius: 8px;
+  width: 130px;
+}
+
+.covidLeft {
+  flex: 0.9;
+}
+
+.covidGraph {
+  flex-grow: 1;
+}
+
+.covidInformation > h3 {
+  color: #6a5d5d;
+  font-weight: 400;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.covidInformation > h3:last-of-type {
+  margin-top: 20px;
+}
+
+.table {
+  margin-top: 20px;
+  overflow: scroll;
+  height: 400px;
+  color: #6a5d5d;
+}
+
+.table tr {
+  display: flex;
+  justify-content: space-between;
+}
+
+.table td {
+  padding: 0.4rem;
+}
+
+.table tr:nth-of-type(odd) {
+  background-color: #f3f2f8;
+}
+
+@media (max-width: 990px) {
+  .covidApp {
+    flex-direction: column;
+  }
+}
