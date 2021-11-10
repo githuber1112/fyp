@@ -7,9 +7,9 @@ export const handleSaveOrder = (order) => {
     orderItems.map((item) => {
       const updateQuantityRef = firestore
         .collection("dashboard")
-        .doc("topSelling");
-      //.collection("product")
-      //.doc(item.documentID);
+        .doc("topSelling")
+        .collection("products")
+        .doc(item.documentID);
 
       const updateSalesRef = firestore
         .collection("dashboard")
@@ -121,7 +121,7 @@ export const handleGetRecentOrderHistory = () => {
       .orderBy("orderCreatedDate", "desc");
 
     ref
-      .limit(6)
+      //.limit(6)
       .get()
       .then((snap) => {
         const data = [

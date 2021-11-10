@@ -138,12 +138,12 @@ const AdminDashboard = ({ orders }) => {
   const handleGetBestsellerLabel = () => {
     const topSellingRef = firestore.collection("dashboard").doc("topSelling");
 
-    topSellingRef.get().then((snapshot) => {
-      snapshot.docs.forEach((doc) => {
-        setTopProduct(doc.data());
-        console.log(topProduct);
-      });
-    });
+    // topSellingRef.get().then((snapshot) => {
+    //   snapshot.docs.forEach((doc) => {
+    //     setTopProduct(doc.data());
+    //     console.log(topProduct);
+    //   });
+    // });
   };
 
   const fetchTotalCustomers = () => {
