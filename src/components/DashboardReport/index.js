@@ -9,7 +9,7 @@ import { Row, Col, Form, Select, Table } from "antd";
 
 import moment from "moment";
 import { useHistory } from "react-router-dom";
-import { getRecentOrderHistoryStart } from "../../redux/Orders/orders.actions";
+import { getAllRecentOrderHistoryStart } from "../../redux/Orders/orders.actions";
 import ComponentToPrint from "./ComponentToPrint";
 
 const mapState = ({ ordersData }) => ({
@@ -36,7 +36,7 @@ const DashboardReport = () => {
   };
 
   useEffect(() => {
-    dispatch(getRecentOrderHistoryStart());
+    dispatch(getAllRecentOrderHistoryStart());
   }, []);
 
   const printRecentOrder = useReactToPrint({

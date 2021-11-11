@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Table } from "antd";
 import moment from "moment";
 import Pdf from "react-to-pdf";
+import Button from "./../../components/forms/Button";
 
 const ComponentToPrint = (props) => {
   useEffect(() => {
@@ -10,6 +11,8 @@ const ComponentToPrint = (props) => {
   const ref = React.createRef();
   const options = {
     orientation: "landscape",
+    unit: "in",
+    format: [4, 2],
   };
   //recentorder report
   const formatTime = (nanoTime) => {
@@ -37,11 +40,15 @@ const ComponentToPrint = (props) => {
   return (
     <>
       <div ref={ref}>
-        <h3>Recent Orders</h3>
+        <h3>Recent Orders Report</h3>
         <Table columns={columns} dataSource={props.props} pagination={false} />
       </div>
-      <Pdf targetRef={ref} filename="post.pdf" options={options}>
-        {({ toPdf }) => <button onClick={toPdf}>Capture as PDF</button>}
+      <Pdf
+        targetRef={ref}
+        filename="Recent_Orders_Report.pdf"
+        options={options}
+      >
+        {({ toPdf }) => <Button onClick={toPdf}>DOWNLOAD REPORT</Button>}
       </Pdf>
     </>
   );

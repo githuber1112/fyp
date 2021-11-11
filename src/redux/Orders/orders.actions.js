@@ -37,7 +37,16 @@ export const getRecentOrderHistoryStart = () => ({
   type: ordersTypes.GET_RECENT_ORDER_HISTORY_START,
 });
 
+export const getAllRecentOrderHistoryStart = () => ({
+  type: ordersTypes.GET_ALL_RECENT_ORDER_HISTORY_START,
+});
+
 export const setRecentOrderHistory = (order) => ({
   type: ordersTypes.SET_RECENT_ORDER_HISTORY,
+  payload: order,
+});
+
+export const setAllRecentOrderHistory = (order) => ({
+  type: ordersTypes.SET_ALL_RECENT_ORDER_HISTORY,
   payload: order,
 });
