@@ -216,7 +216,7 @@ const PromoCode = () => {
         if (record.limitedDateRange) {
           return record.limitedDate;
         } else {
-          return "null";
+          return "no limit";
         }
       },
     },

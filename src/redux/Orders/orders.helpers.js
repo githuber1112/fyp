@@ -5,6 +5,7 @@ export const handleSaveOrder = (order) => {
     const { orderItems } = order;
 
     orderItems.map((item) => {
+      console.log("hi");
       const topSelling = {
         [item.documentID]: {
           productID: item.documentID,
@@ -14,7 +15,12 @@ export const handleSaveOrder = (order) => {
 
       //if product ID exist, totalsold + quantity
 
-      firestore.collection("dashboard").doc("topSelling").set(topSelling);
+      firestore
+        .collection("dashboard")
+        .doc("topSelling")
+        .collection("products")
+        .doc()
+        .set(topSelling);
     });
 
     firestore
@@ -24,7 +30,6 @@ export const handleSaveOrder = (order) => {
       .then(() => {
         resolve();
       })
-
       .catch((err) => {
         reject(err);
       });

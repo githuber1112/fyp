@@ -65,7 +65,15 @@ export const handleAddProduct = (product) => {
     } catch (e) {
       console.log(e);
     }
-
+    const totalQuantity = {
+      totalSold: 0,
+    };
+    firestore
+      .collection("dashboard")
+      .doc("topSelling")
+      .collection("products")
+      .doc(uploadFirestore.id)
+      .set(totalQuantity);
     uploadFirestore.set(productData, { merge: true });
 
     Promise.all(promises)
@@ -137,14 +145,22 @@ export const handleFetchProducts = ({
 export const handleDeleteProducts = (documentID) => {
   return new Promise((resolve, reject) => {
     firestore
+      .collection("dashboard")
+      .doc("topSelling")
       .collection("products")
       .doc(documentID)
       .delete()
       .then(() => {
-        resolve();
-      })
-      .catch((err) => {
-        reject(err);
+        firestore
+          .collection("products")
+          .doc(documentID)
+          .delete()
+          .then(() => {
+            resolve();
+          })
+          .catch((err) => {
+            reject(err);
+          });
       });
   });
 };

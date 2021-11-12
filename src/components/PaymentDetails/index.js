@@ -538,7 +538,7 @@ const PaymentDetails = () => {
                   </span>
                 </div>
 
-                <CardElement options={configCardElement} />
+                <CardElement options={configCardElement} required />
               </div>
             </form>
           </div>
