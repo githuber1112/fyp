@@ -52,17 +52,18 @@ const ProfileDetails = () => {
     if (status == "complete") {
       message.success("Update successfully");
     }
-    if (status == "changePass"){
-      message.success("Reset Password email has been sent. Please check your email!");
+    if (status == "changePass") {
+      message.success(
+        "Reset Password email has been sent. Please check your email!"
+      );
     }
 
-    dispatch(resetStatus())
-
+    dispatch(resetStatus());
   }, [status]);
 
   useEffect(() => {
     setDisplayName(currentDisplayName);
-    
+
     setPhoneNumber(currentUser.phoneNumber);
     if (currentAddress != null) {
       setUserAddress(currentAddress);
@@ -84,7 +85,6 @@ const ProfileDetails = () => {
     );
   };
 
-  
   // const handleFormSubmit = async evt => {
   //     const { name, value } = evt.target;
   //     setUserDisplayName({
@@ -114,9 +114,7 @@ const ProfileDetails = () => {
   return (
     <div className="profileWrapper">
       <div>
-      <h1>
-           My Profile
-        </h1>
+        <h1>My Profile</h1>
         <h4>Account</h4>
         <h5>Update and Edit the information you share with the community</h5>
         <br />
@@ -130,7 +128,7 @@ const ProfileDetails = () => {
             <br />
             <Row gutter={[48, 48]}>
               <Col span={12}>
-                <h4>Display Name</h4>
+                <label>Display Name</label>
                 <div className="inputWidth">
                   <FormInput
                     required
@@ -143,7 +141,7 @@ const ProfileDetails = () => {
                 </div>
               </Col>
               <Col span={12}>
-                <h4>Phone Number</h4>
+                <label class="required">Phone Number</label>
                 <div className="inputWidth">
                   <FormInput
                     required
@@ -152,14 +150,14 @@ const ProfileDetails = () => {
                     handleChange={(evt) => setPhoneNumber(evt.target.value)}
                     value={phoneNumber}
                     type="text"
-                    pattern= "^[0-9]*$"
+                    pattern="^[0-9]*$"
                     maxLength={11}
                   />
                 </div>
               </Col>
             </Row>
             <br />
-            <h4>Address</h4>
+            <label class="required">Address</label>
             <FormInput
               required
               placeholder="Line 1"
@@ -170,13 +168,13 @@ const ProfileDetails = () => {
             />
 
             <FormInput
-              placeholder="Line 2"
+              placeholder="Line 2 (Optional)"
               name="line2"
               handleChange={(evt) => handleAddress(evt)}
               value={userAddress.line2}
               type="text"
             />
-
+            <label class="required">City</label>
             <FormInput
               required
               placeholder="City"
@@ -184,9 +182,9 @@ const ProfileDetails = () => {
               handleChange={(evt) => handleAddress(evt)}
               value={userAddress.city}
               type="text"
-              pattern= "^[a-zA-Z ]*$"
+              pattern="^[a-zA-Z ]*$"
             />
-
+            <label class="required">State</label>
             <FormInput
               required
               placeholder="State"
@@ -194,9 +192,9 @@ const ProfileDetails = () => {
               handleChange={(evt) => handleAddress(evt)}
               value={userAddress.state}
               type="text"
-              pattern= "^[a-zA-Z ]*$"
+              pattern="^[a-zA-Z ]*$"
             />
-
+            <label class="required">Postal Code</label>
             <FormInput
               required
               placeholder="Postal Code"
@@ -204,53 +202,56 @@ const ProfileDetails = () => {
               handleChange={(evt) => handleAddress(evt)}
               value={userAddress.postal_code}
               type="text"
-              pattern= "^[0-9]*$"
+              pattern="^[0-9]*$"
               maxLength={5}
             />
+            <label class="required">Country</label>
+            <div className="formRow countryDropdown">
+              <CountryDropdown
+                required
+                onChange={(val) =>
+                  handleAddress({
+                    target: {
+                      name: "country",
+                      value: val,
+                    },
+                  })
+                }
+                value={userAddress.country}
+                valueType="short"
+              />
+            </div>
 
-<div className="formRow countryDropdown">
-            <CountryDropdown
-              required
-              onChange={(val) =>
-                handleAddress({
-                  target: {
-                    name: "country",
-                    value: val,
-                  },
-                })
-              }
-              value={userAddress.country}
-              valueType="long"
-            />
-          </div>
-
-            
-              <table border="0" cellPadding="20" cellSpacing="0" >
-                <tbody>
-                  <tr>
-                    <td width="400px"></td>
-                    <td>
-                      <div className="btnUpdate">
-                      <Button htmlType="submit" loading={loading} >
+            <table border="0" cellPadding="20" cellSpacing="0">
+              <tbody>
+                <tr>
+                  <td width="400px"></td>
+                  <td>
+                    <div>
+                      <Button
+                        className="btnUpdate"
+                        htmlType="submit"
+                        loading={loading}
+                      >
                         Update Info
                       </Button>
-                      </div>
-                    </td>
-                    
-                    <td>
-                      <div className="btnChangePassword">
-                      <Button onClick={() => dispatch(resetPasswordStart({ email }))}>
+                    </div>
+                  </td>
+
+                  <td>
+                    <div>
+                      <Button
+                        className="btnChangePassword"
+                        onClick={() => dispatch(resetPasswordStart({ email }))}
+                      >
                         Change Password
                       </Button>
-                      </div>
-                    </td>
-                    
-                  </tr>
-                  </tbody>
-              </table>
-      
-        
-        </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </form>
       </div>
     </div>

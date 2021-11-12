@@ -14,6 +14,11 @@ const ordersReducer = (state = INITIAL_STATE, action) => {
         ...state,
         orderHistory: action.payload,
       };
+    case ordersTypes.SET_ALL_RECENT_ORDER_HISTORY:
+      return {
+        ...state,
+        orderHistory: action.payload,
+      };
     case ordersTypes.RESET_ACTION:
       return {
         ...state,
