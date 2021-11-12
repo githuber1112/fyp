@@ -32,8 +32,6 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import emailjs from "emailjs-com";
 import { Checkbox, message } from "antd";
-import Form from "rc-field-form/es/Form";
-import FormItem from "antd/lib/form/FormItem";
 
 const initialAddressState = {
   line1: "",
@@ -110,7 +108,7 @@ const PaymentDetails = () => {
 
   useEffect(() => {
     if (status == "complete") {
-      message.success("Payment successfull, please check your email!");
+      message.success("Payment successfull, please check your email!", 5);
     }
   }, [status]);
 
@@ -204,10 +202,17 @@ const PaymentDetails = () => {
             },
           })
           .then(({ paymentMethod }) => {
+            if (!paymentMethod) {
+              console.log("error!!!");
+              message.error("Invalid Card Details");
+              setCurrentLoading(false);
+              return;
+            }
             stripe
               .confirmCardPayment(clientSecret, {
                 payment_method: paymentMethod.id,
               })
+
               .then(({ paymentIntent }) => {
                 const configOrder = {
                   orderTotal: total,
@@ -244,7 +249,7 @@ const PaymentDetails = () => {
                   }),
                 };
                 console.log(configOrder);
-                //sendEmail();
+                sendEmail();
                 dispatch(saveOrderHistory(configOrder));
               });
           });

@@ -206,20 +206,20 @@ const Header = (props) => {
             </li>
             <li className="nav-item">
               <Link
+                to="/covidtracker"
+                className="nav-links"
+                onClick={closeMobileMenu}
+              >
+                Covid-19 Dashboard
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
                 to="/contactus"
                 className="nav-links"
                 onClick={closeMobileMenu}
               >
                 Contact Us
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link
-                to="/covidtracker"
-                className="nav-links"
-                onClick={closeMobileMenu}
-              >
-                Covid-19 Tracker
               </Link>
             </li>
 

@@ -41,6 +41,7 @@ import AdminAddProduct from "./pages/AdminAddProduct";
 import ProfileDetails from "./pages/ProfileDetails";
 import CovidTracker from "./pages/CovidTracker";
 import ReportGenerator from "./pages/ReportGenerator";
+import Wishlist from "./pages/Wishlist";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -201,6 +202,16 @@ const App = (props) => {
               <MainLayout>
                 <CovidTracker />
               </MainLayout>
+            )}
+          />
+          <Route
+            path="/wishlist"
+            render={() => (
+              <WithAuth>
+                <DashBoardLayout>
+                  <Wishlist />
+                </DashBoardLayout>
+              </WithAuth>
             )}
           />
           <Route path="/chatbot" render={() => <ChatBot />} />
