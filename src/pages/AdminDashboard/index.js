@@ -10,23 +10,6 @@ import { getRecentOrderHistoryStart } from "../../redux/Orders/orders.actions";
 
 //bestsellers get data from firestore (labels)
 
-const dataBestSellers = {
-  labels: ["A", "B", "C", "D"],
-  datasets: [
-    {
-      label: "Top Selling Products",
-      data: [10, 30, 40, 20],
-      fill: false,
-      backgroundColor: [
-        "rgb(255,99,132,0.6)",
-        "rgb(54,162,235,0.6)",
-        "rgb(255,206,86,0.6)",
-        "rgb(75,192,192,0.6)",
-      ],
-    },
-  ],
-};
-
 const dataSales = {
   labels: ["January", "Febuary", "March", "April", "May", "June"],
   datasets: [
@@ -133,17 +116,54 @@ const AdminDashboard = ({ orders }) => {
   const [customerCount, setCustomerCount] = useState(0);
   const [orderCount, setOrderCount] = useState(0);
   const [productsCount, setProductsCount] = useState(0);
-  const [topProduct, setTopProduct] = useState(null);
+  const [topProductName, setTopProductName] = useState([]);
+  const [topProductQuantity, setTopProductQuantity] = useState([]);
+
+  useEffect(() => {
+    console.log(topProductName);
+  }, [topProductName]);
 
   const handleGetBestsellerLabel = () => {
-    const topSellingRef = firestore.collection("dashboard").doc("topSelling");
+    const topSellingRef = firestore
+      .collection("dashboard")
+      .doc("topSelling")
+      .collection("products")
+      .orderBy("totalSold", "desc")
+      .limit(5);
 
-    // topSellingRef.get().then((snapshot) => {
-    //   snapshot.docs.forEach((doc) => {
-    //     setTopProduct(doc.data());
-    //     console.log(topProduct);
-    //   });
-    // });
+    topSellingRef.get().then((snapshot) => {
+      snapshot.docs.map((doc) => {
+        if (doc.data().totalSold != null) {
+          setTopProductName((topProductName) => [
+            ...topProductName,
+            doc.data().productName,
+          ]);
+
+          setTopProductQuantity((topProductQuantity) => [
+            ...topProductQuantity,
+            doc.data().totalSold,
+          ]);
+        }
+      });
+    });
+  };
+
+  const dataBestSellers = {
+    labels: topProductName,
+    datasets: [
+      {
+        label: "Top Selling Products",
+        data: topProductQuantity,
+        fill: true,
+        backgroundColor: [
+          "rgb(255,99,132,0.6)",
+          "rgb(54,162,235,0.6)",
+          "rgb(255,206,86,0.6)",
+          "rgb(75,192,192,0.6)",
+          "rgb(153,102,255,0.6)",
+        ],
+      },
+    ],
   };
 
   const fetchTotalCustomers = () => {
