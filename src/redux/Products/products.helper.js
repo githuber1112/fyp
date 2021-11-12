@@ -1,4 +1,4 @@
-import { firestore } from "./../../firebase/utils";
+import { auth, firestore } from "./../../firebase/utils";
 import { storage } from "./../../firebase/utils";
 import firebase from "firebase";
 import React, { useState, useEffect } from "react";
@@ -66,6 +66,7 @@ export const handleAddProduct = (product) => {
       console.log(e);
     }
     const totalQuantity = {
+      productName: product.productName,
       totalSold: 0,
     };
     firestore
