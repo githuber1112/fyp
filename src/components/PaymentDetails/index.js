@@ -31,15 +31,11 @@ import {
   faCcVisa,
 } from "@fortawesome/free-brands-svg-icons";
 import emailjs from "emailjs-com";
-<<<<<<< HEAD
-import { Checkbox, message } from "antd";
-=======
 import { Checkbox, message, Row, Col, Divider, Table } from "antd";
 import { fetchPromotionCodeStart } from "../../redux/Products/products.actions";
 import Form from "rc-field-form/es/Form";
 import FormItem from "antd/lib/form/FormItem";
 import Item from "../Checkout/Item";
->>>>>>> 80adbd8e9584d496424f5101d02851ca9980ac52
 
 const initialAddressState = {
   line1: "",
@@ -114,7 +110,7 @@ const PaymentDetails = () => {
   var templateParams = {
     to: email,
     name: displayName,
-    total: total,
+    total: totalPrice,
   };
 
   useEffect(() => {
