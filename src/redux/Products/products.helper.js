@@ -1,9 +1,10 @@
-import { firestore } from "./../../firebase/utils";
+import { auth, firestore } from "./../../firebase/utils";
 import { storage } from "./../../firebase/utils";
 import firebase from "firebase";
 import React, { useState, useEffect } from "react";
 import { fixControlledValue } from "antd/lib/input/Input";
 import Compressor from "compressorjs";
+import moment from "moment";
 
 export const handleAddProduct = (product) => {
   const promises = [];
@@ -64,7 +65,16 @@ export const handleAddProduct = (product) => {
     } catch (e) {
       console.log(e);
     }
-
+    const totalQuantity = {
+      productName: product.productName,
+      totalSold: 0,
+    };
+    firestore
+      .collection("dashboard")
+      .doc("topSelling")
+      .collection("products")
+      .doc(uploadFirestore.id)
+      .set(totalQuantity);
     uploadFirestore.set(productData, { merge: true });
 
     Promise.all(promises)
@@ -136,14 +146,22 @@ export const handleFetchProducts = ({
 export const handleDeleteProducts = (documentID) => {
   return new Promise((resolve, reject) => {
     firestore
+      .collection("dashboard")
+      .doc("topSelling")
       .collection("products")
       .doc(documentID)
       .delete()
       .then(() => {
-        resolve();
-      })
-      .catch((err) => {
-        reject(err);
+        firestore
+          .collection("products")
+          .doc(documentID)
+          .delete()
+          .then(() => {
+            resolve();
+          })
+          .catch((err) => {
+            reject(err);
+          });
       });
   });
 };
@@ -322,6 +340,67 @@ export const handleFetchAllProducts = () => {
           };
         });
         resolve(productsArray);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
+
+export const handleFetchPromotionCode = () => {
+  return new Promise((resolve, reject) => {
+    const now = moment();
+
+    firestore
+      .collection("promotionCode")
+      .where("status", "==", "active")
+      .get()
+      .then((snapshot) => {
+        const promotionCodeArray = snapshot.docs.map((doc) => {
+          let dateLimit = doc.data().limitedDate;
+
+          if (dateLimit != null && now.isAfter(dateLimit)) {
+            console.log(now.toString());
+            console.log(dateLimit.toString());
+            doc.ref.update({ status: "expired" });
+          } else {
+            return {
+              ...doc.data(),
+              documentID: doc.id,
+            };
+          }
+        });
+        resolve(promotionCodeArray);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
+
+export const handleFetchAllPromotionCode = () => {
+  return new Promise((resolve, reject) => {
+    const now = moment();
+
+    firestore
+      .collection("promotionCode")
+      .orderBy("status")
+      .get()
+      .then((snapshot) => {
+        const promotionCodeArray = snapshot.docs.map((doc) => {
+          let dateLimit = doc.data().limitedDate;
+
+          if (dateLimit != null && now.isAfter(dateLimit)) {
+            console.log(now.toString());
+            console.log(dateLimit.toString());
+            doc.ref.update({ status: "expired" });
+          }
+          return {
+            ...doc.data(),
+            documentID: doc.id,
+          };
+        });
+        resolve(promotionCodeArray);
       })
       .catch((err) => {
         reject(err);

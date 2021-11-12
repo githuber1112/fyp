@@ -4,6 +4,8 @@ import Modal from "./../../components/Modal/index";
 import FormInput from "./../../components/forms/FormInput";
 import FormSelect from "./../../components/forms/FormSelect";
 import Button from "./../../components/forms/Button";
+import { useHistory } from "react-router-dom";
+
 import {
   addProductStart,
   resetLoading,
@@ -29,6 +31,7 @@ const mapState = ({ productsData }) => ({
 
 const AddProduct = () => {
   const { loading, status } = useSelector(mapState);
+  const history = useHistory();
   const dispatch = useDispatch();
   const [productCategory, setProductCategory] = useState("facemask");
   const [productName, setProductName] = useState("");
@@ -39,11 +42,13 @@ const AddProduct = () => {
   const [previewTitle, setPreviewTitle] = useState(false);
   const [fileList, setFileList] = useState([]);
   const { Option } = Select;
+  const [form] = Form.useForm();
 
   useEffect(() => {
     if (status == "complete") {
       message.success("Product Added Successfully!");
       dispatch(resetLoading());
+      form.resetFields();
     }
   }, [status]);
 
@@ -153,9 +158,19 @@ const AddProduct = () => {
 
         <Row gutter={[40, 0]}>
           <Col span={18}>
-            <Form {...layout} onFinish={handleSubmit}>
+            <Form {...layout} form={form} onFinish={handleSubmit}>
               <Form.Item label="Product Image">
-                <Form.Item name="fileList" getValueFromEvent={getFile} noStyle>
+                <Form.Item
+                  name="fileList"
+                  getValueFromEvent={getFile}
+                  hasFeedback
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please insert at least one image!",
+                    },
+                  ]}
+                >
                   <Upload
                     listType="picture-card"
                     beforeUpload={beforeUpload}
@@ -180,7 +195,7 @@ const AddProduct = () => {
               </Form.Item>
               <Form.Item
                 name="productCategory"
-                label="Select"
+                label="Product Category"
                 hasFeedback
                 rules={[
                   { required: true, message: "Please select a category!" },
@@ -194,6 +209,7 @@ const AddProduct = () => {
               <Form.Item
                 name="productName"
                 label="Product Name"
+                hasFeedback
                 rules={[
                   {
                     required: true,
@@ -203,16 +219,15 @@ const AddProduct = () => {
               >
                 <Input placeholder="Please enter the product name" />
               </Form.Item>
-              <Form.Item label="Product Price (RM)">
-                <Form.Item
-                  name="productPrice"
-                  hasFeedback
-                  rules={[
-                    { required: true, message: "Please input produce price!" },
-                  ]}
-                >
-                  <InputNumber min={1} max={10000} />
-                </Form.Item>
+              <Form.Item
+                label="Product Price(RM)"
+                name="productPrice"
+                hasFeedback
+                rules={[
+                  { required: true, message: "Please input product price!" },
+                ]}
+              >
+                <InputNumber min={1} max={10000} />
               </Form.Item>
               <Form.Item
                 label="Product Description"

@@ -38,6 +38,7 @@ import ContactUs from "./pages/ContactUs";
 import ChatBot from "./components/Chatbot";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminAddProduct from "./pages/AdminAddProduct";
+import AdminPromoCode from "./pages/AdminPromoCode";
 import ProfileDetails from "./pages/ProfileDetails";
 import CovidTracker from "./pages/CovidTracker";
 import ReportGenerator from "./pages/ReportGenerator";
@@ -85,7 +86,7 @@ const App = (props) => {
             path="/product/:productID"
             render={() => (
               <MainLayout>
-                <ProductDetails />
+                <ProductDetails key={Date.now()} />
               </MainLayout>
             )}
           />
@@ -156,6 +157,16 @@ const App = (props) => {
               <WithAdminAuth>
                 <AdminLayout>
                   <AdminAddProduct />
+                </AdminLayout>
+              </WithAdminAuth>
+            )}
+          />
+          <Route
+            path="/promocode"
+            render={() => (
+              <WithAdminAuth>
+                <AdminLayout>
+                  <AdminPromoCode />
                 </AdminLayout>
               </WithAdminAuth>
             )}

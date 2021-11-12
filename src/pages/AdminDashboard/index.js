@@ -8,6 +8,8 @@ import moment from "moment";
 import { useHistory } from "react-router-dom";
 import { getRecentOrderHistoryStart } from "../../redux/Orders/orders.actions";
 
+//bestsellers get data from firestore (labels)
+
 const dataSales = {
   labels: ["January", "Febuary", "March", "April", "May", "June"],
   datasets: [
@@ -35,28 +37,6 @@ const dataCustomers = {
         "rgb(75,192,192,0.6)",
         "rgb(153,102,255,0.6)",
         "rgb(255,159,64,0.6)",
-      ],
-    },
-  ],
-};
-
-const dataBestSellers = {
-  labels: [
-    "Callie N95 Mask",
-    "Callie 4-ply Mask",
-    "Hand Sanitizer",
-    "Callie Blackout Mask",
-  ],
-  datasets: [
-    {
-      label: "Top Selling Products",
-      data: [10, 30, 40, 20],
-      fill: false,
-      backgroundColor: [
-        "rgb(255,99,132,0.6)",
-        "rgb(54,162,235,0.6)",
-        "rgb(255,206,86,0.6)",
-        "rgb(75,192,192,0.6)",
       ],
     },
   ],
@@ -136,6 +116,55 @@ const AdminDashboard = ({ orders }) => {
   const [customerCount, setCustomerCount] = useState(0);
   const [orderCount, setOrderCount] = useState(0);
   const [productsCount, setProductsCount] = useState(0);
+  const [topProductName, setTopProductName] = useState([]);
+  const [topProductQuantity, setTopProductQuantity] = useState([]);
+
+  useEffect(() => {
+    console.log(topProductName);
+  }, [topProductName]);
+
+  const handleGetBestsellerLabel = () => {
+    const topSellingRef = firestore
+      .collection("dashboard")
+      .doc("topSelling")
+      .collection("products")
+      .orderBy("totalSold", "desc")
+      .limit(5);
+
+    topSellingRef.get().then((snapshot) => {
+      snapshot.docs.map((doc) => {
+        if (doc.data().totalSold != null) {
+          setTopProductName((topProductName) => [
+            ...topProductName,
+            doc.data().productName,
+          ]);
+
+          setTopProductQuantity((topProductQuantity) => [
+            ...topProductQuantity,
+            doc.data().totalSold,
+          ]);
+        }
+      });
+    });
+  };
+
+  const dataBestSellers = {
+    labels: topProductName,
+    datasets: [
+      {
+        label: "Top Selling Products",
+        data: topProductQuantity,
+        fill: true,
+        backgroundColor: [
+          "rgb(255,99,132,0.6)",
+          "rgb(54,162,235,0.6)",
+          "rgb(255,206,86,0.6)",
+          "rgb(75,192,192,0.6)",
+          "rgb(153,102,255,0.6)",
+        ],
+      },
+    ],
+  };
 
   const fetchTotalCustomers = () => {
     try {
@@ -182,10 +211,11 @@ const AdminDashboard = ({ orders }) => {
     fetchTotalCustomers();
     fetchTotalOrders();
     fetchTotalProducts();
+    handleGetBestsellerLabel();
   }, []);
 
   const formatTime = (nanoTime) => {
-    return moment(nanoTime.nano).format("DD/MM/YYYY");
+    return moment(nanoTime.toDate()).format("DD/MM/YYYY");
   };
 
   const columns = [
@@ -221,8 +251,8 @@ const AdminDashboard = ({ orders }) => {
                   boxShadow: "0 7px 25px rgba(0,0,0,0.2)",
                 }}
               >
-                <h3>Total Customers</h3>
-                <h1>{customerCount}</h1>
+                <h3 style={{ textAlign: "center" }}>Total Customers</h3>
+                <h1 style={{ textAlign: "center" }}>{customerCount}</h1>
               </Card>
             </td>
             <td width="330px">
@@ -234,8 +264,8 @@ const AdminDashboard = ({ orders }) => {
                   boxShadow: "0 7px 25px rgba(0,0,0,0.2)",
                 }}
               >
-                <h3>Total Orders</h3>
-                <h1>{orderCount}</h1>
+                <h3 style={{ textAlign: "center" }}>Total Orders</h3>
+                <h1 style={{ textAlign: "center" }}>{orderCount}</h1>
               </Card>
             </td>
             <td width="330px">
@@ -247,8 +277,8 @@ const AdminDashboard = ({ orders }) => {
                   boxShadow: "0 7px 25px rgba(0,0,0,0.2)",
                 }}
               >
-                <h3>Total Products</h3>
-                <h1>{productsCount}</h1>
+                <h3 style={{ textAlign: "center" }}>Total Products</h3>
+                <h1 style={{ textAlign: "center" }}>{productsCount}</h1>
               </Card>
             </td>
           </tr>

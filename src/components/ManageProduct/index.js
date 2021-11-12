@@ -7,7 +7,6 @@ import {
   updateProductStart,
   resetLoading,
 } from "../../redux/Products/products.actions";
-import Modal from "../../components/Modal/index";
 import FormInput from "../../components/forms/FormInput";
 import FormSelect from "../../components/forms/FormSelect";
 import Button from "../../components/forms/Button";
@@ -22,7 +21,7 @@ import {
   Input,
   Space,
   Upload,
-  Modal as Modal1,
+  Modal,
   message,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -39,7 +38,6 @@ const mapState = ({ productsData }) => ({
 const ManageProduct = () => {
   const { allProducts, loading, status } = useSelector(mapState);
   const dispatch = useDispatch();
-  const [hideModal, setHideModal] = useState(true);
   const [productCategory, setProductCategory] = useState("facemask");
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState(0);
@@ -50,21 +48,22 @@ const ManageProduct = () => {
   const [previewImage, setPreviewImage] = useState(false);
   const [previewTitle, setPreviewTitle] = useState(false);
   const [updateFileList, setUpdateFileList] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     dispatch(fetchAllProductsStart());
   }, []);
 
   useEffect(() => {
-    if (hideModal) {
+    if (!isEditing) {
       setUpdateFileList([]);
     }
-  }, [hideModal]);
+  }, [isEditing]);
 
   useEffect(() => {
     if (status == "complete") {
       message.success("Product Updated Successfully!");
-      setHideModal(true);
+      setIsEditing(false);
       dispatch(resetLoading());
     }
 
@@ -119,15 +118,7 @@ const ManageProduct = () => {
     setUpdateFileList(fileList.filter((file) => file.status !== "error"));
   console.log(updateFileList);
 
-  const toggleModal = () => setHideModal(!hideModal);
-
-  const configModal = {
-    hideModal,
-    toggleModal,
-  };
-
   const resetForm = () => {
-    setHideModal(true);
     setProductCategory("facemask");
     setProductName("");
     setProductPrice(0);
@@ -156,7 +147,7 @@ const ManageProduct = () => {
 
     console.log(item.allImageURL);
     console.log(updateFileList);
-    toggleModal();
+    setIsEditing(true);
   };
 
   const handleSubmit = (e) => {
@@ -226,9 +217,25 @@ const ManageProduct = () => {
             )}
           />
         </InfiniteScroll>
-        <Modal {...configModal}>
+        <Modal
+          width={900}
+          title="Edit Product"
+          visible={isEditing}
+          onCancel={() => {
+            setIsEditing(false);
+          }}
+          footer={[
+            <Button
+              htmlType="submit"
+              form="updateProductForm"
+              loading={loading}
+            >
+              Update Product
+            </Button>,
+          ]}
+        >
           <div className="addNewProductForm">
-            <form onSubmit={handleSubmit}>
+            <form id="updateProductForm" onSubmit={handleSubmit}>
               <h2>Update new product</h2>
               <Upload
                 listType="picture-card"
@@ -237,9 +244,9 @@ const ManageProduct = () => {
                 onPreview={handlePreview}
                 onChange={handleImageChangeAnt}
               >
-                {updateFileList.length >= 8 ? null : uploadButton}
+                {updateFileList.length >= 5 ? null : uploadButton}
               </Upload>
-              <Modal1
+              <Modal
                 visible={previewVisible}
                 title={previewTitle}
                 footer={null}
@@ -250,8 +257,9 @@ const ManageProduct = () => {
                   style={{ width: "100%" }}
                   src={previewImage}
                 />
-              </Modal1>
+              </Modal>
               <FormSelect
+                style={{ marginTop: 10, marginBottom: 10 }}
                 label="Category"
                 options={[
                   {
@@ -264,7 +272,7 @@ const ManageProduct = () => {
                   },
                 ]}
                 defaultValue={productCategory}
-                handleChange={(e) => setProductCategory(e.target.value)}
+                handleChange={(value) => setProductCategory(value)}
               />
 
               <FormInput
@@ -288,10 +296,6 @@ const ManageProduct = () => {
                 data={productDesc}
                 onChange={(evt) => setProductDesc(evt.editor.getData())}
               />
-
-              <Button htmlType="submit" loading={loading}>
-                Update Product
-              </Button>
             </form>
           </div>
         </Modal>

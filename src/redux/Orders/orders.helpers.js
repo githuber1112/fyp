@@ -5,16 +5,18 @@ export const handleSaveOrder = (order) => {
     const { orderItems } = order;
 
     orderItems.map((item) => {
-      const topSelling = {
-        [item.documentID]: {
-          productID: item.documentID,
-          totalSold: item.quantity,
-        },
-      };
+      const updateQuantityRef = firestore
+        .collection("dashboard")
+        .doc("topSelling")
+        .collection("products")
+        .doc(item.documentID);
 
-      //if product ID exist, totalsold + quantity
-
-      firestore.collection("dashboard").doc("topSelling").set(topSelling);
+      // bestsellers
+      updateQuantityRef.get().then((data) => {
+        let oldQuantity = data.get("totalSold");
+        let newQuantity = item.quantity + oldQuantity;
+        updateQuantityRef.update({ totalSold: newQuantity });
+      });
     });
 
     firestore
@@ -24,7 +26,6 @@ export const handleSaveOrder = (order) => {
       .then(() => {
         resolve();
       })
-
       .catch((err) => {
         reject(err);
       });
@@ -64,6 +65,34 @@ export const handleGetRecentOrderHistory = () => {
 
     ref
       .limit(6)
+      .get()
+      .then((snap) => {
+        const data = [
+          ...snap.docs.map((doc) => {
+            return {
+              ...doc.data(),
+              documentID: doc.id,
+            };
+          }),
+        ];
+
+        resolve({ data });
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
+
+//show all recent order for report
+export const handleGetAllRecentOrderHistory = () => {
+  return new Promise((resolve, reject) => {
+    let ref = firestore
+      .collection("orders")
+      .orderBy("orderCreatedDate", "desc");
+
+    ref
+
       .get()
       .then((snap) => {
         const data = [

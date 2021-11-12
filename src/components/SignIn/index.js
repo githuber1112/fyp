@@ -8,7 +8,7 @@ import {
   googleSignInStart,
   resetError,
 } from "./../../redux/User/user.actions";
-import { Divider } from "antd";
+import { Divider, message } from "antd";
 import googleIcon from "./../../assets/googleButton.png";
 import googleHoverIcon from "./../../assets/googleButtonHover.png";
 import BounceLoader from "react-spinners/BounceLoader";
@@ -58,6 +58,10 @@ const SignIn = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!email || !password) {
+      message.error("Please fill in all input fields");
+      return;
+    }
     dispatch(emailSignInStart({ email, password }));
   };
 
