@@ -15,4 +15,4 @@ export const sortData = (data) => {
 };
 
 export const NumberFormat = (stat) =>
-  stat ? `+${numeral(stat).format("0.0a")}` : "+0";
+  stat ? `${numeral(stat).format("0.0a")}` : "+0";

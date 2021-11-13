@@ -15,7 +15,6 @@ const InfoData = ({ title, cases, total, active, isRed, isGrey, ...props }) => {
     >
       {/*title e.g Co,firmed Cases)*/}
       <h3 className="infoTitle">{title}</h3>
-
       {/*cases e.g +120k*/}
       <h2
         className={`infoCases 
@@ -23,9 +22,9 @@ const InfoData = ({ title, cases, total, active, isRed, isGrey, ...props }) => {
         ${isGrey && "infoCasesBlack"}
         `}
       >
-        {cases}
+        {cases} <span className="upperT">(T</span>
+        <span className="today">oday)</span>
       </h2>
-
       {/*total e.g 1.2M Total*/}
       <Text className="infoTotal" type="secondary">
         Total: {total}

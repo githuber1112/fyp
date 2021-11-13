@@ -1,8 +1,11 @@
 import { firestore } from "./../../firebase/utils";
+import moment from "moment";
 
 export const handleSaveOrder = (order) => {
   return new Promise((resolve, reject) => {
     const { orderItems } = order;
+    var currentDate = moment().format("MMMM");
+    const orderRef = firestore.collection("orders").doc();
 
     orderItems.map((item) => {
       const updateQuantityRef = firestore
@@ -11,78 +14,30 @@ export const handleSaveOrder = (order) => {
         .collection("products")
         .doc(item.documentID);
 
-      const updateSalesRef = firestore
-        .collection("dashboard")
-        .doc("totalSales");
-
       // bestsellers
       updateQuantityRef.get().then((data) => {
-        let oldQuantity = data.get(item.documentID);
-        if (oldQuantity != null) {
-          const { totalSold } = oldQuantity;
-          let newQuantity = totalSold + item.quantity;
-          console.log(oldQuantity);
-
-          const topSelling = {
-            [item.documentID]: {
-              productID: item.documentID,
-              productName: item.productName,
-              totalSold: newQuantity,
-            },
-          };
-
-          updateQuantityRef.set(topSelling, { merge: true });
-        } else {
-          const topSelling = {
-            [item.documentID]: {
-              productID: item.documentID,
-              productName: item.productName,
-              totalSold: item.quantity,
-            },
-          };
-          updateQuantityRef.set(topSelling, { merge: true });
-        }
+        let oldQuantity = data.get("totalSold");
+        let newQuantity = item.quantity + oldQuantity;
+        updateQuantityRef.update({ totalSold: newQuantity });
       });
-
-      // total sales
-      // updateSalesRef.get().then((data) => {
-      //   const totalSales = {
-      //     [item.documentID]: {
-      //       soldMonth: item.orderedDate,
-      //       totalSold: item.price,
-      //     },
-      //   };
-      // });
-
-      // const productID = firestore.documentID;
-      // const totalSold = firestore.quantity;
-      // const increment = firestore.FieldValue.increment(totalSold);
-      //if product ID exist, totalsold + quantity
-      // try {
-      //   //const { id, ...updateInfo } = payload;
-      //   if (productID == documentID) {
-      //     firestore
-      //       .collection("dashboard")
-      //       .doc("topSelling")
-      //       .update({ totalSold: increment }, { merge: true })
-      //       .then(() => {
-      //         resolve();
-      //       });
-      //   }
-      // } catch (err) {
-      //   console.log(err);
-      // }
-      //firestore.collection("dashboard").doc("topSelling").set(topSelling);
     });
 
-    firestore
-      .collection("orders")
-      .doc()
+    orderRef
       .set(order)
       .then(() => {
-        resolve();
+        firestore
+          .collection("dashboard")
+          .doc("monthlySales")
+          .collection(currentDate)
+          .doc(orderRef.id)
+          .set({ totalAmount: order.orderTotal })
+          .then(() => {
+            resolve();
+          })
+          .catch((err) => {
+            reject(err);
+          });
       })
-
       .catch((err) => {
         reject(err);
       });

@@ -13,6 +13,8 @@ import { ShoppingCartOutlined, HeartOutlined } from "@ant-design/icons";
 import { Image } from "antd";
 import BounceLoader from "react-spinners/BounceLoader";
 import { Row, Col } from "antd";
+import { handleAddToWishlist } from "../../redux/Wishlist/wishlist.helper";
+import { addToWishlist } from "../../redux/Wishlist/wishlist.sagas";
 
 const mapState = ({ productsData }) => ({
   product: productsData.product,
@@ -46,6 +48,14 @@ const ProductCard = ({}) => {
 
   const configAddToCartBtn = {
     type: "button",
+  };
+
+  const configAddToWishlistBtn = {
+    type: "button",
+  };
+
+  const handleAddWishlist = () => {
+    dispatch(addToWishlist(documentID));
   };
 
   return (
@@ -94,7 +104,12 @@ const ProductCard = ({}) => {
             <ShoppingCartOutlined /> &nbsp;&nbsp; Add to Cart
           </Button>
 
-          <Button className="addWishlistBtn">{/*<HeartOutlined />*/}</Button>
+          <Button className="addWishlistBtn">
+            <HeartOutlined
+              style={{ color: "#ff5d7b" }}
+              onClick={() => handleAddWishlist()}
+            />
+          </Button>
         </div>
       </div>
     </div>

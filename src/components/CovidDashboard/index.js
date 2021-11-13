@@ -27,8 +27,6 @@ const CovidDashboardComponent = () => {
       });
   }, []);
 
-  //"https://disease.sh/v3/covid-19/countries?yesterday=yesterday"
-
   useEffect(() => {
     const getCountriesData = async () => {
       await fetch("https://disease.sh/v3/covid-19/countries?yesterday=true")
@@ -79,11 +77,31 @@ const CovidDashboardComponent = () => {
 
   console.log("country info", countryInfo);
 
+  const date = new Date();
+  //date.setDate(date.getDate() - 1);
+  console.log("dateee", date);
+  console.log(
+    new Intl.DateTimeFormat("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+    }).format(date)
+  );
+
   return (
     <div className="covidApp">
       <div className="covidLeft">
         <div className="covidHeader">
-          <h1>COVID-19 DASHBOARD</h1>
+          <div className="title">
+            Worldwide COVID-19 cases updated as of{" "}
+            <span className="date">
+              {new Intl.DateTimeFormat("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "2-digit",
+              }).format(date)}
+            </span>
+          </div>
           <FormControl className="covidDropdown">
             {/*loop country in dropdown*/}
             <Select
@@ -135,7 +153,16 @@ const CovidDashboardComponent = () => {
 
       <Card className="covidRight">
         <div className="covidInformation">
-          <h3>Live Cases by Country</h3>
+          <h3>
+            Live Cases by Country{" "}
+            <p className="dataSource">
+              Data source:{" "}
+              <a href="https://www.worldometers.info/coronavirus/">
+                Worldometer
+              </a>
+            </p>
+          </h3>
+
           <div className="table">
             {tableData.map(({ country, cases }) => (
               <tr>

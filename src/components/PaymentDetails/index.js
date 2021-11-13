@@ -110,7 +110,7 @@ const PaymentDetails = () => {
   var templateParams = {
     to: email,
     name: displayName,
-    total: total,
+    total: totalPrice,
   };
 
   useEffect(() => {
@@ -127,7 +127,7 @@ const PaymentDetails = () => {
 
   useEffect(() => {
     if (status == "complete") {
-      message.success("Payment successfull, please check your email!");
+      message.success("Payment successfull, please check your email!", 5);
     }
   }, [status]);
 
@@ -267,10 +267,17 @@ const PaymentDetails = () => {
             },
           })
           .then(({ paymentMethod }) => {
+            if (!paymentMethod) {
+              console.log("error!!!");
+              message.error("Invalid Card Details");
+              setCurrentLoading(false);
+              return;
+            }
             stripe
               .confirmCardPayment(clientSecret, {
                 payment_method: paymentMethod.id,
               })
+
               .then(({ paymentIntent }) => {
                 const configOrder = {
                   orderTotal: totalPrice,
@@ -307,7 +314,7 @@ const PaymentDetails = () => {
                   }),
                 };
                 console.log(configOrder);
-                //sendEmail();
+                sendEmail();
                 dispatch(saveOrderHistory(configOrder));
               });
           });
@@ -538,7 +545,7 @@ const PaymentDetails = () => {
                   </span>
                 </div>
 
-                <CardElement options={configCardElement} />
+                <CardElement options={configCardElement} required />
               </div>
             </form>
           </div>
