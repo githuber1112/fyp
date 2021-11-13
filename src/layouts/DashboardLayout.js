@@ -1,10 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { signOutUserStart } from "./../redux/User/user.actions";
 import Header from "./../components/header";
 import VerticalNav from "./../components/VerticalNav";
 import Footer from "./../components/Footer";
+
+const mapState = (state) => ({
+  currentUser: state.user.currentUser,
+});
 
 const DashBoardLayout = (props) => {
   const dispatch = useDispatch();
@@ -21,14 +25,13 @@ const DashBoardLayout = (props) => {
           <VerticalNav>
             <ul>
               <li>
-                <Link to ="/profile">
-                  My Profile
-                </Link>
+                <Link to="/profile">My Profile</Link>
               </li>
               <li>
-                <Link to ="/dashboard">
-                My Orders
-                </Link>
+                <Link to="/dashboard">My Orders</Link>
+              </li>
+              <li>
+                <Link to="/wishlist">My Wishlist ()</Link>
               </li>
               <li>
                 <span className="signOut" onClick={() => signOut()}>
