@@ -6,6 +6,7 @@ import FormSelect from "./../components/forms/FormSelect";
 import Button from "./../components/forms/Button";
 import { addProductStart } from "../redux/Products/products.actions";
 import CKEditor from "ckeditor4-react";
+import elonLogo from "./../assets/elonLogo.JPG";
 import { Link } from "react-router-dom";
 import { Layout, Menu, Breadcrumb, Upload, Modal as Modal1 } from "antd";
 import {
@@ -35,7 +36,13 @@ const AdminLayout = (props) => {
         collapsed={collapsed}
         onCollapse={() => handleOnCollapse(collapsed)}
       >
-        <div className="logo2" />
+        <div className="logo2">
+          <img
+            src={elonLogo}
+            alt="Logo"
+            style={{ height: "50px", width: "170px" }}
+          />
+        </div>
         <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
           <Menu.Item
             key="1"
