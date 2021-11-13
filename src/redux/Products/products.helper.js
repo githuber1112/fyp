@@ -67,6 +67,7 @@ export const handleAddProduct = (product) => {
     }
     const totalQuantity = {
       productName: product.productName,
+      productCategory: product.productCategory,
       totalSold: 0,
     };
     firestore

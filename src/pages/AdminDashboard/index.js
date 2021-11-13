@@ -10,38 +10,6 @@ import { getRecentOrderHistoryStart } from "../../redux/Orders/orders.actions";
 
 //bestsellers get data from firestore (labels)
 
-const dataSales = {
-  labels: ["January", "Febuary", "March", "April", "May", "June"],
-  datasets: [
-    {
-      label: "Total Sales",
-      data: [400, 1000, 800, 950, 1200, 1100],
-      fill: false,
-      backgroundColor: "rgb(255,99,132)",
-      borderColor: "rgba(255,99,132,0.2)",
-    },
-  ],
-};
-
-const dataCustomers = {
-  labels: ["January", "Febuary", "March", "April", "May", "June"],
-  datasets: [
-    {
-      label: "Customers Served",
-      data: [100, 250, 200, 120, 300, 280],
-      fill: true,
-      backgroundColor: [
-        "rgb(255,99,132,0.6)",
-        "rgb(54,162,235,0.6)",
-        "rgb(255,206,86,0.6)",
-        "rgb(75,192,192,0.6)",
-        "rgb(153,102,255,0.6)",
-        "rgb(255,159,64,0.6)",
-      ],
-    },
-  ],
-};
-
 const optionsSales = {
   scales: {
     yAxes: [
@@ -118,10 +86,9 @@ const AdminDashboard = ({ orders }) => {
   const [productsCount, setProductsCount] = useState(0);
   const [topProductName, setTopProductName] = useState([]);
   const [topProductQuantity, setTopProductQuantity] = useState([]);
-
-  useEffect(() => {
-    console.log(topProductName);
-  }, [topProductName]);
+  const [topSales, setTopSales] = useState(0);
+  const [faceMaskSold, setFaceMaskSold] = useState(0);
+  const [sanitizerSold, setSanitizerSold] = useState(0);
 
   const handleGetBestsellerLabel = () => {
     const topSellingRef = firestore
@@ -162,6 +129,85 @@ const AdminDashboard = ({ orders }) => {
           "rgb(75,192,192,0.6)",
           "rgb(153,102,255,0.6)",
         ],
+      },
+    ],
+  };
+
+  const handleGetMonthlySalesLabel = () => {
+    let salesAmount = 0;
+    var currentDate = moment().format("MMMM");
+
+    const topSalesRef = firestore
+      .collection("dashboard")
+      .doc("monthlySales")
+      .collection(currentDate);
+
+    topSalesRef.get().then((snapshot) => {
+      snapshot.docs.map((doc) => {
+        if (doc.data().totalAmount != null) {
+          salesAmount = salesAmount + doc.data().totalAmount;
+        }
+        setTopSales(salesAmount);
+      });
+    });
+  };
+
+  const dataSales = {
+    labels: ["November"],
+    datasets: [
+      {
+        label: "Total Sales",
+        data: [topSales],
+        fill: false,
+        backgroundColor: "rgb(255,99,132)",
+        borderColor: "rgba(255,99,132,0.2)",
+      },
+    ],
+  };
+
+  const handleGetProductSoldByCategory = () => {
+    var faceMaskSale = 0;
+    var sanitizerSale = 0;
+    const topSellingRef = firestore
+      .collection("dashboard")
+      .doc("topSelling")
+      .collection("products");
+
+    topSellingRef
+      .where("productCategory", "==", "facemask")
+      .get()
+      .then((snapshot) => {
+        snapshot.docs.map((doc) => {
+          if (doc.data().totalSold != null) {
+            faceMaskSale = faceMaskSale + doc.data().totalSold;
+          }
+        });
+        setFaceMaskSold(faceMaskSale);
+      });
+
+    topSellingRef
+      .where("productCategory", "==", "sanitizer")
+      .get()
+      .then((snapshot) => {
+        snapshot.docs.map((doc) => {
+          if (doc.data().totalSold != null) {
+            sanitizerSale = sanitizerSale + doc.data().totalSold;
+          }
+        });
+        setSanitizerSold(sanitizerSale);
+      });
+
+    console.log(faceMaskSale);
+  };
+
+  const dataCustomers = {
+    labels: ["Face mask", "Alcohol Sanitizer"],
+    datasets: [
+      {
+        label: "Top Selling Products",
+        data: [faceMaskSold, sanitizerSold],
+        fill: true,
+        backgroundColor: ["rgb(255,99,132,0.6)", "rgb(54,162,235,0.6)"],
       },
     ],
   };
@@ -212,6 +258,8 @@ const AdminDashboard = ({ orders }) => {
     fetchTotalOrders();
     fetchTotalProducts();
     handleGetBestsellerLabel();
+    handleGetMonthlySalesLabel();
+    handleGetProductSoldByCategory();
   }, []);
 
   const formatTime = (nanoTime) => {
@@ -297,8 +345,8 @@ const AdminDashboard = ({ orders }) => {
                 }}
               >
                 <div className="totalSales">
-                  <h3>Total Sales</h3>
-                  <Line data={dataSales} options={optionsSales} />
+                  <h3>Total Sales for month : {moment().format("MMMM")}</h3>
+                  <h1>{topSales}</h1>
                 </div>
               </Card>
             </td>
@@ -313,7 +361,7 @@ const AdminDashboard = ({ orders }) => {
                 }}
               >
                 <div className="customersServed">
-                  <h3>Customers Served</h3>
+                  <h3>Product Sold by Category</h3>
                   <Bar data={dataCustomers} options={optionsCustomers} />
                 </div>
               </Card>

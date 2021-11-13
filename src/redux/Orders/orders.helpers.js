@@ -1,8 +1,11 @@
 import { firestore } from "./../../firebase/utils";
+import moment from "moment";
 
 export const handleSaveOrder = (order) => {
   return new Promise((resolve, reject) => {
     const { orderItems } = order;
+    var currentDate = moment().format("MMMM");
+    const orderRef = firestore.collection("orders").doc();
 
     orderItems.map((item) => {
       const updateQuantityRef = firestore
@@ -19,12 +22,21 @@ export const handleSaveOrder = (order) => {
       });
     });
 
-    firestore
-      .collection("orders")
-      .doc()
+    orderRef
       .set(order)
       .then(() => {
-        resolve();
+        firestore
+          .collection("dashboard")
+          .doc("monthlySales")
+          .collection(currentDate)
+          .doc(orderRef.id)
+          .set({ totalAmount: order.orderTotal })
+          .then(() => {
+            resolve();
+          })
+          .catch((err) => {
+            reject(err);
+          });
       })
       .catch((err) => {
         reject(err);
