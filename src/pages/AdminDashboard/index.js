@@ -152,8 +152,9 @@ const AdminDashboard = ({ orders }) => {
     });
   };
 
+  //ask kj about the label here
   const dataSales = {
-    labels: ["November"],
+    labels: [moment().format("MMMM")],
     datasets: [
       {
         label: "Total Sales",
@@ -290,7 +291,7 @@ const AdminDashboard = ({ orders }) => {
       <table>
         <tbody>
           <tr>
-            <td width="330px">
+            <td width="200px">
               <Card
                 style={{
                   borderRadius: "15px",
@@ -303,7 +304,7 @@ const AdminDashboard = ({ orders }) => {
                 <h1 style={{ textAlign: "center" }}>{customerCount}</h1>
               </Card>
             </td>
-            <td width="330px">
+            <td width="200px">
               <Card
                 style={{
                   borderRadius: "15px",
@@ -316,7 +317,7 @@ const AdminDashboard = ({ orders }) => {
                 <h1 style={{ textAlign: "center" }}>{orderCount}</h1>
               </Card>
             </td>
-            <td width="330px">
+            <td width="200px">
               <Card
                 style={{
                   borderRadius: "15px",
@@ -329,13 +330,7 @@ const AdminDashboard = ({ orders }) => {
                 <h1 style={{ textAlign: "center" }}>{productsCount}</h1>
               </Card>
             </td>
-          </tr>
-        </tbody>
-      </table>
-      <table>
-        <tbody>
-          <tr>
-            <td width="500px">
+            <td width="400px">
               <Card
                 style={{
                   borderRadius: "15px",
@@ -345,13 +340,39 @@ const AdminDashboard = ({ orders }) => {
                 }}
               >
                 <div className="totalSales">
-                  <h3>Total Sales for month : {moment().format("MMMM")}</h3>
-                  <h1>{topSales}</h1>
+                  <h3 style={{ textAlign: "center" }}>
+                    Total Sales for month : {moment().format("MMMM")}
+                  </h3>
+                  <h1 style={{ textAlign: "center" }}>RM {topSales}</h1>
                 </div>
               </Card>
             </td>
-
-            <td width="500px">
+          </tr>
+        </tbody>
+      </table>
+      <table>
+        <tbody>
+          <tr>
+            <td width="600px">
+              <Card
+                style={{
+                  borderRadius: "15px",
+                  margin: "10px",
+                  borderColor: "white",
+                  boxShadow: "0 7px 25px rgba(0,0,0,0.2)",
+                }}
+              >
+                <div className="recentOrders">
+                  <h3>Recent Orders</h3>
+                  <Table
+                    columns={columns}
+                    dataSource={orderHistory}
+                    pagination={false}
+                  />
+                </div>
+              </Card>
+            </td>
+            <td width="400px">
               <Card
                 style={{
                   borderRadius: "15px",
@@ -372,40 +393,19 @@ const AdminDashboard = ({ orders }) => {
       <table>
         <tbody>
           <tr>
-            <td width="500px">
-              <Card
-                style={{
-                  borderRadius: "15px",
-                  margin: "10px",
-                  borderColor: "white",
-                  boxShadow: "0 7px 25px rgba(0,0,0,0.2)",
-                }}
-              >
-                <div className="recentOrders">
-                  <h3>Recent Orders</h3>
-                  <Table
-                    columns={columns}
-                    dataSource={orderHistory}
-                    pagination={false}
-                  />
-                </div>
-              </Card>
-            </td>
-            <td width="500px">
-              <Card
-                style={{
-                  borderRadius: "15px",
-                  margin: "10px",
-                  borderColor: "white",
-                  boxShadow: "0 7px 25px rgba(0,0,0,0.2)",
-                }}
-              >
-                <div className="bestSellers">
-                  <h3>Top Selling Products</h3>
-                  <Pie data={dataBestSellers} options={optionsBestSellers} />
-                </div>
-              </Card>
-            </td>
+            <Card
+              style={{
+                borderRadius: "15px",
+                margin: "10px",
+                borderColor: "white",
+                boxShadow: "0 7px 25px rgba(0,0,0,0.2)",
+              }}
+            >
+              <div className="bestSellers">
+                <h3>Top Selling Products</h3>
+                <Pie data={dataBestSellers} options={optionsBestSellers} />
+              </div>
+            </Card>
           </tr>
         </tbody>
       </table>

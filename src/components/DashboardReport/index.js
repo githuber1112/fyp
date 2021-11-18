@@ -10,7 +10,9 @@ import { Row, Col, Form, Select, Table } from "antd";
 import moment from "moment";
 import { useHistory } from "react-router-dom";
 import { getAllRecentOrderHistoryStart } from "../../redux/Orders/orders.actions";
-import ComponentToPrint from "./ComponentToPrint";
+import PrintAllOrder from "./PrintAllOrder";
+import PrintMonthlySales from "./PrintMonthlySales";
+import PrintTopSelling from "./PrintTopSelling";
 
 const mapState = ({ ordersData }) => ({
   orderHistory: ordersData.orderHistory.data,
@@ -24,10 +26,27 @@ const DashboardReport = () => {
   const history = useHistory();
   const componentRef = useRef();
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [codeType, setCodeType] = useState("");
 
-  const handleSubmit = () => {
-    printRecentOrder();
-    console.log("hi");
+  const handleSubmit = (value) => {
+    console.log(value);
+    // switch (value) {
+    //   case "allOrdersReport":
+    //     return;
+    //     <PrintAllOrder props={orderHistory} />;
+    //     printAllOrder();
+    //     console.log("hi");
+    //   case "monthlySalesReport":
+    //     return;
+    //     <PrintMonthlySales />;
+    //   case "topSellingReport":
+    //     return;
+    //     <PrintTopSelling />;
+    // }
+  };
+
+  const handleChange = () => {
+    setCodeType(value);
   };
 
   const layout = {
@@ -39,7 +58,7 @@ const DashboardReport = () => {
     dispatch(getAllRecentOrderHistoryStart());
   }, []);
 
-  const printRecentOrder = useReactToPrint({
+  const printAllOrder = useReactToPrint({
     content: () => componentRef.current,
   });
 
@@ -67,13 +86,45 @@ const DashboardReport = () => {
                     },
                   ]}
                 >
-                  <Select placeholder="Please select a report category">
-                    <Option value="recentOrders">Recent Orders Report</Option>
-                    <Option value="monthlyReport">Monthly Report</Option>
-                    <Option value="salesReport">Sales Report</Option>
-                    <Option value="topSelling">Top Selling Report</Option>
+                  <Select
+                    placeholder="Please select a report category"
+                    onChange={handleChange()}
+                  >
+                    <Option value="allOrdersReport">All Orders Report</Option>
+                    <Option value="monthlySalesReport">
+                      Monthly Sales Report
+                    </Option>
+                    <Option value="topSellingReport">Top Selling Report</Option>
                   </Select>
                 </Form.Item>
+                {codeType == "monthlySalesReport" && (
+                  <Form.Item
+                    label="Select Month"
+                    name="selectMonth"
+                    hasFeedback
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please select a month!",
+                      },
+                    ]}
+                  >
+                    <Select placeholder="Please select a report category">
+                      <Option value="january">January</Option>
+                      <Option value="febuary">Febuary</Option>
+                      <Option value="march">March</Option>
+                      <Option value="april">April</Option>
+                      <Option value="may">May</Option>
+                      <Option value="june">June</Option>
+                      <Option value="july">July</Option>
+                      <Option value="august">August</Option>
+                      <Option value="september">September</Option>
+                      <Option value="october">October</Option>
+                      <Option value="november">November</Option>
+                      <Option value="december">December</Option>
+                    </Select>
+                  </Form.Item>
+                )}
 
                 <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
                   <Button
@@ -93,7 +144,7 @@ const DashboardReport = () => {
           </Row>
         </div>
       ) : (
-        <ComponentToPrint props={orderHistory} />
+        <PrintAllOrder props={orderHistory} />
       )}
     </>
   );
