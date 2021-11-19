@@ -27,25 +27,38 @@ const DashboardReport = () => {
   const componentRef = useRef();
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [codeType, setCodeType] = useState("");
+  const [showAllOrders, setShowAllOrders] = useState(false);
+  const [showMonthly, setShowMonthly] = useState(false);
+  const [showTopSelling, setShowTopSelling] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState("");
 
   const handleSubmit = (value) => {
     console.log(value);
-    // switch (value) {
-    //   case "allOrdersReport":
-    //     return;
-    //     <PrintAllOrder props={orderHistory} />;
-    //     printAllOrder();
-    //     console.log("hi");
-    //   case "monthlySalesReport":
-    //     return;
-    //     <PrintMonthlySales />;
-    //   case "topSellingReport":
-    //     return;
-    //     <PrintTopSelling />;
-    // }
+    if (value.selectMonth != null) {
+      setSelectedMonth(value.selectMonth);
+    }
+
+    if (value.reportCategory == "allOrdersReport") {
+      setShowAllOrders(true);
+      setShowMonthly(false);
+      setShowTopSelling(false);
+    }
+
+    if (value.reportCategory == "monthlySalesReport") {
+      setShowMonthly(true);
+      setShowAllOrders(false);
+      setShowTopSelling(false);
+    }
+
+    if (value.reportCategory == "topSellingReport") {
+      setShowTopSelling(true);
+      setShowMonthly(false);
+      setShowAllOrders(false);
+    }
   };
 
-  const handleChange = () => {
+  const handleChange = (value) => {
+    console.log(value);
     setCodeType(value);
   };
 
@@ -63,90 +76,78 @@ const DashboardReport = () => {
   });
 
   return (
-    <>
-      {!formSubmitted ? (
-        <div>
-          <Row gutter={[40, 0]}>
-            <Col span={23}>
-              <h2 style={{ textAlign: "center" }}>Report Generator</h2>
-            </Col>
-          </Row>
+    <div>
+      <Row gutter={[40, 0]}>
+        <Col span={23}>
+          <h2 style={{ textAlign: "center" }}>Report Generator</h2>
+        </Col>
+      </Row>
 
-          <Row gutter={[40, 0]}>
-            <Col span={18}>
-              <Form {...layout} onFinish={handleSubmit}>
-                <Form.Item
-                  name="reportCategory"
-                  label="Report Category"
-                  hasFeedback
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please select a report category!",
-                    },
-                  ]}
-                >
-                  <Select
-                    placeholder="Please select a report category"
-                    onChange={handleChange()}
-                  >
-                    <Option value="allOrdersReport">All Orders Report</Option>
-                    <Option value="monthlySalesReport">
-                      Monthly Sales Report
-                    </Option>
-                    <Option value="topSellingReport">Top Selling Report</Option>
-                  </Select>
-                </Form.Item>
-                {codeType == "monthlySalesReport" && (
-                  <Form.Item
-                    label="Select Month"
-                    name="selectMonth"
-                    hasFeedback
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please select a month!",
-                      },
-                    ]}
-                  >
-                    <Select placeholder="Please select a report category">
-                      <Option value="january">January</Option>
-                      <Option value="febuary">Febuary</Option>
-                      <Option value="march">March</Option>
-                      <Option value="april">April</Option>
-                      <Option value="may">May</Option>
-                      <Option value="june">June</Option>
-                      <Option value="july">July</Option>
-                      <Option value="august">August</Option>
-                      <Option value="september">September</Option>
-                      <Option value="october">October</Option>
-                      <Option value="november">November</Option>
-                      <Option value="december">December</Option>
-                    </Select>
-                  </Form.Item>
-                )}
+      <Row gutter={[40, 0]}>
+        <Col span={18}>
+          <Form {...layout} onFinish={handleSubmit}>
+            <Form.Item
+              name="reportCategory"
+              label="Report Category"
+              hasFeedback
+              rules={[
+                {
+                  required: true,
+                  message: "Please select a report category!",
+                },
+              ]}
+            >
+              <Select
+                placeholder="Please select a report category"
+                onChange={(e) => handleChange(e)}
+              >
+                <Option value="allOrdersReport">All Orders Report</Option>
+                <Option value="monthlySalesReport">Monthly Sales Report</Option>
+                <Option value="topSellingReport">Top Selling Report</Option>
+              </Select>
+            </Form.Item>
+            {codeType == "monthlySalesReport" && (
+              <Form.Item
+                label="Select Month"
+                name="selectMonth"
+                hasFeedback
+                rules={[
+                  {
+                    required: true,
+                    message: "Please select a month!",
+                  },
+                ]}
+              >
+                <Select placeholder="Please select a report category">
+                  <Option value="January">January</Option>
+                  <Option value="Febuary">Febuary</Option>
+                  <Option value="March">March</Option>
+                  <Option value="April">April</Option>
+                  <Option value="May">May</Option>
+                  <Option value="June">June</Option>
+                  <Option value="July">July</Option>
+                  <Option value="August">August</Option>
+                  <Option value="September">September</Option>
+                  <Option value="October">October</Option>
+                  <Option value="November">November</Option>
+                  <Option value="December">December</Option>
+                </Select>
+              </Form.Item>
+            )}
 
-                <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    loading={loading}
-                    onClick={() => {
-                      setFormSubmitted(true);
-                      console.log(orderHistory);
-                    }}
-                  >
-                    GENERATE
-                  </Button>
-                </Form.Item>
-              </Form>
-            </Col>
-          </Row>
-        </div>
-      ) : (
-        <PrintAllOrder props={orderHistory} />
-      )}
-    </>
+            <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
+              <Button type="primary" htmlType="submit" loading={loading}>
+                GENERATE
+              </Button>
+            </Form.Item>
+          </Form>
+        </Col>
+      </Row>
+
+      {showAllOrders && <PrintAllOrder props={orderHistory} />}
+      {showMonthly && <PrintMonthlySales props={selectedMonth} />}
+      {showTopSelling && <PrintTopSelling />}
+    </div>
   );
 };
 

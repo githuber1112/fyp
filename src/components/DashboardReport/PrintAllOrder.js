@@ -91,8 +91,10 @@ const PrintAllOrder = (props) => {
     doc.addImage(elonLogo, "JPG", 240, 20, 100, 40);
     //<Table columns={columns} dataSource={props.props} pagination={false} />;
     doc.text(220, 80, "- All Orders Report -");
-    doc.text(20, 120, "Report Generated as of ");
-    doc.text(190, 120, today);
+
+    doc.setFontSize(12);
+    doc.text(40, 120, "Report Generated as of ");
+    doc.text(170, 120, today);
 
     doc.autoTable(col, row, { startY: 140 });
 
