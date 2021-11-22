@@ -135,7 +135,7 @@ const DashboardReport = () => {
               </Form.Item>
             )}
 
-            <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
+            <Form.Item wrapperCol={{ span: 8, offset: 16 }}>
               <Button type="primary" htmlType="submit" loading={loading}>
                 GENERATE
               </Button>

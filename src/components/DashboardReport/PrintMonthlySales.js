@@ -13,14 +13,17 @@ const PrintMonthlySales = (props) => {
   const [salesDetailsDate, setSalesDetailsDate] = useState([]);
   const [salesDetailsAmount, setSalesDetailsAmount] = useState([]);
   const [salesDetails, setSalesDetails] = useState([]);
+  const [salesTable, setSalesTable] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchMonthlySales();
   }, []);
 
   useEffect(() => {
-    console.log(salesDetails);
-  }, [salesDetails]);
+    console.log(salesTable);
+    setLoading(false);
+  }, [salesTable]);
 
   const fetchMonthlySales = () => {
     console.log(props);
@@ -35,6 +38,16 @@ const PrintMonthlySales = (props) => {
           ...details,
           [doc.id, formatTime(doc.data().createdDate), doc.data().totalAmount],
         ]);
+        let i = 0;
+        setSalesTable((prevState) => ({
+          ...prevState,
+          [i]: {
+            documentID: doc.id,
+            createdDate: formatTime(doc.data().createdDate),
+            totalAmount: doc.data().totalAmount,
+          },
+        }));
+        i++;
         console.log(salesDetails);
       });
     });
@@ -59,13 +72,13 @@ const PrintMonthlySales = (props) => {
     },
     {
       title: "Order Date",
-      dataIndex: "orderCreatedDate",
+      dataIndex: "createdDate",
       key: "orderCreatedDate",
       //render: (orderCreatedDate) => formatTime(orderCreatedDate),
     },
     {
       title: "Total (RM)",
-      dataIndex: "orderTotal",
+      dataIndex: "totalAmount",
       key: "orderTotal",
     },
   ];
@@ -100,11 +113,13 @@ const PrintMonthlySales = (props) => {
     doc.save("Monthly_Sales_Report.pdf");
   };
 
-  return (
+  return loading ? (
+    <div></div>
+  ) : (
     <>
       <div ref={ref}>
         <h3>Monthly Sales Report</h3>
-        <Table columns={columns} dataSource={salesDetails} pagination={false} />
+        <Table columns={columns} dataSource={salesTable} pagination={false} />
       </div>
 
       <Button onClick={jsPdfGenerator}>DOWNLOAD REPORT</Button>

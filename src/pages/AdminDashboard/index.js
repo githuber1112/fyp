@@ -353,7 +353,7 @@ const AdminDashboard = ({ orders }) => {
       <table>
         <tbody>
           <tr>
-            <td width="600px">
+            <td width="450px">
               <Card
                 style={{
                   borderRadius: "15px",
@@ -372,7 +372,7 @@ const AdminDashboard = ({ orders }) => {
                 </div>
               </Card>
             </td>
-            <td width="400px">
+            <td width="550px">
               <Card
                 style={{
                   borderRadius: "15px",
@@ -390,25 +390,20 @@ const AdminDashboard = ({ orders }) => {
           </tr>
         </tbody>
       </table>
-      <table>
-        <tbody>
-          <tr>
-            <Card
-              style={{
-                borderRadius: "15px",
-                margin: "10px",
-                borderColor: "white",
-                boxShadow: "0 7px 25px rgba(0,0,0,0.2)",
-              }}
-            >
-              <div className="bestSellers">
-                <h3>Top Selling Products</h3>
-                <Pie data={dataBestSellers} options={optionsBestSellers} />
-              </div>
-            </Card>
-          </tr>
-        </tbody>
-      </table>
+
+      <Card
+        style={{
+          borderRadius: "15px",
+          margin: "10px",
+          borderColor: "white",
+          boxShadow: "0 7px 25px rgba(0,0,0,0.2)",
+        }}
+      >
+        <div className="bestSellers">
+          <h3>Top Selling Products</h3>
+          <Pie data={dataBestSellers} options={optionsBestSellers} />
+        </div>
+      </Card>
 
       {/* test recent orders */}
     </div>

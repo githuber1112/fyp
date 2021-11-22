@@ -117,6 +117,7 @@ const PrintAllOrder = (props) => {
       >
         {({ toPdf }) => <Button onClick={toPdf}>DOWNLOAD REPORT</Button>}
       </Pdf> */}
+
       <Button onClick={jsPdfGenerator}>DOWNLOAD REPORT</Button>
     </>
   );
