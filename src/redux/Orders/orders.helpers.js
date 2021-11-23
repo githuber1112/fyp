@@ -22,6 +22,11 @@ export const handleSaveOrder = (order) => {
       });
     });
 
+    const salesDetails = {
+      totalAmount: order.orderTotal,
+      createdDate: order.orderCreatedDate,
+    };
+
     orderRef
       .set(order)
       .then(() => {
@@ -30,7 +35,7 @@ export const handleSaveOrder = (order) => {
           .doc("monthlySales")
           .collection(currentDate)
           .doc(orderRef.id)
-          .set({ totalAmount: order.orderTotal })
+          .set(salesDetails)
           .then(() => {
             resolve();
           })
@@ -76,7 +81,7 @@ export const handleGetRecentOrderHistory = () => {
       .orderBy("orderCreatedDate", "desc");
 
     ref
-      .limit(6)
+      .limit(4)
       .get()
       .then((snap) => {
         const data = [

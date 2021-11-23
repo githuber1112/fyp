@@ -297,20 +297,6 @@ const PaymentDetails = () => {
                       productName,
                       productPrice,
                       quantity,
-
-                      //loop order details
-                      // for (var i = 0; i < orderItems.length(); i++){
-                      //   firestore
-                      //   .collection('dashboard')
-                      //   .doc()
-                      //   .set(order)
-                      //   .then(() => {
-                      //     resolve();
-                      //     })
-                      //     .catch(err => {
-                      //       reject(err);
-                      //     });
-                      // }
                     };
                   }),
                 };
