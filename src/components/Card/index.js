@@ -58,6 +58,7 @@ const ProductCarousel = () => {
           onSwiper={(swiper) => console.log(swiper)}
         >
           {data.map((item, pos) => {
+            let price = `RM${item.productPrice}`;
             return (
               <SwiperSlide key={pos} className="slide">
                 <div className="slide-content">
@@ -72,10 +73,7 @@ const ProductCarousel = () => {
                     ]}
                   >
                     <Link to={`/product/${item.documentID}`}>
-                      <Meta
-                        title={item.productName}
-                        description={item.productPrice}
-                      />
+                      <Meta title={item.productName} description={price} />
                     </Link>
                   </Card>
                 </div>

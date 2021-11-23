@@ -108,7 +108,7 @@ const PrintAllOrder = (props) => {
     <>
       <div ref={ref}>
         <h3>All Orders Report</h3>
-        <Table columns={columns} dataSource={props.props} pagination={false} />
+        <Table columns={columns} dataSource={props.props} />
       </div>
       {/* <Pdf
         targetRef={ref}

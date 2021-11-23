@@ -88,18 +88,37 @@ const ProductCard = ({}) => {
         </div>
         <div className="thumb">
           <Row>
-            <Col span={6}>
-              <Image src={allImageURL[1]} />
-            </Col>
-            <Col span={6}>
-              <Image src={allImageURL[2]} />
-            </Col>
-            <Col span={6}>
-              <Image src={allImageURL[3]} />
-            </Col>
-            <Col span={6}>
-              <Image src={allImageURL[4]} />
-            </Col>
+            {allImageURL.map((item, i) => {
+              console.log(allImageURL.length);
+              if (i >= 1) {
+                if (allImageURL.length == 4) {
+                  return (
+                    <Col span={8}>
+                      <Image src={allImageURL[1]} />
+                    </Col>
+                  );
+                }
+                if (allImageURL.length == 3) {
+                  return (
+                    <Col span={12}>
+                      <Image src={allImageURL[1]} />
+                    </Col>
+                  );
+                }
+                if (allImageURL.length == 2) {
+                  return (
+                    <Col span={24}>
+                      <Image src={allImageURL[1]} />
+                    </Col>
+                  );
+                }
+                return (
+                  <Col span={6}>
+                    <Image src={allImageURL[i]} />
+                  </Col>
+                );
+              }
+            })}
           </Row>
         </div>
       </div>

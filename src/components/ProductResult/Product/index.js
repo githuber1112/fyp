@@ -30,6 +30,8 @@ const Product = (product) => {
     history.push("/cart");
   };
 
+  let price = `RM${productPrice}`;
+
   return (
     <div className="product">
       <Popover content={productDesc1} title={productName}>
@@ -42,7 +44,7 @@ const Product = (product) => {
           ]}
         >
           <Link to={`/product/${documentID}`}>
-            <Meta title={productName} description={productPrice} />
+            <Meta title={productName} description={price} />
           </Link>
         </Card>
       </Popover>

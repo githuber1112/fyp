@@ -13,43 +13,41 @@ const PrintMonthlySales = (props) => {
   const [salesDetailsDate, setSalesDetailsDate] = useState([]);
   const [salesDetailsAmount, setSalesDetailsAmount] = useState([]);
   const [salesDetails, setSalesDetails] = useState([]);
-  const [salesTable, setSalesTable] = useState({});
   const [loading, setLoading] = useState(true);
+  const [salesInfo, setSalesInfo] = useState({});
 
   useEffect(() => {
     fetchMonthlySales();
-  }, []);
-
-  useEffect(() => {
-    console.log(salesTable);
-    setLoading(false);
-  }, [salesTable]);
+  }, [props]);
 
   const fetchMonthlySales = () => {
-    console.log(props);
     const salesThisMonth = firestore
       .collection("dashboard")
       .doc("monthlySales")
       .collection(props.props);
 
     salesThisMonth.get().then((snapshot) => {
-      snapshot.docs.map((doc) => {
-        setSalesDetails((details) => [
-          ...details,
-          [doc.id, formatTime(doc.data().createdDate), doc.data().totalAmount],
-        ]);
-        let i = 0;
-        setSalesTable((prevState) => ({
-          ...prevState,
-          [i]: {
-            documentID: doc.id,
-            createdDate: formatTime(doc.data().createdDate),
-            totalAmount: doc.data().totalAmount,
-          },
-        }));
-        i++;
-        console.log(salesDetails);
+      const salesTable = snapshot.docs.map((doc) => {
+        if (doc.id != null) {
+          setSalesDetails((details) => [
+            ...details,
+            [
+              doc.id,
+              formatTime(doc.data().createdDate),
+              doc.data().totalAmount,
+            ],
+          ]);
+        }
+
+        return {
+          documentID: doc.id,
+          createdDate: doc.data().createdDate,
+          totalAmount: doc.data().totalAmount,
+        };
       });
+      console.log(salesInfo);
+      setSalesInfo(salesTable);
+      setLoading(false);
     });
   };
 
@@ -74,7 +72,7 @@ const PrintMonthlySales = (props) => {
       title: "Order Date",
       dataIndex: "createdDate",
       key: "orderCreatedDate",
-      //render: (orderCreatedDate) => formatTime(orderCreatedDate),
+      render: (orderCreatedDate) => formatTime(orderCreatedDate),
     },
     {
       title: "Total (RM)",
@@ -119,10 +117,12 @@ const PrintMonthlySales = (props) => {
     <>
       <div ref={ref}>
         <h3>Monthly Sales Report</h3>
-        <Table columns={columns} dataSource={salesTable} pagination={false} />
+        <Table columns={columns} dataSource={salesInfo} />
       </div>
 
-      <Button onClick={jsPdfGenerator}>DOWNLOAD REPORT</Button>
+      {Object.keys(salesInfo).length > 0 && (
+        <Button onClick={jsPdfGenerator}>DOWNLOAD REPORT</Button>
+      )}
     </>
   );
 };

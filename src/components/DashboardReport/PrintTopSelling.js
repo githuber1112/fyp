@@ -14,86 +14,48 @@ const PrintTopSelling = () => {
   const [topProductName, setTopProductName] = useState([]);
   const [topProductQuantity, setTopProductQuantity] = useState([]);
   const [topSellerDetails, setTopSellerDetails] = useState([]);
+  const [topSellerInfo, setTopSellerInfo] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    handleGetBestsellerLabel();
     fetchTopSeller();
   }, []);
-
-  const handleGetBestsellerLabel = () => {
-    const topSellingRef = firestore
-      .collection("dashboard")
-      .doc("topSelling")
-      .collection("products")
-      .orderBy("totalSold", "desc")
-      .limit(5);
-
-    topSellingRef.get().then((snapshot) => {
-      snapshot.docs.map((doc) => {
-        if (doc.data().totalSold != null) {
-          setTopProductName((topProductName) => [
-            ...topProductName,
-            doc.data().productName,
-          ]);
-
-          setTopProductQuantity((topProductQuantity) => [
-            ...topProductQuantity,
-            doc.data().totalSold,
-          ]);
-        }
-      });
-    });
-  };
 
   const fetchTopSeller = () => {
     const topProduct = firestore
       .collection("dashboard")
       .doc("topSelling")
       .collection("products")
-      .orderBy("totalSold", "desc")
-      .limit(5);
+      .orderBy("totalSold", "desc");
 
     topProduct.get().then((snapshot) => {
-      snapshot.docs.map((doc) => {
-        setTopSellerDetails((details) => [
-          ...details,
-          [doc.id, doc.data().productName, doc.data().totalSold],
-        ]);
-        console.log(topSellerDetails);
+      const topSellingTable = snapshot.docs.map((doc) => {
+        if (doc.id != null) {
+          setTopSellerDetails((details) => [
+            ...details,
+            [
+              doc.id,
+              doc.data().productCategory,
+              doc.data().productName,
+              doc.data().totalSold,
+            ],
+          ]);
+          console.log(topSellerDetails);
+        }
+
+        return {
+          documentID: doc.id,
+          productCategory: doc.data().productCategory,
+          productName: doc.data().productName,
+          totalSold: doc.data().totalSold,
+        };
       });
+      setTopSellerInfo(topSellingTable);
+      setLoading(false);
     });
   };
 
   const ref = React.createRef();
-  const options = {
-    orientation: "landscape",
-    //unit: "in",
-    //format: [4, 2],
-  };
-  const optionsBestSellers = {
-    type: "pie",
-    options: {
-      responsive: true,
-    },
-  };
-
-  const dataBestSellers = {
-    labels: topProductName,
-    datasets: [
-      {
-        label: "Top Selling Products",
-        data: topProductQuantity,
-        fill: true,
-        backgroundColor: [
-          "rgb(255,99,132,0.6)",
-          "rgb(54,162,235,0.6)",
-          "rgb(255,206,86,0.6)",
-          "rgb(75,192,192,0.6)",
-          "rgb(153,102,255,0.6)",
-        ],
-      },
-    ],
-  };
 
   const formatTime = (nanoTime) => {
     return moment(nanoTime.toDate()).format("DD/MM/YYYY");
@@ -111,6 +73,11 @@ const PrintTopSelling = () => {
       key: "productName",
     },
     {
+      title: "Product Category",
+      dataIndex: "productCategory",
+      key: "productCategory",
+    },
+    {
       title: "Total Sold",
       dataIndex: "totalSold",
       key: "totalSold",
@@ -124,7 +91,7 @@ const PrintTopSelling = () => {
     var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
     var yyyy = today.getFullYear();
 
-    var col = ["Product ID", "Product Name", "Total Sold"];
+    var col = ["Product ID", "Product Category", "Product Name", "Total Sold"];
     var row = topSellerDetails;
 
     today = dd + "/" + mm + "/" + yyyy;
@@ -144,17 +111,14 @@ const PrintTopSelling = () => {
     doc.save("Top_Selling_Report.pdf");
   };
 
-  return (
+  return loading ? (
+    <div></div>
+  ) : (
     <>
       <div ref={ref}>
         <h3>Top Selling Report</h3>
-        <div style={{ padding: "150px" }}>
-          {/* <Pie data={dataBestSellers} options={optionsBestSellers} /> */}
-          <Table
-            columns={columns}
-            dataSource={topSellerDetails}
-            pagination={false}
-          />
+        <div>
+          <Table columns={columns} dataSource={topSellerInfo} />
         </div>
       </div>
 
