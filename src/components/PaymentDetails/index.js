@@ -31,8 +31,9 @@ import {
   faCcVisa,
 } from "@fortawesome/free-brands-svg-icons";
 import emailjs from "emailjs-com";
-import { Checkbox, message, Row, Col, Divider, Table } from "antd";
+import { Checkbox, message, Row, Col, Divider, Table, Tooltip } from "antd";
 import { fetchPromotionCodeStart } from "../../redux/Products/products.actions";
+import { InfoCircleOutlined } from "@ant-design/icons";
 import Form from "rc-field-form/es/Form";
 import FormItem from "antd/lib/form/FormItem";
 import Item from "../Checkout/Item";

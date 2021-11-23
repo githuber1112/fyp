@@ -268,10 +268,6 @@ const PromoCode = () => {
             <Form.Item
               name="codeName"
               label="Promotion Code Name"
-              tooltip={{
-                title: "Tooltip with customize icon",
-                icon: <InfoCircleOutlined />,
-              }}
               hasFeedback
               rules={[
                 {
@@ -406,10 +402,6 @@ const PromoCode = () => {
               <Form.Item
                 name="codeName"
                 label="Promotion Code Name"
-                tooltip={{
-                  title: "Tooltip with customize icon",
-                  icon: <InfoCircleOutlined />,
-                }}
                 hasFeedback
                 rules={[
                   {

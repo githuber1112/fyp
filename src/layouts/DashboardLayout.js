@@ -31,7 +31,7 @@ const DashBoardLayout = (props) => {
                 <Link to="/dashboard">My Orders</Link>
               </li>
               <li>
-                <Link to="/wishlist">My Wishlist ()</Link>
+                <Link to="/wishlist">My Wishlist</Link>
               </li>
               <li>
                 <span className="signOut" onClick={() => signOut()}>

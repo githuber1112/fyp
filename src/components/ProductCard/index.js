@@ -9,15 +9,29 @@ import { addProduct } from "../../redux/Cart/cart.actions";
 import Button from "../forms/Button";
 import "./styles.scss";
 import productsTypes from "../../redux/Products/products.types";
-import { ShoppingCartOutlined, HeartOutlined } from "@ant-design/icons";
+import {
+  ShoppingCartOutlined,
+  HeartOutlined,
+  HeartFilled,
+} from "@ant-design/icons";
 import { Image } from "antd";
 import BounceLoader from "react-spinners/BounceLoader";
-import { Row, Col } from "antd";
-import { handleAddToWishlist } from "../../redux/Wishlist/wishlist.helper";
-import { addToWishlist } from "../../redux/Wishlist/wishlist.sagas";
+import { Row, Col, message } from "antd";
+import {
+  addWishlist,
+  checkWishlistStart,
+  fetchWishlist,
+  removeWishlist,
+} from "../../redux/Wishlist/wishlist.actions";
+import firebase from "firebase";
+import "firebase/auth";
 
 const mapState = ({ productsData }) => ({
   product: productsData.product,
+});
+
+const mapStateWishlist = ({ wishlistData }) => ({
+  check: wishlistData.check,
 });
 
 const ProductCard = ({}) => {
@@ -25,6 +39,9 @@ const ProductCard = ({}) => {
   const dispatch = useDispatch();
   const { productID } = useParams();
   const { product } = useSelector(mapState);
+  const { check } = useSelector(mapStateWishlist);
+  const [wishlistExist, setWishlistExist] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const {
     productName,
@@ -36,8 +53,9 @@ const ProductCard = ({}) => {
 
   useEffect(() => {
     dispatch(fetchProductStart(productID));
-
-    console.log(allImageURL);
+    if (firebase.auth().currentUser != null) {
+      dispatch(checkWishlistStart(productID));
+    }
   }, []);
 
   const handleAddToCart = (product) => {
@@ -55,7 +73,11 @@ const ProductCard = ({}) => {
   };
 
   const handleAddWishlist = () => {
-    dispatch(addToWishlist(documentID));
+    if (firebase.auth().currentUser != null) {
+      dispatch(addWishlist(product));
+    } else {
+      message.warning("Please login first");
+    }
   };
 
   return (
@@ -104,12 +126,22 @@ const ProductCard = ({}) => {
             <ShoppingCartOutlined /> &nbsp;&nbsp; Add to Cart
           </Button>
 
-          <Button className="addWishlistBtn">
-            <HeartOutlined
-              style={{ color: "#ff5d7b" }}
-              onClick={() => handleAddWishlist()}
-            />
-          </Button>
+          {check && (
+            <Button className="addWishlistBtn">
+              <HeartFilled
+                style={{ color: "#ff5d7b" }}
+                onClick={() => dispatch(removeWishlist(productID))}
+              />
+            </Button>
+          )}
+          {!check && (
+            <Button className="addWishlistBtn">
+              <HeartOutlined
+                style={{ color: "#ff5d7b" }}
+                onClick={() => handleAddWishlist()}
+              />
+            </Button>
+          )}
         </div>
       </div>
     </div>

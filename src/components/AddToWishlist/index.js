@@ -1,15 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./styles.scss";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import Button from "../forms/Button";
-import WishlistItem from "./WishlistItem";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
+import {
+  fetchWishlist,
+  removeWishlist,
+} from "../../redux/Wishlist/wishlist.actions";
+import { ShoppingCartOutlined, DeleteOutlined } from "@ant-design/icons";
+import { addProduct } from "../../redux/Cart/cart.actions";
+
+const mapStateWishlist = ({ wishlistData }) => ({
+  wishlistItems: wishlistData.wishlistItems,
+});
 
 const WishlistComponent = () => {
   const history = useHistory();
-
+  const dispatch = useDispatch();
+  const { wishlistItems } = useSelector(mapStateWishlist);
   const errMsg = "You have no items in your wishlist.";
+
+  useEffect(() => {
+    dispatch(fetchWishlist());
+  }, []);
+
+  const handleAddToCart = (product) => {
+    if (!product) return;
+    dispatch(addProduct(product));
+    history.push("/cart");
+  };
 
   return (
     <div className="wishlistComp">
@@ -28,7 +48,7 @@ const WishlistComponent = () => {
                 <tbody>
                   <tr>
                     <th>PRODUCT</th>
-                    <th align="center">PRICE</th>
+                    <th align="center">PRICE(RM)</th>
                     <th align="center">ADD TO CART</th>
                     <th align="center">REMOVE</th>
                   </tr>
@@ -39,9 +59,30 @@ const WishlistComponent = () => {
             <tr>
               <table border="0" cellPadding="0" cellPadding="0">
                 <tbody>
-                  <tr>
-                    <td></td>
-                  </tr>
+                  {wishlistItems.map((item) => {
+                    return (
+                      <tr>
+                        <th>
+                          <Link to={`/product/${item.documentID}`}>
+                            <img src={item.allImageURL[0]} />
+                          </Link>
+                        </th>
+                        <th align="center">{item.productPrice}</th>
+                        <th align="center">
+                          <ShoppingCartOutlined
+                            onClick={() => handleAddToCart(item)}
+                          />
+                        </th>
+                        <th align="center">
+                          <DeleteOutlined
+                            onClick={() =>
+                              dispatch(removeWishlist(item.documentID))
+                            }
+                          />
+                        </th>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </tr>

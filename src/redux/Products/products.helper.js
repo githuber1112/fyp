@@ -266,17 +266,6 @@ export const handleUpdateProducts = (product) => {
           reject(err);
         });
     });
-
-    // firestore
-    //   .collection("products")
-    //   .doc(product.documentID)
-    //   .update(product)
-    //   .then(() => {
-    //     resolve();
-    //   })
-    //   .catch((err) => {
-    //     reject(err);
-    //   });
   });
 };
 

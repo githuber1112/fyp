@@ -220,11 +220,11 @@ const Header = (props) => {
 
             <li>
               <Link
-                to="/sign-up"
+                to="/login"
                 className="nav-links-mobile"
                 onClick={closeMobileMenu}
               >
-                Sign Up
+                Login
               </Link>
             </li>
           </ul>
