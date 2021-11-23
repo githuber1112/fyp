@@ -28,3 +28,7 @@ export const removeWishlist = (productID) => ({
   type: wishlistTypes.REMOVE_WISHLIST,
   payload: productID,
 });
+
+export const removeWishlistSuccess = () => ({
+  type: wishlistTypes.REMOVE_WISHLIST_SUCCESS,
+});

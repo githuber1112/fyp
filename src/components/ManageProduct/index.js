@@ -129,6 +129,15 @@ const ManageProduct = () => {
     return <span dangerouslySetInnerHTML={{ __html: productDesc1 }} />;
   };
 
+  const onDeleteAction = (item) => {
+    Modal.confirm({
+      title: "Are you sure you want to delete this product?",
+      onOk: () => {
+        dispatch(deleteProductStart(item));
+      },
+    });
+  };
+
   const handleUpdate = (item) => {
     setProductName(item.productName);
     setProductDesc(item.productDesc);
@@ -195,11 +204,7 @@ const ManageProduct = () => {
                   <List.Item
                     actions={[
                       <span onClick={() => handleUpdate(item)}>Update</span>,
-                      <span
-                        onClick={() =>
-                          dispatch(deleteProductStart(item.documentID))
-                        }
-                      >
+                      <span onClick={() => onDeleteAction(item.documentID)}>
                         Delete
                       </span>,
                     ]}

@@ -127,11 +127,11 @@ const ProductCard = ({}) => {
           </Button>
 
           {check && (
-            <Button className="addWishlistBtn">
-              <HeartFilled
-                style={{ color: "#ff5d7b" }}
-                onClick={() => dispatch(removeWishlist(productID))}
-              />
+            <Button
+              className="addWishlistBtn"
+              onClick={() => dispatch(removeWishlist(productID))}
+            >
+              <HeartFilled style={{ color: "#ff5d7b" }} />
             </Button>
           )}
           {!check && (

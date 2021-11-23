@@ -218,15 +218,28 @@ const Header = (props) => {
               </Link>
             </li>
 
-            <li>
-              <Link
-                to="/login"
-                className="nav-links-mobile"
-                onClick={closeMobileMenu}
-              >
-                Login
-              </Link>
-            </li>
+            {!currentUser && [
+              <li>
+                <Link
+                  to="/login"
+                  className="nav-links-mobile"
+                  onClick={closeMobileMenu}
+                >
+                  Login
+                </Link>
+              </li>,
+            ]}
+            {currentUser && [
+              <li>
+                <Link
+                  to="/dashboard"
+                  className="nav-links-mobile"
+                  onClick={closeMobileMenu}
+                >
+                  Profile
+                </Link>
+              </li>,
+            ]}
           </ul>
         ) : null}
 

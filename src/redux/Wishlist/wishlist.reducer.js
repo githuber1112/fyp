@@ -8,6 +8,11 @@ const INITIAL_STATE = {
 
 const wishlistReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case wishlistTypes.REMOVE_WISHLIST_SUCCESS:
+      return {
+        ...state,
+        status: "complete",
+      };
     case wishlistTypes.CHECK_WISHLIST_SUCCESS:
       return {
         ...state,

@@ -91,6 +91,7 @@ const PromoCode = () => {
         .set(allValues)
         .then(() => {
           message.success("Promotion code added");
+          form.resetFields();
           dispatch(fetchAllPromotionCodeStart());
         })
         .catch((err) => {
@@ -132,9 +133,17 @@ const PromoCode = () => {
   };
 
   const handleUpdate = (values) => {
-    const { limitedDate } = values;
+    console.log(values);
+    const { limitedDate, limitedDateRange } = values;
     setLoading(true);
     const formattedDate = moment(limitedDate).format(dateFormat);
+
+    if (limitedDateRange) {
+      if (limitedDate != null && now.isAfter(values["limitedDate"])) {
+        message.error("Date chosen is invalid");
+        return;
+      }
+    }
 
     let allValues = {
       ...values,
@@ -176,6 +185,7 @@ const PromoCode = () => {
           .doc(record.documentID)
           .delete()
           .then(() => {
+            message.success("Promotion code deleted successfully!");
             dispatch(fetchAllPromotionCodeStart());
           });
       },

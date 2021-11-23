@@ -4,6 +4,7 @@ import {
   fetchWishlist,
   setWishlist,
   checkWishlistStart,
+  removeWishlistSuccess,
 } from "./wishlist.actions";
 import {
   handleAddToWishlist,
@@ -46,7 +47,11 @@ export function* onCheckWishlistStart() {
 
 export function* removeWishlist({ payload }) {
   yield handleRemoveWishlist(payload);
-  yield all([put(checkWishlistStart(payload)), put(fetchWishlist())]);
+  yield all([
+    put(checkWishlistStart(payload)),
+    put(fetchWishlist()),
+    put(removeWishlistSuccess()),
+  ]);
 }
 
 export function* onRemoveWishlistStart() {

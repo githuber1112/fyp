@@ -10,20 +10,28 @@ import {
 } from "../../redux/Wishlist/wishlist.actions";
 import { ShoppingCartOutlined, DeleteOutlined } from "@ant-design/icons";
 import { addProduct } from "../../redux/Cart/cart.actions";
+import { message } from "antd";
 
 const mapStateWishlist = ({ wishlistData }) => ({
   wishlistItems: wishlistData.wishlistItems,
+  status: wishlistData.status,
 });
 
 const WishlistComponent = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { wishlistItems } = useSelector(mapStateWishlist);
+  const { wishlistItems, status } = useSelector(mapStateWishlist);
   const errMsg = "You have no items in your wishlist.";
 
   useEffect(() => {
     dispatch(fetchWishlist());
   }, []);
+
+  useEffect(() => {
+    if (status == "complete") {
+      message.success("Item removed from wishlist!");
+    }
+  }, [status]);
 
   const handleAddToCart = (product) => {
     if (!product) return;
