@@ -1,4 +1,3 @@
-//import React from 'react';
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FormInput from "../../components/forms/FormInput";
@@ -16,7 +15,6 @@ import {
   resetPasswordStart,
   resetStatus,
 } from "../../redux/User/user.actions";
-//import validator from "validator";
 
 const mapState = ({ user }) => ({
   currentUser: user.currentUser,
@@ -39,14 +37,12 @@ const ProfileDetails = () => {
   const [displayName, setDisplayName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const { currentUser, loading, status } = useSelector(mapState);
-  //const { userEmail } = useSelector(mapState);
   const {
     displayName: currentDisplayName,
     userAddress: currentAddress,
     email,
     id,
   } = currentUser;
-  //const { displayEmail } = userEmail;
 
   useEffect(() => {
     if (status == "complete") {
