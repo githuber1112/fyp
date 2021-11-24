@@ -13,7 +13,6 @@ const Homepage = (props) => {
       <ProductCarousel />
       <Directory />
       <Featuring />
-      <ChatBot />
     </div>
   );
 };

@@ -3,6 +3,8 @@ import Button from "../forms/Button";
 import { Link } from "react-router-dom";
 import { Row, Col } from "antd";
 import "./styles.scss";
+import { message } from "antd";
+import { Input } from "antd";
 
 function Footer() {
   return (
@@ -53,13 +55,20 @@ function Footer() {
             </p>
             <div className="input-areas">
               <form>
-                <input
+                <Input
                   className="footer-input"
                   name="email"
                   type="email"
                   placeholder="Your Email"
                 />
-                <Button buttonStyle="btn--outline">Subscribe</Button>
+                <Button
+                  buttonStyle="btn--outline"
+                  onClick={() => {
+                    message.success("Successfully subscribed!");
+                  }}
+                >
+                  Subscribe
+                </Button>
               </form>
             </div>
           </section>

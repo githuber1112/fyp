@@ -94,21 +94,21 @@ const ProductCard = ({}) => {
                 if (allImageURL.length == 4) {
                   return (
                     <Col span={8}>
-                      <Image src={allImageURL[1]} />
+                      <Image src={allImageURL[i]} />
                     </Col>
                   );
                 }
                 if (allImageURL.length == 3) {
                   return (
                     <Col span={12}>
-                      <Image src={allImageURL[1]} />
+                      <Image src={allImageURL[i]} />
                     </Col>
                   );
                 }
                 if (allImageURL.length == 2) {
                   return (
                     <Col span={24}>
-                      <Image src={allImageURL[1]} />
+                      <Image src={allImageURL[i]} />
                     </Col>
                   );
                 }
