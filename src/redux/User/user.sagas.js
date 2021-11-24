@@ -53,7 +53,7 @@ export function* emailSignIn({ payload: { email, password } }) {
     const { user } = yield auth.signInWithEmailAndPassword(email, password);
     yield getSnapshotFromUserAuth(user);
   } catch (err) {
-    yield put(userError([err.message]));
+    yield put(userError(["Invalid email or password!"]));
   }
 }
 

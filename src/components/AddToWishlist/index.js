@@ -11,6 +11,7 @@ import {
 import { ShoppingCartOutlined, DeleteOutlined } from "@ant-design/icons";
 import { addProduct } from "../../redux/Cart/cart.actions";
 import { message } from "antd";
+import { Empty } from "antd";
 
 const mapStateWishlist = ({ wishlistData }) => ({
   wishlistItems: wishlistData.wishlistItems,
@@ -39,7 +40,18 @@ const WishlistComponent = () => {
     history.push("/cart");
   };
 
-  return (
+  return wishlistItems.length == 0 ? (
+    <div className="wishlistComp">
+      <h1>Wishlist</h1>
+
+      <div>
+        <Empty />
+      </div>
+      <Button className="button2" onClick={() => history.push("/search")}>
+        Continue Shopping
+      </Button>
+    </div>
+  ) : (
     <div className="wishlistComp">
       <h1>Wishlist</h1>
 
@@ -104,7 +116,7 @@ const WishlistComponent = () => {
                         <td>
                           <Button
                             className="button2"
-                            onClick={() => history.goBack()}
+                            onClick={() => history.push("/search")}
                           >
                             Continue Shopping
                           </Button>

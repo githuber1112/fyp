@@ -391,19 +391,25 @@ const AdminDashboard = ({ orders }) => {
         </tbody>
       </table>
 
-      <Card
-        style={{
-          borderRadius: "15px",
-          margin: "10px",
-          borderColor: "white",
-          boxShadow: "0 7px 25px rgba(0,0,0,0.2)",
-        }}
-      >
-        <div className="bestSellers">
-          <h3>Top Selling Products</h3>
-          <Pie data={dataBestSellers} options={optionsBestSellers} />
-        </div>
-      </Card>
+      <table>
+        <tbody>
+          <td width="550px">
+            <Card
+              style={{
+                borderRadius: "15px",
+                margin: "10px",
+                borderColor: "white",
+                boxShadow: "0 7px 25px rgba(0,0,0,0.2)",
+              }}
+            >
+              <div className="bestSellers">
+                <h3>Top Selling Products</h3>
+                <Pie data={dataBestSellers} options={optionsBestSellers} />
+              </div>
+            </Card>
+          </td>
+        </tbody>
+      </table>
 
       {/* test recent orders */}
     </div>

@@ -34,20 +34,18 @@ const Product = (product) => {
 
   return (
     <div className="product">
-      <Popover content={productDesc1} title={productName}>
-        <Card
-          hoverable={true}
-          cover={<img src={allImageURL[0]} />}
-          style={{ width: 300 }}
-          actions={[
-            <ShoppingCartOutlined onClick={() => handleAddToCart(product)} />,
-          ]}
-        >
-          <Link to={`/product/${documentID}`}>
-            <Meta title={productName} description={price} />
-          </Link>
-        </Card>
-      </Popover>
+      <Card
+        hoverable={true}
+        cover={<img className="imgCardProduct" src={allImageURL[0]} />}
+        style={{ width: 300 }}
+        actions={[
+          <ShoppingCartOutlined onClick={() => handleAddToCart(product)} />,
+        ]}
+      >
+        <Link to={`/product/${documentID}`}>
+          <Meta title={productName} description={price} />
+        </Link>
+      </Card>
     </div>
   );
 };

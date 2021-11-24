@@ -37,11 +37,13 @@ const AdminLayout = (props) => {
         onCollapse={() => handleOnCollapse(collapsed)}
       >
         <div className="logo2">
-          <img
-            src={elonLogo}
-            alt="Logo"
-            style={{ height: "50px", width: "170px" }}
-          />
+          {!collapsed && (
+            <img
+              src={elonLogo}
+              alt="Logo"
+              style={{ height: "50px", width: "170px" }}
+            />
+          )}
         </div>
         <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
           <Menu.Item
