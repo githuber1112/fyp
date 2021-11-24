@@ -97,7 +97,7 @@ const PrintMonthlySales = (props) => {
 
     doc.addImage(elonLogo, "JPG", 240, 20, 100, 40);
     //<Table columns={columns} dataSource={props.props} pagination={false} />;
-    doc.text(210, 80, "- Monthly Sales Report -");
+    doc.text(200, 80, "-  " + props.props + " Sales Report -");
 
     doc.setFontSize(12);
     doc.text(40, 120, "Report Generated as of ");
@@ -116,7 +116,7 @@ const PrintMonthlySales = (props) => {
   ) : (
     <>
       <div ref={ref}>
-        <h3>Monthly Sales Report</h3>
+        <h3>{props.props} Sales Report</h3>
         <Table columns={columns} dataSource={salesInfo} />
       </div>
 
