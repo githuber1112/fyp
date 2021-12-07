@@ -92,6 +92,12 @@ export function* signUpUser({
     return;
   }
 
+  if (password.length < 8) {
+    const err = ["Please insert at least 8 characters for password!"];
+    yield put(userError(err));
+    return;
+  }
+
   try {
     const { user } = yield auth.createUserWithEmailAndPassword(email, password);
     const additionalData = { displayName };

@@ -64,7 +64,12 @@ const ProductCarousel = () => {
                 <div className="slide-content">
                   <Card
                     hoverable={true}
-                    cover={<img src={item.allImageURL[0]} />}
+                    cover={
+                      <img
+                        src={item.allImageURL[0]}
+                        className="imgCardProduct"
+                      />
+                    }
                     style={{ width: 300 }}
                     actions={[
                       <ShoppingCartOutlined
